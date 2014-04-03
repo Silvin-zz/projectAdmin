@@ -27,7 +27,7 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
-ADMINS = ('silviobravo', 'silvio.bravo@enova.mx')
+ADMINS = ('silviobravo', 'bravocado@gmail.com')
 
 MANAGERS = ADMINS
 
@@ -72,7 +72,7 @@ DATABASES = {
         #'NAME' : 'projectadmin',
         'NAME' : 'project',
         'USER' : 'postgres',
-        'PASSWORD' : '',
+        'PASSWORD' : 'pass',
         'HOST' : 'localhost',
         'PORT' : '5432',
     }
