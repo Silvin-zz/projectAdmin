@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block content %}
+    <h2>Projects List</h2>
+    <a href="{% url "principal.project.projectAdd" %}">Add New Project</a>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th width="30%">Name</th>
+                <th>Owner</th>
+                <th>Tasks</th>
+                <th>Advance Percent</th>
+                <th>Period</th>
+                <th>Options</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for project in projects %}
+                <tr>
+                    <td>
+                        {{project.title}} <br />
+                        <span class="label label-primary"> {{project.clientid.name}} </span><br />
+                        <em style="color:#747474; font-size:10px;">{{ project.description }}</em>
+                    </td>
+                    
+
+                    <td>
+                        <img src="{% static "images/users/" %}{{ project.owner.id }}.png" width="40" class="img-circle"><br />
+                        {{project.owner.first_name}}
+                        <div class="color-swatch brand-primary"></div>
+                    </td>
+                    <td>
+                       <span class="badge alert-danger" style="background-color: #468847; color: #fff;">10</span>&nbsp;
+                       <span class="badge label-success" style="background-color: #f89406; color: #fff;">5</span>
+
+                    </td>
+                    <td>
+                        <div class="progress">
+                          <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                            60% Task
+                          </div>
+                        </div>
+
+                        <div class="progress" >
+                          <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 80%;">
+                            80% Time
+                          </div>
+                        </div>
+
+                    </td>
+
+                    <td>{{project.datestart}}<br />
+                    {{project.dateend}}</td>
+                    <td width="100">
+                        <button class="btn btn-xs btn-default"><a href="#"><i class="glyphicon glyphicon-search white"></i></a></button>
+                        <button class="btn btn-xs btn-default"><a href="#"><i class="glyphicon glyphicon-pencil"></i></a></button>
+                        <button class="btn btn-xs btn-default"><a href="#"><i class="glyphicon glyphicon-remove"></i></a></button>
+                    </td>
+
+                </tr>
+            {%  endfor %}
+
+        </tbody>
+
+
+    </table>
+{% endblock %}
