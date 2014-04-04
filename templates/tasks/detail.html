@@ -1,0 +1,98 @@
+<div class="panel panel-primary">
+<div class="panel-heading"><i class="glyphicon glyphicon-bookmark"></i>&nbsp;&nbsp;<span style="font-size: 18px">Task No. {{ task.id }}</span></div>
+  <div class="panel-body">
+  
+   
+  
+  
+    <div class="row">
+            <div class="col-xs-1 text-right">
+                Title:
+            </div>
+            
+            <div class="col-xs-3">
+                {{ task.title }}
+            </div>
+            
+             <div class="col-xs-1">
+                Period:
+            </div>
+            
+            <div class="col-xs-5">
+                {{ task.datestart }} - {{ task.dateend }}
+            </div>
+            
+            <div class="col-xs-2">
+                <span class="badge badge-warning">10</span> Dias
+            </div>
+    </div>
+    
+    
+    <div class="row">
+            <div class="col-xs-1 text-right">
+                Status:
+            </div>
+            
+            <div class="col-xs-3">
+                {{ task.statusid.name }}
+            </div>
+            
+             <div class="col-xs-2">
+                Estimate (Hrs):
+            </div>
+            
+            <div class="col-xs-1">
+                {{ task.estimatedhours}}
+            </div>
+            
+            <div class="col-xs-2">
+                Free Time 
+            </div>
+            <div class="col-xs-2">
+                <span class="badge badge-success">2</span> Dias
+            </div>
+    </div>
+    
+    
+    
+    
+    
+    <div class="row">
+            <div class="col-xs-1">
+                Project
+            </div>
+            
+            <div class="col-xs-3">
+                {{ task.projectid.title }}
+            </div>
+    
+            <div class="col-xs-1">
+                Client:
+            </div>
+            
+            <div class="col-xs-3">
+                {{ task.projectid.clientid.name }}
+            </div>
+            
+            <div class="col-xs-1">
+                Assigned By
+            </div>
+            
+            <div class="col-xs-3">
+                {{ task.useradd.first_name }} {{ task.useradd.last_name }}
+            </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-xs-1">
+                Description
+            </div>
+            
+            <div class="col-xs-11" style="text-align:justify;">
+                {{ task.description }}
+            </div>
+        
+    </div>
+        
+  </div>
+</div>

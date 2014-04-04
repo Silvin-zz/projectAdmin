@@ -19,8 +19,7 @@ def index(request):
 
 ####Task Controllers ::::::::::::::::::::::::::::::::::::::
 
-def tasksList(request):
-    return render_to_response('tasks/list.html', {"menuOptions" :  json.loads(request.session["menu"]), "saludo":json.loads(request.session["menu"])})
+
 
 def tasksAdmin(request):
     return render_to_response('tasks/admin.html', {"menuOptions" :  json.loads(request.session["menu"]), "saludo":json.loads(request.session["menu"])})

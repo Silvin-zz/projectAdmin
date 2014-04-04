@@ -14,6 +14,7 @@
     <!-- Bootstrap core CSS -->
     <link href="{% static "bootstrap/css/bootstrap.min.css" %}" rel="stylesheet">
       <link href="{% static "js/plugins/pnotify/jquery.pnotify.default.css" %}" rel="stylesheet">
+      <link href="{% static "css/base.css" %}" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="{% static "css/dashboard.css" %}" rel="stylesheet">
@@ -96,7 +97,8 @@
 
     </script>
    {% endif %}
-
+    {% block scripts %}
+    {% endblock scripts%}
 
   </body>
 </html>

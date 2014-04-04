@@ -1,0 +1,21 @@
+.badge-warning{
+    background-color: #f89406; 
+    color: #fff;
+    
+}
+.badge-success{
+    background-color: #468847;
+    color: #fff;
+    
+}
+
+.priority1{
+    
+    background-color: red;
+    color: #fff;
+}
+.proority2{
+    background-color: orange;
+    color: #fff;
+    
+}

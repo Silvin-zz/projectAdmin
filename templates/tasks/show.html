@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block content %}
+    <br />
+    {% include "tasks/detail.html" %}
+    
+{% endblock %}
+{% block scripts %}
+<script  src="{% static "js/task/list.js" %}"></script>
+
+{% endblock scripts %}
