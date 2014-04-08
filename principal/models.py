@@ -185,7 +185,7 @@ class Projecttype(models.Model):
         db_table = 'projecttype'
 
 class Task(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     datestart = models.DateField(blank=True, null=True)
     dateend = models.DateField(blank=True, null=True)
     realdatestart = models.DateTimeField(blank=True, null=True)
@@ -211,7 +211,7 @@ class Task(models.Model):
         db_table = 'task'
 
 class Taskcomment(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     taskid = models.ForeignKey(Task, db_column='taskid', blank=True, null=True)
     owner = models.ForeignKey(AuthUser, db_column='owner', blank=True, null=True)
     taskstatus = models.ForeignKey('Taskstatus', db_column='taskstatus', blank=True, null=True)

@@ -1,0 +1,5 @@
+{% load staticfiles %}
+
+{% for comment in comments %}
+    {% include "comments/show.html" %}
+{%  endfor %}

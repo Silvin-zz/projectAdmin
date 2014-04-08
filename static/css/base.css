@@ -19,3 +19,21 @@
     color: #fff;
     
 }
+
+.infolabel{
+    font-size: 13px;
+    text-align: justify;
+    
+}
+
+.infolabel-description{
+    font-size: 13px;
+    text-align: justify;
+    font-style: italic;
+    
+}
+
+.icon-info{
+    
+    color: #f1b958;
+}

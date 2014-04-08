@@ -1,0 +1,16 @@
+{% load staticfiles %}
+<div class="row">
+        <div class="col-xs-12 col-sm-2">
+            <img src="{% static "images/users/" %}{{ comment.taskid.projectid.owner.id }}.png" width="40" class="img-circle" /><br />
+                        {{comment.taskid.projectid.owner.first_name}} <br />
+                        <p class="label label-info">{{comment.dateadd}}</p>
+        </div>
+        <div class="col-xs-12 col-sm-8">
+            <div class="panel panel-default">
+              <div class="panel-body">
+                {{ comment.comment }}
+              </div>
+            </div>
+        </div>
+</div>
+<hr>

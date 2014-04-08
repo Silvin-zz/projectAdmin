@@ -43,6 +43,7 @@ def home (request):
                     usermenu    =BMenu()
                     login(request,userProfile)
                     request.session["username"]     = userProfile.first_name + " " + userProfile.last_name
+                    request.session["userid"]       = userProfile.id    
                     request.session["menu"]         = serializers.serialize("json", usermenu.getOptions(userProfile))
                     request.session["WNotify"]      = {"message":"", "type":"", "title":""}
                     #request.session["menu"]         = "saludos desde aqui"

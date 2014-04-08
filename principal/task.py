@@ -27,5 +27,8 @@ def taskAdd(request):
     
 def taskShow(request):
     taskObject = Task.objects.get(id=request.POST["taskid"])
-    
     return render_to_response('tasks/show.html', {"menuOptions" :  json.loads(request.session["menu"]), "task": taskObject}, context_instance=RequestContext(request))
+    
+    
+def taskAdmin(request):
+    return render_to_response('tasks/show2.html', {"menuOptions" :  json.loads(request.session["menu"])}, context_instance=RequestContext(request))

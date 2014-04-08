@@ -30,7 +30,13 @@ urlpatterns = patterns('',
     url(r'^tasks/list','principal.task.taskList'),
     url(r'^tasks/new','principal.task.taskAdd'),
     url(r'^tasks/show','principal.task.taskShow'),
-    url(r'^tasks/admin','principal.views.tasksAdmin'),
+    url(r'^tasks/admin','principal.task.taskAdmin'),
+
+     ##############COMMENTS#########################
+
+    url(r'^comment/add','principal.comment.add'),
+    url(r'^comment/list','principal.comment.listByTaskId'),
+
 
     url(r'^teams/list','principal.views.teamList'),
     url(r'^documents/list','principal.views.documentList'),
