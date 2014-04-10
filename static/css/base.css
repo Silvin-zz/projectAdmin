@@ -35,5 +35,18 @@
 
 .icon-info{
     
-    color: #f1b958;
+    color: #344f68;
+}
+
+.detailrow{
+    margin-top: 20px;
+    margin-bottom: 5px;
+    
+}
+.row-bg-one{
+    margin-top: 10px;
+    background-color: #f1f1f1;
+    margin-bottom: 10px;
+    border-bottom: solid 1px #c0c0c0;
+    
 }

@@ -31,6 +31,7 @@ urlpatterns = patterns('',
     url(r'^tasks/new','principal.task.taskAdd'),
     url(r'^tasks/show','principal.task.taskShow'),
     url(r'^tasks/admin','principal.task.taskAdmin'),
+    url(r'^tasks/save','principal.task.taskSave'),
 
      ##############COMMENTS#########################
 

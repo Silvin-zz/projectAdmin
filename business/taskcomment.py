@@ -7,7 +7,7 @@ from principal.models import Taskstatus
 class BTaskComment(Taskcomment):
     
     def getAll(self, taskId):
-        return Taskcomment.objects.filter(taskid=taskId)
+        return Taskcomment.objects.filter(taskid=taskId).order_by('-id')
         
         
     def addComment(self, userid, taskid, txtComment):

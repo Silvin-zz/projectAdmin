@@ -4,6 +4,7 @@ $(document).ready(function(){
    //btnAddTask
    
    loadInitialComments();
+   expandTextarea('txtTaskComment');
    
    
    
@@ -11,7 +12,7 @@ $(document).ready(function(){
        
       var taskid    =$("#taskid").attr("value");
       var token     =$("#token").attr("value");
-     alert(taskid + "------------------" + token);
+    
       $.ajax({  
 			
 			  url		: "/comment/list",
@@ -37,15 +38,34 @@ $(document).ready(function(){
 			  type		: "POST",
 			  data		: { comment: txtComment, taskid: taskid, csrfmiddlewaretoken:token },
 			  success	: function(result){
+			      $(".comment-row:first").removeClass("bg-success");
 				  $("#taskCommentBody").prepend(result); 
 				  $("#txtTaskComment").val("");
+				  changeColorLastRow();
 		      }
 	    });
       
    });
    
-    /*
-    
-    */
+   
+   function changeColorLastRow(){
+       $(".comment-row:first").addClass("bg-success");
+       setTimeout(function(){
+           $(".comment-row:first").removeClass("bg-success");
+            },
+        3000);
+       
+   }
+   
+   
+   function expandTextarea(id) {
+        var $element = $('#' + id).get(0);  
+        
+        $element.addEventListener('keyup', function() {
+            this.style.overflow = 'hidden';
+            this.style.height = 0;
+            this.style.height = this.scrollHeight + 'px';
+        }, false);
+    }
    
 });
