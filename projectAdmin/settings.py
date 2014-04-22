@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 
 
 
@@ -46,6 +47,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'login',
     'principal',
+    #'django_extensions',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -66,17 +68,60 @@ WSGI_APPLICATION = 'projectAdmin.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        #'NAME' : 'projectadmin',
-        'NAME' : 'project',
-        'USER' : 'postgres',
-        'PASSWORD' : 'pass',
-        'HOST' : 'localhost',
-        'PORT' : '5432',
-    }
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#        #'NAME' : 'projectadmin',
+#        'NAME' : 'project',
+#        'USER' : 'postgres',
+#        'PASSWORD' : 'pass',
+#        'HOST' : 'localhost',
+#        'PORT' : '5432',
+#    }
+#}
+
+
+DATABASE = {
+    'default' : {
+        'ENGINE': 'django.db.backends.',
+        'NAME' : '',
+        'USER' : '',
+        'PASSWORD' : '',
+        'HOST' : '',
+        'PORT' : '',
+    }    
 }
+
+
+
+
+MEDIA_ROOT = os.path.join(PROJECT_ROOT, '..', 'media')
+MEDIA_URL = '/media/'
+
+###################### DATOS PARA MONGO DB ::::::::::::::)
+
+
+AUTHENTICATION_BACKENDS = (
+    'mongoengine.django.auth.MongoEngineBackend',
+)
+
+SESSION_ENGINE = 'mongoengine.django.sessions'
+
+MONGO_DATABASE_NAME = 'project'
+
+########################## CONECTAS CON MONGO DB #####################
+
+from mongoengine import connect
+connect(MONGO_DATABASE_NAME)
+
+
+
+
+
+####################  FINALIZA LOS DATOS DE MONGO DB :::::::::::::)
+
+
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
