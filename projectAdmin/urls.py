@@ -15,6 +15,7 @@ urlpatterns = patterns('',
     url(r'^user/validate/','login.views.userValidate'),
     url(r'^dashboard/','principal.views.index'),
 
+
     ##############PROJECTS#########################
 
 

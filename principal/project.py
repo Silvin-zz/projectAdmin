@@ -28,7 +28,7 @@ def projectList(request):
 
 
     return render_to_response('projects/list.html', {
-                        "menuOptions"   :   json.loads(request.session["menu"]),
+                       # "menuOptions"   :   json.loads(request.session["menu"]),
                         "projects"      :   bproject.getAllProjects(True),
                         "WNotify"       :   wNotify
 
@@ -42,7 +42,7 @@ def projectAdd(request):
 
     return render_to_response('projects/new.html', {
 
-                        "menuOptions"   :   json.loads(request.session["menu"]),
+                        #"menuOptions"   :   json.loads(request.session["menu"]),
                         "users"         :   userObject.getAllProjects(True),
                         "projectstype"  :   projectTypeObject.getAllProjects(True),
                         "clients"       :   clientObject.getAll(True),

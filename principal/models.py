@@ -38,25 +38,43 @@ class Task (Document):
 class Taskstatus(Document):
     name    = StringField(max_length=2000)
     meta = {'allow_inheritance': True}
-    
-    
-    
-class Project(Document):
-    title    = StringField(max_length=2000)
-    meta = {'allow_inheritance': True}
-    
-    
+
     
 class Projecttype(Document):
     name    = StringField(max_length=2000)
     meta = {'allow_inheritance': True}
+
+
+class Project(Document):
+
+    title           = StringField(max_length=2000)
+    description     = StringField()
+    active          = BooleanField()
+    client          = ReferenceField(User)
+    typeproject     = ReferenceField(Projecttype)
+    datestart       = DateTimeField()
+    dateend         = DateTimeField()
+    realdatestart   = DateTimeField()
+    realdateend     = DateTimeField()
+    owner           = ReferenceField(User)
+    inuse           = BooleanField()
+    active          = BooleanField()
     
+
+
+    meta = {'allow_inheritance': True}    
     
 class Client(Document):
     name    = StringField(max_length=2000)
     meta = {'allow_inheritance': True}
     
 class User(Document):
-    name    = StringField(max_length=2000)
+
+    email       = StringField()
+    name        = StringField(max_length=2000)
+    username    = StringField(max_length=2000)
+    password    = StringField(max_length=2000)
+    profile     = StringField(max_length=2000)
+    active      = BooleanField()
     
 

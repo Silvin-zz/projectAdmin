@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load staticfiles %}
+{% block title %} <h2>Projects List</h2> {% endblock title %}
 {% block content %}
-    <h2>Projects List</h2>
     <a href="{% url "principal.project.projectAdd" %}">Add New Project</a>
     <table class="table table-striped">
         <thead>

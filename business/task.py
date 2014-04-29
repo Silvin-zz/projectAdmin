@@ -1,3 +1,4 @@
+
 __author__ = 'bravocado'
 from principal.models import Task
 class BTask(Task):

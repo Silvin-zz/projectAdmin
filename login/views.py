@@ -32,32 +32,19 @@ def userList(request):
 
 
 def home (request):
-    myuser  = User(name="Silvio")
-    myuser.save()
-    users   = User.objects().all()
-    
-    
-    loginForm   = AuthenticationForm(request.POST)
-#    if(request.method=="POST"):
-#        loginForm   = AuthenticationForm(request.POST)
-#        if( loginForm.is_valid ):
-#            strUserName    = request.POST["username"]
-#            strPassword    = request.POST["password"]
-#            userProfile     = authenticate(username=strUserName, password=strPassword)
-#            if(userProfile is not None):
-#                if (userProfile.is_active):
-#                    usermenu    =BMenu()
-#                    login(request,userProfile)
-#                    request.session["username"]     = userProfile.first_name + " " + userProfile.last_name
-#                    request.session["userid"]       = userProfile.id    
-#                    request.session["menu"]         = serializers.serialize("json", usermenu.getOptions(userProfile))
-#                    request.session["WNotify"]      = {"message":"", "type":"", "title":""}
-#                    #request.session["menu"]         = "saludos desde aqui"
-#
-#                    return HttpResponseRedirect("/dashboard")
-#    else:
-#        loginForm   = AuthenticationForm()
-    return render_to_response('login/login.html', {"form" : loginForm, "users": users}, context_instance= RequestContext(request))
+
+
+    if(request.method=="POST"):
+        users   =   User.objects(username=request.POST["username"], password=request.POST["password"], active=True)
+        if(users.count()>0):
+            request.session.set_expiry(60 * 60 * 24)
+            request.session["name"]         = users[0].name
+            request.session["profile"]      = users[0].profile
+            request.session["userid"]       = str(users[0].id)
+            request.session["menu"]         = ""
+            request.session["WNotify"]      = {"message":"", "type":"", "title":""}
+            return HttpResponseRedirect("/dashboard")
+    return render_to_response('login/login.html', {}, context_instance= RequestContext(request))
 
 
 
