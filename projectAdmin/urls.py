@@ -44,4 +44,9 @@ urlpatterns = patterns('',
     url(r'^documents/list','principal.views.documentList'),
 
 
+    ####################CLIENT ###########################
+    url(r'^client/save-ajax','principal.client.saveNewByAjax'),
+
+
+
 ) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

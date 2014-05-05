@@ -17,6 +17,7 @@ from django.core import serializers
 ##BUsiness
 #from business.menu import BMenu
 from principal.models import User
+from principal.models import Menu
 
 
 
@@ -35,7 +36,11 @@ def home (request):
 
 
     if(request.method=="POST"):
-        users   =   User.objects(username=request.POST["username"], password=request.POST["password"], active=True)
+        
+        
+        print(Menu.objects)
+        
+        users   =   User.objects(username=request.POST["username"], password=request.POST["password"])
         if(users.count()>0):
             request.session.set_expiry(60 * 60 * 24)
             request.session["name"]         = users[0].name

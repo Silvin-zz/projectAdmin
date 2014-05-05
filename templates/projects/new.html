@@ -1,143 +1,144 @@
 {% extends "base.html" %}
+{% load staticfiles %}
 {% block content %}
-    <h1 class="page-header">New Project</h1>
 
-    <form class="form-horizontal" role="form" action="{% url "principal.project.projectSave" %}" method="post">
-        {% csrf_token %}
+<!--  #######################    NEW PROJECT FORM, I try to put all comments in english ######################### -->
 
-        <div class="form-group">
-            <label class="col-sm-2 control-label">Title</label>
-            <div class="col-xs-5">
-              <input type="text" name="title" required id="title" class="form-control">
-            </div>
-         </div>
+<div class="row">
+  <div class="col-md-8">
+    <div class="box box-primary" >
+      <div class="box-header">
+        <h3 class="box-title">New Project</h3>  
+      </div>
 
-        <div class="form-group">
-            <label class="col-sm-2 control-label">Client</label>
-            <div class="row">
-                <div class="col-xs-4">
-                  <select name="clientid" class="form-control">
-                        {% for client in clients %}
-                        <option value="{{ client.id }}">{{ client.name }}</option>
-                        {% endfor %}
+        <form class="form-horizontal" role="form" action="{% url "principal.project.projectSave" %}" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Title</label>
+                <div class="col-xs-9">
+                  <input type="text" name="title" required id="title" class="form-control">
+                </div>
+             </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Client</label>
+                <div class="row">
+                    <div class="col-xs-4">
+                      <select name="clientid" id="clientid" class="form-control">
+                            {% for client in clients %}
+                            <option value="{{ client.id }}">{{ client.name }}</option>
+                            {% endfor %}
+
+                      </select>
+
+                    </div>
+                    <div class="col-xs-1">
+                        <a class="btn  btn-primary btn-flat" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-plus"></i></a>
+                    </div>
+                </div>
+             </div>
+
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Owner</label>
+                <div class="col-xs-5">
+                  <select name="owner" class="form-control">
+                      {% for owner in users %}
+                          <option value="{{ owner.id }}">{{ owner.name }}</option>
+                      {% endfor %}
 
                   </select>
-
                 </div>
-                <div class="col-xs-1">
-                    <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-plus"></i></a>
+             </div>
+
+             <div class="form-group">
+                <label class="col-sm-2 control-label">Project Type</label>
+                <div class="col-xs-5">
+                  <select name="projecttypeid" id="projecttypeid" class="form-control">
+
+                      {% for projecttype in projectstype %}
+                          <option value="{{ projecttype.id }}">{{ projecttype.name }}</option>
+                      {% endfor %}
+
+                  </select>
+                </div>
+             </div>
+
+
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Start Date</label>
+                <div class="col-xs-5">
+                  <input type="text" name="datestart" required id="datestart" class="form-control" value="{{ datestart }}">
+                </div>
+             </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">End Date</label>
+                <div class="col-xs-5">
+                  <input type="text" name="dateend" required id="dateend" class="form-control"  value="{{ dateend }}">
+                </div>
+             </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Description</label>
+                <div class="col-xs-9">
+                  <textarea name="description" class="form-control" rows="4"></textarea>
                 </div>
             </div>
-         </div>
 
 
-        <div class="form-group">
-            <label class="col-sm-2 control-label">Owner</label>
-            <div class="col-xs-5">
-              <select name="owner" class="form-control">
-                  {% for owner in users %}
-                      <option value="{{ owner.id }}">{{ owner.first_name }} {{ owner.last_name }}</option>
-                  {% endfor %}
+            <div class="form-group">
+                <div class="col-sm-2"></div>
+                <div class="col-xs-5">
 
-              </select>
+                    <button class="btn btn-success btn-flat" type="submit">Save</button>
+                    <a class="btn btn-primary btn-flat" href="{% url "principal.project.projectList" %}" role="button">Go Back</a>
+                </div>
             </div>
-         </div>
 
-         <div class="form-group">
-            <label class="col-sm-2 control-label">Project Type</label>
-            <div class="col-xs-5">
-              <select name="projecttypeid" id="projecttypeid" class="form-control">
 
-                  {% for projecttype in projectstype %}
-                      <option value="{{ projecttype.id }}">{{ projecttype.name }}</option>
-                  {% endfor %}
-
-              </select>
-            </div>
-         </div>
+        </form>
+      </div>
+    </div>
+  </div>
 
 
 
-        <div class="form-group">
-            <label class="col-sm-2 control-label">Start Date</label>
-            <div class="col-xs-2">
-              <input type="date" name="datestart" required id="datestart" class="form-control" value="{{ datestart }}">
-            </div>
-         </div>
-
-        <div class="form-group">
-            <label class="col-sm-2 control-label">End Date</label>
-            <div class="col-xs-2">
-              <input type="date" name="dateend" required id="dateend" class="form-control"  value="{{ dateend }}">
-            </div>
-         </div>
-
-        <div class="form-group">
-            <label class="col-sm-2 control-label">Description</label>
-            <div class="col-xs-5">
-              <textarea name="description" class="form-control" rows="4"></textarea>
-            </div>
-        </div>
 
 
-        <div class="form-group">
-            <div class="col-sm-2"></div>
-            <div class="col-xs-5">
-
-                <button class="btn btn-default btn-success" type="submit">Save</button>
-                <a class="btn btn-default btn-primary" href="{% url "principal.project.projectList" %}" role="button">Go Back</a>
-            </div>
-        </div>
 
 
-    </form>
-{% csrf_token %}
 
+<!-- ############## MODAL PARA NUEVO CLIENTE ############################### -->
+
+
+
+
+  
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title" id="myModalLabel">Nuew Client</h4>
+            <h4 class="modal-title" id="myModalLabel">New Client</h4>
           </div>
           <div class="modal-body">
-                <form action="#" class="form-horizontal" role="form" id="formclient">
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">Name</label>
-                        <div class="col-xs-5">
-                          <input type="text" id="name" name="name" />
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">Address</label>
-                        <div class="col-xs-5">
-                          <input type="text" name="address" id="address" />
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">Contact Name</label>
-                        <div class="col-xs-5">
-                          <input type="text" name="contact" id="contact" />
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">Email</label>
-                        <div class="col-xs-5">
-                          <input type="text" name="email" id="email" />
-                        </div>
-                    </div>
-
+                <form action="#" class="form-horizontal" role="form" id="frmNewClient">
+                  <input type="hidden" id="token" name="csrfmiddlewaretoken" value="{{ csrf_token }}" />
+                  {% include "client/new.html" %}
                 </form>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+            <button type="button" class="btn btn-flat btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-flat btn-primary" id="btnSaveClient">Save changes</button>
           </div>
         </div>
       </div>
     </div>
-
+  
 {% endblock content %}
+
+{% block scripts %}
+  <script src="{% static "js/client/save-ajax.js" %}"></script>
+{% endblock scripts %}

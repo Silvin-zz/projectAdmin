@@ -84,7 +84,7 @@ WSGI_APPLICATION = 'projectAdmin.wsgi.application'
 DATABASE = {
     'default' : {
         'ENGINE': 'django.db.backends.',
-        'NAME' : '',
+        'NAME' : 'project',
         'USER' : '',
         'PASSWORD' : '',
         'HOST' : '',

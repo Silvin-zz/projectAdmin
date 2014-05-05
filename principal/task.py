@@ -22,28 +22,28 @@ def taskList(request):
     wNotify                     = request.session["WNotify"]
     request.session["WNotify"]  = {"message":"", "type":"", "title":""}
     
-    return render_to_response('tasks/list.html', {"menuOptions" :  json.loads(request.session["menu"]), "tasks":taskObject.getAll(True)}, context_instance=RequestContext(request))
+    return render_to_response('tasks/list.html', {"tasks":taskObject.getAll(True)}, context_instance=RequestContext(request))
     
     
     
     
 def taskAdd(request):
     taskObject  = BTask();
-    return render_to_response('tasks/list.html', {"menuOptions" :  json.loads(request.session["menu"]), "tasks":taskObject.getAll(True)}, context_instance=RequestContext(request))
+    return render_to_response('tasks/list.html', {"tasks":taskObject.getAll(True)}, context_instance=RequestContext(request))
     
     
     
     
 def taskShow(request):
     taskObject = Task.objects.get(id=request.POST["taskid"])
-    return render_to_response('tasks/show.html', {"menuOptions" :  json.loads(request.session["menu"]), "task": taskObject}, context_instance=RequestContext(request))
+    return render_to_response('tasks/show.html', {"task": taskObject}, context_instance=RequestContext(request))
     
     
     
     
     
 def taskAdmin(request):
-    return render_to_response('tasks/show2.html', {"menuOptions" :  json.loads(request.session["menu"])}, context_instance=RequestContext(request))
+    return render_to_response('tasks/show2.html', {}, context_instance=RequestContext(request))
     
     
     

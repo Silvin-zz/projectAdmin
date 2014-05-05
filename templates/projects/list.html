@@ -19,38 +19,46 @@
                 <tr>
                     <td>
                         {{project.title}} <br />
-                        <span class="label label-primary"> {{project.clientid.name}} </span><br />
+                        <span class="label label-primary"> {{project.client.name}} </span><br />
                         <em style="color:#747474; font-size:10px;">{{ project.description }}</em>
                     </td>
                     
 
-                    <td>
+                    <td style="text-align:center">
                         <img src="{% static "images/users/" %}{{ project.owner.id }}.png" width="40" class="img-circle" /><br />
-                        {{project.owner.first_name}}
+                        {{project.owner.name}}
                         <div class="color-swatch brand-primary"></div>
                     </td>
                     <td>
-                       <span class="badge alert-danger" style="background-color: #468847; color: #fff;">10</span>&nbsp;
-                       <span class="badge label-success" style="background-color: #f89406; color: #fff;">5</span>
+                       <span class="badge alert-danger" style="background-color: #468847; color: #fff;">{{ project.totaltasks }}</span>&nbsp;
+                       <span class="badge label-success" style="background-color: #f89406; color: #fff;">{{ project.totalendtask }}</span>
 
                     </td>
                     <td>
                         <div class="progress">
-                          <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-                            60% Task
+                          <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{  project.endPercent }}" aria-valuemin="0" aria-valuemax="100" style="width: {{  project.endPercent }}%;">
+                            {{  project.endPercent }}% Task
                           </div>
                         </div>
 
+                        
+                        
+
                         <div class="progress" >
-                          <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 80%;">
-                            80% Time
+                          <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="{{ project.timePercent }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ project.timePercent }}%;">
+                            
+                            {{ project.timePercent }} % Time
+                            
+                            
                           </div>
                         </div>
 
                     </td>
 
-                    <td>{{project.datestart}}<br />
-                    {{project.dateend}}</td>
+                    <td>
+                        {{ project.datestart|date:"M d Y" }}<br />
+                        {{project.dateend |date:"M d Y"}}
+                    </td>
                     <td width="100">
                         <button class="btn btn-xs btn-default"><a href="#"><i class="glyphicon glyphicon-search white"></i></a></button>
                         <button class="btn btn-xs btn-default"><a href="#"><i class="glyphicon glyphicon-pencil"></i></a></button>
