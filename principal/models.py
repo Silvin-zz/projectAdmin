@@ -15,7 +15,9 @@ from django.core.urlresolvers import reverse
 from datetime import datetime
 from decimal import *
 
-import os.path
+from django.conf import settings
+import os
+
 
 
 class Company(Document):
@@ -79,7 +81,11 @@ class User(Document):
     meta            = {'allow_inheritance': True}
     
     def getUrlImage(self):
+        
+        if(os.path.isfile(settings.STATICFILES_USER_IMAGES_DIRS[0] + "/" + str(self.id) + ".png")):
+            return (str(self.id) + ".png")
         return ("1.png")
+        
 
 
 #Terminamos el manejo de usuarios.
@@ -116,6 +122,7 @@ class Project(Document):
     advancepercent  = DecimalField(default=0)
     priority        = IntField(default=1)
     meta            = {'allow_inheritance': True}
+    key             = StringField(default="")
 
     
     def dateDiff(self):
@@ -160,6 +167,7 @@ class TaskType(Document):
 class Task (EmbeddedDocument):
     title           = StringField(max_length=2000)
     description     = StringField()
+    key             = StringField(default= "")
     active          = BooleanField(default=True)
     project         = ReferenceField(Project)
     owner           = ReferenceField(User)
@@ -182,6 +190,7 @@ class Task (EmbeddedDocument):
 class Target(Document):
     title           = StringField(max_length=2000)
     description     = StringField()
+    key             = StringField()
     owner           = ReferenceField(User)
     project         = ReferenceField(Project)
     datestart       = DateTimeField()

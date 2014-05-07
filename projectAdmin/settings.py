@@ -146,6 +146,19 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
 
+
+
+STATICFILES_IMAGES_DIR = (
+    os.path.join(BASE_DIR, "static/images"),
+)
+
+
+
+STATICFILES_USER_IMAGES_DIRS = (
+    os.path.join(BASE_DIR, "static/images/users"),
+)
+
+
 STATICFILES_FINDERS = (
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder"
