@@ -15,6 +15,8 @@ from django.core.urlresolvers import reverse
 from datetime import datetime
 from decimal import *
 
+import os.path
+
 
 class Company(Document):
     name        = StringField(max_length=500, required=True)
@@ -75,7 +77,9 @@ class User(Document):
     active          = BooleanField()
     email           = EmailField()
     meta            = {'allow_inheritance': True}
-
+    
+    def getUrlImage(self):
+        return ("1.png")
 
 
 #Terminamos el manejo de usuarios.

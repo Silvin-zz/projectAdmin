@@ -18,6 +18,7 @@ from django.core import serializers
 #from business.menu import BMenu
 from principal.models import User
 from principal.models import Menu
+from principal.models import Projecttype
 
 
 
@@ -34,7 +35,22 @@ def userList(request):
 
 def home (request):
 
-
+    #user    = User()
+    #user.name="Silvio Bravo Cado"
+    #user.username="admin"
+    #user.password="pass"
+    #user.save()
+    
+    
+    #projecttype= Projecttype()
+    #projecttype.name="Desarrollo de Software"
+    #projecttype.active=True
+    #projecttype.save()
+    
+    
+    
+    
+    
     if(request.method=="POST"):
         
         
@@ -46,6 +62,7 @@ def home (request):
             request.session["name"]         = users[0].name
             request.session["profile"]      = users[0].profile
             request.session["userid"]       = str(users[0].id)
+            request.session["userimage"]    = users[0].getUrlImage()
             request.session["menu"]         = ""
             request.session["WNotify"]      = {"message":"", "type":"", "title":""}
             return HttpResponseRedirect("/dashboard")

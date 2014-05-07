@@ -25,7 +25,7 @@
                     
 
                     <td style="text-align:center">
-                        <img src="{% static "images/users/" %}{{ project.owner.id }}.png" width="40" class="img-circle" /><br />
+                        <img src="{% static "images/users/" %}{{ project.owner.getUrlImage }}" width="40" class="img-circle" /><br />
                         {{project.owner.name}}
                         <div class="color-swatch brand-primary"></div>
                     </td>

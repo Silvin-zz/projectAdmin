@@ -241,7 +241,7 @@
                             <ul class="dropdown-menu">
                                 <!-- User image -->
                                 <li class="user-header bg-light-blue">
-                                    <img src="{% static "images/users/" %}{{request.session.userid}}.png" class="img-circle" alt="User Image" />
+                                    <img src="{% static "images/users/" %}{{request.session.userimage}}" class="img-circle" alt="User Image" />
                                     <p>
                                         {{ request.session.name }}
                                         <small>{{ request.session.profile }}</small>
@@ -282,7 +282,7 @@
                     <!-- Sidebar user panel -->
                     <div class="user-panel">
                         <div class="pull-left image">
-                            <img src="{% static "images/users/" %}{{request.session.userid}}.png" class="img-circle" alt="User Image" />
+                            <img src="{% static "images/users/" %}{{request.session.userimage}}" class="img-circle" alt="User Image" />
                         </div>
                         <div class="pull-left info">
                             <p>{{ request.session.name }}</p>
