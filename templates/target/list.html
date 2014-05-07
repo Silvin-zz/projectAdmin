@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %} <h2>Targets By Project</h2>
+
+    <form action="#" class="form-horizontal" role="form" id="frmGetTargets">
+        <input type="hidden" id="token" name="csrfmiddlewaretoken" value="{{ csrf_token }}" />
+        <label> Project:</label>&nbsp;&nbsp;
+        <select class="" name="projectId" id="projectId">
+            {% for project in projects %}
+                <option value="{{ project.id }}">{{project.title}}</option>
+            {% endfor %}
+        </select>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+
+        <button type="button" class="btn btn-primary btn-flat" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-plus"></i>&nbsp; Add New Target</button>
+
+    </form>
+{% endblock title %}
+{% block content %}
+    
+    <div id="listcontent">
+
+    </div>
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">New Target</h4>
+          </div>
+          <div class="modal-body">
+                <form action="#" class="form-horizontal" role="form" id="frmNewtarget">
+                  <input type="hidden" id="token" name="csrfmiddlewaretoken" value="{{ csrf_token }}" />
+                  <input type="hidden" id="project" name="project" value="" />
+                  {% include "target/new.html" %}
+                </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-flat btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-flat btn-primary" id="btnSaveTarget">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    
+
+{% endblock %}
+{% block scripts %}
+  <script src="{% static "js/target/list.js" %}"></script>
+{% endblock scripts %}

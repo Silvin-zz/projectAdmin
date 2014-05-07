@@ -31,16 +31,12 @@ class AuthUser(Document):
     meta = {'allow_inheritance': True}
 
 
-class Task (Document):
-    title   = StringField(max_length=2000)
-    active  = BooleanField(default=True)
-    meta = {'allow_inheritance': True}
-    
-    
-    
-class Taskstatus(Document):
-    name    = StringField(max_length=2000)
-    meta = {'allow_inheritance': True}
+
+
+
+
+
+
 
 
 #Manejo de Menus
@@ -55,30 +51,30 @@ class Client(Document):
     meta = {'allow_inheritance': True}
 
 class Menu(Document):
-    name        = StringField()
-    url         = StringField()
-    iconclass   = StringField()
-    meta        = {'allow_inheritance': True}
+    name            = StringField()
+    url             = StringField()
+    iconclass       = StringField()
+    meta            = {'allow_inheritance': True}
 
 
 
 class Profile(Document):
-    name        = StringField()
-    options     = ListField(ReferenceField(Menu))
-    meta        = {'allow_inheritance': True}
+    name           = StringField()
+    options        = ListField(ReferenceField(Menu))
+    meta           = {'allow_inheritance': True}
 
 
 
 
 class User(Document):
 
-    name        = StringField(max_length=2000)
-    username    = StringField(max_length=2000)
-    password    = StringField()
-    profile     = ReferenceField(Profile)
-    active      = BooleanField()
-    email       = EmailField()
-    meta        = {'allow_inheritance': True}
+    name            = StringField(max_length=2000)
+    username        = StringField(max_length=2000)
+    password        = StringField()
+    profile         = ReferenceField(Profile)
+    active          = BooleanField()
+    email           = EmailField()
+    meta            = {'allow_inheritance': True}
 
 
 
@@ -89,9 +85,9 @@ class User(Document):
 
     
 class Projecttype(Document):
-    name    = StringField(max_length=2000)
-    active  = BooleanField()
-    meta = {'allow_inheritance': True}
+    name            = StringField(max_length=2000)
+    active          = BooleanField()
+    meta            = {'allow_inheritance': True}
 
 
 
@@ -135,6 +131,70 @@ class Project(Document):
 
     meta = {'allow_inheritance': True}    
     
+
+
+
+class Comment(EmbeddedDocument):
+    description     = StringField()
+    date            = DateTimeField()
+    user            = ReferenceField(User)
+
+
+
+class Stage(Document):
+    name            = StringField()
+
+
+class TaskType(Document):
+    name            = StringField()
+
+
+
+
+
+
+class Task (EmbeddedDocument):
+    title           = StringField(max_length=2000)
+    description     = StringField()
+    active          = BooleanField(default=True)
+    project         = ReferenceField(Project)
+    owner           = ReferenceField(User)
+    comments        = ListField(EmbeddedDocumentField(Comment))
+    datestart       = DateTimeField()
+    dateend         = DateTimeField()
+    realdatestart   = DateTimeField()
+    realdateend     = DateTimeField()
+    dateadd         = DateTimeField()
+    tasktype        = ReferenceField(TaskType)
+    endpercent      = IntField(default=0)
+    estimatedhours  = IntField(default=0)
+    usedhours       = IntField(default=0)
+    iscritical      = BooleanField(default= False)
+    finished        = BooleanField(default= False)
+    meta            = {'allow_inheritance': True}
+
+
+
+class Target(Document):
+    title           = StringField(max_length=2000)
+    description     = StringField()
+    owner           = ReferenceField(User)
+    project         = ReferenceField(Project)
+    datestart       = DateTimeField()
+    dateend         = DateTimeField()
+    realdatestart   = DateTimeField()
+    realdateend     = DateTimeField()
+    endpercent      = IntField(default=0)
+    comments        = ListField(EmbeddedDocumentField(Task))
+    finished        = BooleanField(default = False)
+    meta            = {'allow_inheritance': True}
+
+    
+    
+    
+class Taskstatus(Document):
+    name            = StringField(max_length=2000)
+    meta            = {'allow_inheritance': True}
 
     
     
