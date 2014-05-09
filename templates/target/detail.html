@@ -1,1 +1,88 @@
-<h2>saludos</h2>
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %} 
+<h4>{{ target.project.title }}</h4> 
+
+<div class="box-body">
+	<!--<blockquote>
+		<p>{{ target.project.client.name }}</p>
+		<small>{{ target.project.description }}</small>
+	</blockquote>
+	-->
+</div>
+{% endblock title %}
+
+{% block content %}
+
+
+<!-- Main content -->
+                <section class="content invoice">                    
+                    <!-- title row -->
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <h2 class="page-header">
+                                <i class="glyphicon glyphicon-screenshot"></i>&nbsp;&nbsp;{{target.title}}
+                                <small class="pull-right">Date End: {{target.dateend |date:"M d Y"}}</small>
+                            </h2>                            
+                        </div><!-- /.col -->
+                    </div>
+                    <!-- info row -->
+                    <div class="row invoice-info">
+                        <div class="col-sm-4 invoice-col">
+                            
+                            <address>
+                                {{ target.description }}
+                            </address>
+                        </div><!-- /.col -->
+                        <div class="col-sm-4 invoice-col text-right">
+                        	<img src="{% static "images/users/" %}{{ target.owner.getUrlImage }}" width="40" class="img-circle" />
+                                <strong>{{ target.owner.name }}</strong><br>
+                            <address>
+                                <span class="label label-success">{{target.targettype.name }}</span><br>
+                                <strong>Start: </strong> {{ target.datestart |date:"M d Y"}}<br>
+                                <strong>Finish: </strong> {{ target.dateend |date:"M d Y"}}<br>
+                                <strong>{{ 2 }} </strong>days left <br/>
+                                
+                            </address>
+                        </div><!-- /.col -->
+                        <div class="col-sm-4 invoice-col text-center">
+                            <input type="text" class="dial" value="30" data-width="90" data-height="90" data-fgColor="#00a65a"/>
+                            <div class="knob-label">End Percent</div>
+
+                            <button class="btn btn-primary btn-sm btn-flat" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-plus"></i>&nbsp;Add New Task</button>
+                        </div><!-- /.col -->
+                    </div><!-- /.row -->
+                </section>
+
+
+<!-- MODAL PARA REGISTRO DE LA TAREA. -->
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">New Task</h4>
+          </div>
+          <div class="modal-body">
+                <form action="#" class="form-horizontal" role="form" id="frmNewtarget">
+                  <input type="hidden" id="token" name="csrfmiddlewaretoken" value="{{ csrf_token }}" />
+                  <input type="hidden" id="project" name="project" value="" />
+                  {% include "target/new.html" %}
+                </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-flat btn-default" id="modalclose" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-flat btn-primary" id="btnSaveTarget">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+{% endblock content %}
+{% block scripts %}
+  <script src="{% static "theme/js/plugins/jqueryKnob/jquery.knob.js" %}" type="text/javascript"></script>
+  <script src="{% static "js/target/detail.js" %}"></script>
+{% endblock scripts %}

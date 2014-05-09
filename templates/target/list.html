@@ -11,7 +11,6 @@
             {% endfor %}
         </select>
         &nbsp;&nbsp;&nbsp;&nbsp;
-
         <button type="button" class="btn btn-primary btn-flat" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-plus"></i>&nbsp; Add New Target</button>
 
     </form>
@@ -44,7 +43,7 @@
       </div>
     </div>
 
-    <form action="#" class="form-horizontal" role="form" id="frmTargetDetail" action="{% url "principal.target.targetDetail" %}">
+    <form  class="form-horizontal" method="POST" role="form" id="frmTargetDetail" action="{% url "principal.target.targetDetail" %}">
       <input type="hidden" id="token" name="csrfmiddlewaretoken" value="{{ csrf_token }}" />
       <input type="hidden" id="targetid" name="targetid" value="" />
     </form>

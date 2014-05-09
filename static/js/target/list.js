@@ -1,24 +1,14 @@
 $(document).ready(function(){
 
 loadTargets();
+
 $("#projectId").change(function(event) {
 	loadTargets();
 });
 
+
 $("#btnSaveTarget").click(function(event) {
 	saveTarget();
-});
-
-
-$("body").append('<button class="targetdetail">Hola</button>');
-
-$("button").on("click",function(){
-	alert("ya");
-
-	alert("saludos");
-	var id=$(this).prop("lang");
-	alert(id);
-
 });
 
 
@@ -36,6 +26,9 @@ function saveTarget(){
 			$('#frmNewtarget')[0].reset();
 			$("#targetList").prepend(result);
 			$('#modalclose').trigger("click");
+			$("#listcontent .targetdetail").on("click",function(){
+				redirectToDetail($(this));					
+			});
 		}
 	});
 
@@ -50,8 +43,20 @@ function loadTargets(){
 		data		: $("#frmGetTargets").serialize(),
 		success	: function(result){
 			$("#listcontent").html(result);
+			$("#listcontent .targetdetail").on("click",function(){
+				redirectToDetail($(this));					
+			});
 		}
 	});
+}
+
+
+function redirectToDetail(button){
+	var id 	=button.attr("lang");
+	$("#targetid").prop("value",id);
+	$("#frmTargetDetail").submit();
+	return false;
+
 }
 
 });

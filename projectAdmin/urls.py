@@ -41,6 +41,8 @@ urlpatterns = patterns('',
     url(r'^target/getbyproject','principal.target.getTargetByProjectId'),
     url(r'^target/save','principal.target.targetSave'),
     url(r'^target/detail','principal.target.targetDetail'),
+    url(r'^target/prueba','principal.target.targetPrueba'),
+    
 
      ##############COMMENTS#########################
 

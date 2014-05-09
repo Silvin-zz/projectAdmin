@@ -61,16 +61,15 @@ def targetSave(request):
 	owner 					= User.objects(pk=request.POST["owner"])
 	project 				= Project.objects(pk=request.POST["project"])
 	targettype 				= TargetType.objects(pk=request.POST["targettype"])
-
 	target.title 			= request.POST["title"]
 	target.description 		= request.POST["description"]
-	target.targettypes 		= targettype[0]
+	target.targettype 		= targettype[0]
 	target.owner 			= owner[0]
 	target.project 			= project[0]
 	target.datestart 		= request.POST["datestart"]
 	target.dateend 			= request.POST["dateend"]
 	
-	print(target.to_json())
+	
 
 	target.save()
 
@@ -83,7 +82,16 @@ def targetSave(request):
 
 
 def targetDetail(request):
-	target   				= Target(pk=request.POST["targetid"])
+	
+
+	targetobject   				= Target.objects(pk=request.POST["targetid"])
+	print(targetobject)
 	return render_to_response('target/detail.html', {
-        "target"      :   target,
+        "target"      :   targetobject[0],
     },context_instance = RequestContext(request))
+
+
+def targetPrueba(request):
+	return render_to_response('target/detail.html', {},context_instance = RequestContext(request))
+
+
