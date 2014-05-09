@@ -19,6 +19,7 @@ from django.core import serializers
 from principal.models import User
 from principal.models import Menu
 from principal.models import Projecttype
+from principal.models import TargetType
 
 
 
@@ -34,6 +35,24 @@ def userList(request):
 
 
 def home (request):
+
+    tg = TargetType()
+    tg.name="Entrega"
+    tg.save()
+
+    tg = TargetType()
+    tg.name="Analisis de Software"
+    tg.save()
+
+
+    tg = TargetType()
+    tg.name="Diseno de Software"
+    tg.save()
+
+    tg = TargetType()
+    tg.name="Testing de Software"
+    tg.save()
+
 
     #user    = User()
     #user.name="Silvio Bravo Cado"

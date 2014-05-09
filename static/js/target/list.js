@@ -10,10 +10,22 @@ $("#btnSaveTarget").click(function(event) {
 });
 
 
+$("body").append('<button class="targetdetail">Hola</button>');
+
+$("button").on("click",function(){
+	alert("ya");
+
+	alert("saludos");
+	var id=$(this).prop("lang");
+	alert(id);
+
+});
+
+
 function saveTarget(){
-	var projectid=$("#projectId option:selected").first().attr("value");
-	alert(projectid);
-	$("#project").attr("value",projectid);
+	var projectid=$("#projectId option:selected").first().prop("value");
+	
+	$("#project").prop("value",projectid);
 
 
 	$.ajax({  
@@ -21,7 +33,9 @@ function saveTarget(){
 		type		: "POST",
 		data		: $("#frmNewtarget").serialize(),
 		success	: function(result){
-			$("#targetList").html(result);
+			$('#frmNewtarget')[0].reset();
+			$("#targetList").prepend(result);
+			$('#modalclose').trigger("click");
 		}
 	});
 

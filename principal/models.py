@@ -187,20 +187,30 @@ class Task (EmbeddedDocument):
 
 
 
+class TargetType(Document):
+    name            = StringField()
+
+
+
 class Target(Document):
     title           = StringField(max_length=2000)
     description     = StringField()
-    key             = StringField()
+    key             = StringField(default="")
+    targettype      = ReferenceField(TargetType)
     owner           = ReferenceField(User)
     project         = ReferenceField(Project)
     datestart       = DateTimeField()
     dateend         = DateTimeField()
-    realdatestart   = DateTimeField()
-    realdateend     = DateTimeField()
+    realdatestart   = DateTimeField(required=False)
+    realdateend     = DateTimeField(required=False)
     endpercent      = IntField(default=0)
-    comments        = ListField(EmbeddedDocumentField(Task))
+    comments        = ListField(EmbeddedDocumentField(Comment), required=False)
     finished        = BooleanField(default = False)
     meta            = {'allow_inheritance': True}
+    tasks           = ListField(EmbeddedDocumentField(Task), required=False)
+
+    def taskCount(self):
+        return(len(self.tasks))
 
     
     

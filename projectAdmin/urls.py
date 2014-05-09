@@ -40,6 +40,7 @@ urlpatterns = patterns('',
     url(r'^target/list','principal.target.targetList'),
     url(r'^target/getbyproject','principal.target.getTargetByProjectId'),
     url(r'^target/save','principal.target.targetSave'),
+    url(r'^target/detail','principal.target.targetDetail'),
 
      ##############COMMENTS#########################
 

@@ -1,101 +1,3 @@
-<div class="col-md-4">
-                            <!-- Success box -->
-                            <div class="box box-success">
-                                <div class="box-header">
-                                    <h3 class="box-title">Success Box (toggle buttons)</h3>
-                                    <div class="box-tools pull-right">
-                                        <div class="btn-group" data-toggle="btn-toggle">
-                                            <button type="button" class="btn btn-success btn-xs active" data-toggle="on">Left</button>                                            
-                                            <button type="button" class="btn btn-success btn-xs" data-toggle="off">Right</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="box-body">
-                                    Box class: <code>.box.box-success</code>
-                                    <p>
-                                        amber, microbrewery abbey hydrometer, brewpub ale lauter tun saccharification oxidized barrel.
-                                        berliner weisse wort chiller adjunct hydrometer alcohol aau!
-                                        sour/acidic sour/acidic chocolate malt ipa ipa hydrometer.
-                                    </p>
-                                </div><!-- /.box-body -->
-                            </div><!-- /.box -->
-                        </div><!-- /.col -->
-
-
-                        <div class="col-md-4">
-                            <!-- Success box -->
-                            <div class="box box-success">
-                                <div class="box-header">
-                                    <h3 class="box-title">Success Box (toggle buttons)</h3>
-                                    <div class="box-tools pull-right">
-                                        <div class="btn-group" data-toggle="btn-toggle">
-                                            <button type="button" class="btn btn-success btn-xs active" data-toggle="on">Left</button>                                            
-                                            <button type="button" class="btn btn-success btn-xs" data-toggle="off">Right</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="box-body">
-                                    Box class: <code>.box.box-success</code>
-                                    <p>
-                                        amber, microbrewery abbey hydrometer, brewpub ale lauter tun saccharification oxidized barrel.
-                                        berliner weisse wort chiller adjunct hydrometer alcohol aau!
-                                        sour/acidic sour/acidic chocolate malt ipa ipa hydrometer.
-                                    </p>
-                                </div><!-- /.box-body -->
-                            </div><!-- /.box -->
-                        </div><!-- /.col -->
-
-
-                        <div class="col-md-4">
-                            <!-- Success box -->
-                            <div class="box box-success">
-                                <div class="box-header">
-                                    <h3 class="box-title">Success Box (toggle buttons)</h3>
-                                    <div class="box-tools pull-right">
-                                        <div class="btn-group" data-toggle="btn-toggle">
-                                            <button type="button" class="btn btn-success btn-xs active" data-toggle="on">Left</button>                                            
-                                            <button type="button" class="btn btn-success btn-xs" data-toggle="off">Right</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="box-body">
-                                    Box class: <code>.box.box-success</code>
-                                    <p>
-                                        amber, microbrewery abbey hydrometer, brewpub ale lauter tun saccharification oxidized barrel.
-                                        berliner weisse wort chiller adjunct hydrometer alcohol aau!
-                                        sour/acidic sour/acidic chocolate malt ipa ipa hydrometer.
-                                    </p>
-                                </div><!-- /.box-body -->
-                            </div><!-- /.box -->
-                        </div><!-- /.col -->
-
-
-                        <div class="col-md-4">
-                            <!-- Success box -->
-                            <div class="box box-success">
-                                <div class="box-header">
-                                    <h3 class="box-title">Success Box (toggle buttons)</h3>
-                                    <div class="box-tools pull-right">
-                                        <div class="btn-group" data-toggle="btn-toggle">
-                                            <button type="button" class="btn btn-success btn-xs active" data-toggle="on">Left</button>                                            
-                                            <button type="button" class="btn btn-success btn-xs" data-toggle="off">Right</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="box-body">
-                                    Box class: <code>.box.box-success</code>
-                                    <p>
-                                        amber, microbrewery abbey hydrometer, brewpub ale lauter tun saccharification oxidized barrel.
-                                        berliner weisse wort chiller adjunct hydrometer alcohol aau!
-                                        sour/acidic sour/acidic chocolate malt ipa ipa hydrometer.
-                                    </p>
-                                </div><!-- /.box-body -->
-                            </div><!-- /.box -->
-                        </div><!-- /.col -->
-
-
-
-
 <table class="table table-striped">
 	<thead>
     	<tr>
@@ -109,9 +11,7 @@
     <tbody id="targetList">
 
 		{% for target in targets %}
-			<tr>
-				<td>{{ target.title }}</td>
-			</tr>
+			{% include "target/resume.html" %}
 		{% endfor %}
 
 	</tbody>
