@@ -16,43 +16,75 @@
 
 
 <!-- Main content -->
-                <section class="content invoice">                    
-                    <!-- title row -->
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <h2 class="page-header">
-                                <i class="glyphicon glyphicon-screenshot"></i>&nbsp;&nbsp;{{target.title}}
-                                <small class="pull-right">Date End: {{target.dateend |date:"M d Y"}}</small>
-                            </h2>                            
-                        </div><!-- /.col -->
-                    </div>
-                    <!-- info row -->
-                    <div class="row invoice-info">
-                        <div class="col-sm-4 invoice-col">
-                            
-                            <address>
-                                {{ target.description }}
-                            </address>
-                        </div><!-- /.col -->
-                        <div class="col-sm-4 invoice-col text-right">
-                        	<img src="{% static "images/users/" %}{{ target.owner.getUrlImage }}" width="40" class="img-circle" />
-                                <strong>{{ target.owner.name }}</strong><br>
-                            <address>
-                                <span class="label label-success">{{target.targettype.name }}</span><br>
-                                <strong>Start: </strong> {{ target.datestart |date:"M d Y"}}<br>
-                                <strong>Finish: </strong> {{ target.dateend |date:"M d Y"}}<br>
-                                <strong>{{ 2 }} </strong>days left <br/>
-                                
-                            </address>
-                        </div><!-- /.col -->
-                        <div class="col-sm-4 invoice-col text-center">
-                            <input type="text" class="dial" value="30" data-width="90" data-height="90" data-fgColor="#00a65a"/>
-                            <div class="knob-label">End Percent</div>
+<section class="content invoice">
 
-                            <button class="btn btn-primary btn-sm btn-flat" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-plus"></i>&nbsp;Add New Task</button>
-                        </div><!-- /.col -->
-                    </div><!-- /.row -->
-                </section>
+
+<!-- title row -->
+	<div class="row">
+    	<div class="col-xs-12">
+        	<h2 class="page-header">
+	            <i class="glyphicon glyphicon-screenshot"></i>&nbsp;&nbsp;{{target.title}}
+	            <small class="pull-right">
+	            	<button class="btn btn-primary btn-sm btn-flat" id="btnNewTask" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-plus"></i>&nbsp;Add New Task</button>
+	            </small>
+            </h2>                            
+        </div><!-- /.col -->
+    </div>
+    
+
+                    <!-- info row -->
+    <div class="row invoice-info">
+
+        <div class="col-sm-3 invoice-col text-left">
+        	<img src="{% static "images/users/" %}{{ target.owner.getUrlImage }}" width="40" class="img-circle" />
+            <strong>{{ target.owner.name }}</strong><br>
+            <address>
+                <span class="label label-success">{{target.targettype.name }}</span><br>
+                <strong>Start: </strong> {{ target.datestart |date:"M d Y"}}<br>
+                <strong>Finish: </strong> {{ target.dateend |date:"M d Y"}}<br>
+                <strong>{{ 2 }} </strong>days left <br/>                
+            </address>
+        </div><!-- /.col -->
+
+
+        <div class="col-sm-7 invoice-col text-left">                     
+            <address>{{ target.description }}</address>
+        </div><!-- /.col -->
+
+
+        <div class="col-sm-2 invoice-col text-center">
+        	<input type="text" class="dial" value="30" data-linecap=round data-width="70" data-height="70" data-fgColor="#00a65a"/>
+            
+            <br /><span class="badge badge-primary">{{target.taskCount}}</span> <strong>Tasks</strong>
+        </div><!-- /.col -->
+
+    </div><!-- /.row -->
+
+    <div class="row">
+    	<div class="col-xs-12 table-responsive">
+        	<table class="table table-striped">
+        		<thead>
+        			<tr>
+        				<th width="50%">Task</th>
+        				<th width="20%">Owner</th>
+        				<th width="10%">Lapse</th>
+        				<th width="10%">Advance</th>
+        				<th width="100">Options</th>
+
+
+        			</tr>
+        		</thead>
+        		<tbody id="taskList">
+        			{%  for task in  target.tasks %}
+        			 {% include "task/intable.html" %}
+        			{% endfor %}
+
+        		</tbody>
+
+            </table>
+        </div>
+    </div>
+</section>
 
 
 <!-- MODAL PARA REGISTRO DE LA TAREA. -->
@@ -65,19 +97,26 @@
             <h4 class="modal-title" id="myModalLabel">New Task</h4>
           </div>
           <div class="modal-body">
-                <form action="#" class="form-horizontal" role="form" id="frmNewtarget">
+                <form action="#" class="form-horizontal" role="form" id="frmNewTask">
                   <input type="hidden" id="token" name="csrfmiddlewaretoken" value="{{ csrf_token }}" />
-                  <input type="hidden" id="project" name="project" value="" />
-                  {% include "target/new.html" %}
+                  <input type="hidden" id="targetId" name="targetId" value="{{ target.id }}" />
+                  {% include "task/new.html" %}
                 </form>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-flat btn-default" id="modalclose" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-flat btn-primary" id="btnSaveTarget">Save changes</button>
+            <button type="button" class="btn btn-flat btn-primary" id="btnSaveTask">Save changes</button>
           </div>
         </div>
       </div>
     </div>
+
+
+<form action="{% url "principal.task.showDetail" %}" class="form-horizontal" role="form" id="frmTaskDetail" method="POST">
+	<input type="hidden" id="token" name="csrfmiddlewaretoken" value="{{ csrf_token }}" />
+	<input type="hidden" id="taskId" name="taskId" value="" />
+</form>
+
 
 
 

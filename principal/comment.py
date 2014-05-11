@@ -10,19 +10,25 @@ import json
 
 
 from business.taskcomment import BTaskComment
+from principal.models 		import Task
+from principal.models       import Comment
+from principal.models		import User
 
 
 import time
 
-def add(request):
-    commentObject   = BTaskComment();
-    comment         = commentObject.addComment(request.session["userid"],request.POST["taskid"],request.POST["comment"]);
-    return render_to_response('comments/show.html', {"menuOptions" :  json.loads(request.session["menu"]), "comment": comment}, context_instance=RequestContext(request))
+def addForTask(request):
+	commentObject   			= Comment()
+	commentObject.owner			= User.objects(pk=request.session["userid"]).get()
+	commentObject.description	= request.POST["comment"]
+
+	Task.objects(pk=request.POST["taskId"]).update_one(push__comments=commentObject)
+	return render_to_response('comments/show.html', {"comment": commentObject}, context_instance=RequestContext(request))
     
 
 def listByTaskId(request):
     
-    commentObject  = BTaskComment();
-    comments       = commentObject.getAll(request.POST["taskid"])
-    return render_to_response('comments/showall.html', {"menuOptions" :  json.loads(request.session["menu"]), "comments": comments}, context_instance=RequestContext(request))
+    
+    taskObject       = Task.objects(pk=request.POST["taskid"]).get()
+    return render_to_response('comments/showall.html', {"comments": taskObject.comments}, context_instance=RequestContext(request))
      

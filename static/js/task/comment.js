@@ -2,9 +2,33 @@ $(document).ready(function(){
    
    //txtTaskComment
    //btnAddTask
+
+   /** Apartado para los comentarios **/
+
+   $("#btnAddCommentTask").click(function(){
+       
+      var txtComment=$("#txtTaskComment").val();
+      var taskid    =$("#taskid").attr("value");
+      var token     =$("#token").attr("value");
+     
+      $.ajax({  
+      
+        url   : "/comment/addfortask",
+        type    : "POST",
+        data    : $("#frmComment").serialize(),
+        success : function(result){
+          $("#taskCommentBody").prepend(result); 
+          $("#comment").val("");
+          changeColorLastRow();
+
+          }
+      });
+      
+   });
+
    
    loadInitialComments();
-   expandTextarea('txtTaskComment');
+   expandTextarea('comment');
    
    
    
@@ -26,26 +50,8 @@ $(document).ready(function(){
       //listByTaskId 
    }
    
-   $("#btnAddTask").click(function(){
-       
-      var txtComment=$("#txtTaskComment").val();
-      var taskid    =$("#taskid").attr("value");
-      var token     =$("#token").attr("value");
-     
-      $.ajax({  
-			
-			  url		: "/comment/add",
-			  type		: "POST",
-			  data		: { comment: txtComment, taskid: taskid, csrfmiddlewaretoken:token },
-			  success	: function(result){
-			      $(".comment-row:first").removeClass("bg-success");
-				  $("#taskCommentBody").prepend(result); 
-				  $("#txtTaskComment").val("");
-				  changeColorLastRow();
-		      }
-	    });
-      
-   });
+
+
    
    
    function changeColorLastRow(){

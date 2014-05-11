@@ -1,82 +1,104 @@
 
 {% load staticfiles %}
 
-<div class="panel panel-primary">
-<div class="panel-heading"><i class="glyphicon glyphicon-bookmark"></i>&nbsp;&nbsp;<i style="font-size: 18px">Task No. {{ task.id }}</i></div>
-  <div class="panel-body">
-
-    <!--<div class="well" id="projectdata">-->
-
-    <div class="row detailrow">
-        <div class="col-xs-12 col-sm-2"><i class="glyphicon glyphicon-th-large icon-info"></i> &nbsp;<strong>Project:</strong></div>
-        <div class="col-xs-12 col-sm-4">{{ task.projectid.title }}</div>
-        
-        <div class="col-xs-12 col-sm-2"><i class="glyphicon glyphicon-bookmark icon-info"></i>&nbsp;<strong>Task:</strong></div>
-        <div class="col-xs-12 col-sm-4">{{ task.title }}</div>
-    </div>
-    
-    <div class="row detailrow">
-    
-        <div class="col-xs-12 col-sm-2"><i class="glyphicon glyphicon-tag icon-info"></i>&nbsp;<strong>Task Type:</strong></div>
-        <div class="col-xs-12 col-sm-4">{{ task.typeid.name }}</div>
-        
-        <div class="col-xs-12 col-sm-2"><i class="glyphicon glyphicon-user icon-info"></i>&nbsp;<strong>Asigned By:</strong></div>
-        <div class="col-xs-12 col-sm-4">{{task.projectid.owner.first_name}}</div>
-        
-        
-    </div>
-    
-    
-    <div class="row detailrow">
-    
-        <div class="col-xs-12 col-sm-2"><i class="glyphicon glyphicon-calendar icon-info"></i>&nbsp;<strong>Date Start:</strong></div>
-        <div class="col-xs-12 col-sm-4">{{ task.datestart }}</div>
-        
-        <div class="col-xs-12 col-sm-2"><i class="glyphicon glyphicon-calendar icon-info"></i>&nbsp;<strong>Date End:</strong></div>
-        <div class="col-xs-12 col-sm-4">{{ task.dateend }}</div>
-        
-    </div>
-    
-    
-    <div class="row detailrow">
-    
-        <div class="col-xs-12 col-sm-2"><i class="glyphicon glyphicon-certificate icon-info"></i>&nbsp;<strong>Priority:</strong></div>
-        <div class="col-xs-12 col-sm-4">{{ task.priority }}</div>
-        
-        <div class="col-xs-12 col-sm-2"><i class="glyphicon glyphicon-tasks icon-info"></i>&nbsp;<strong>End Percent:</strong></div>
-        <div class="col-xs-12 col-sm-4">{{ task.endpercent }}</div>
-        
-        
-    </div>
-    
-    
-    <div class="row detailrow">
-    
-        <div class="col-xs-12 col-sm-2"><i  class="glyphicon glyphicon-time icon-info"></i>&nbsp;<strong>Estimate Hours:</strong></div>
-        <div class="col-xs-12 col-sm-4">{{ task.estimatedhours }}</div>
-        
-        <div class="col-xs-12 col-sm-2"><i class="glyphicon glyphicon-time icon-info"></i>&nbsp;<strong>Hours Used:</strong></div>
-        <div class="col-xs-12 col-sm-4">{{ task.occupiedhours }}</div>
-        
-        
-        
-        
-    </div>
-    
-    
-    <div class="row detailrow">
-    
-        <div class="col-xs-12 col-sm-2"><i class="glyphicon glyphicon-th-list icon-info"></i>&nbsp;<strong>Description:</strong></div>
-        <div class="col-xs-12 col-sm-10 infolabel-description">{{ task.description }}</div>
-        
-        
-    </div>
-   
-<!--</div>-->
+<section class="content invoice box box-info">
 
 
-  
-   
-        
-  </div>
-</div>
+<!-- title row -->
+    <div class="row">
+        <div class="col-xs-12">
+            <h2 class="page-header">
+                <i class="glyphicon glyphicon-bookmark"></i>&nbsp;&nbsp;{{task.title}}
+                <small class="pull-right">
+                    <span class="label label-{{ task.priority.classname }}">{{ task.priority.name }} Priority</span>
+                </small>
+            </h2>                            
+        </div><!-- /.col -->
+    </div>
+    
+
+
+    <div class='row'>
+        <div class='col-xs-12'>
+            <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+
+                    <li class="active"><a href="#info" data-toggle="tab"><i class="glyphicon glyphicon-list-alt"></i>&nbsp; &nbsp;Information</a></li>
+
+                    <li><a href="#timeline" data-toggle="tab"><i class="glyphicon glyphicon-list-alt"></i>&nbsp; &nbsp;Time Line</a></li>
+                    <li><a href="#comments" data-toggle="tab"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;Comments</a></li>
+                    <li><a href="#comments" data-toggle="tab"><i class="glyphicon glyphicon-book"></i>&nbsp;&nbsp;Documents</a></li>
+                    <li><a href="#comments" data-toggle="tab"><i class="glyphicon glyphicon-th"></i>&nbsp;&nbsp;Knowledge Tips</a></li>
+                    <li><a href="#comments" data-toggle="tab"><i class="glyphicon glyphicon-phone-alt"></i>&nbsp;&nbsp;Change Request</a></li>
+                    
+                    
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="info" >
+                        <section id="new">
+                            <br />
+                            <div class="row invoice-info">
+
+                            <div class="col-sm-10 invoice-col">
+                                                     
+                                <address>
+                                    <img src="{% static "images/users/" %}{{ task.owner.getUrlImage }}" width="40" class="img-circle" />
+                                    &nbsp;&nbsp;<strong>{{ task.owner.name }}</strong><br>
+                                    {{ task.description }} <br />
+                                    <span class="label label-primary">{{task.estimatedhours }}&nbsp;Hrs.</span> <br />
+                                    <strong>Start: </strong> {{ task.datestart |date:"M d Y"}}<br>
+                                    <strong>Finish: </strong> {{ task.dateend |date:"M d Y"}}<br>
+                                    <strong>{{ 2 }} </strong>days left
+                                    
+                                    
+                                </address>
+                            </div><!-- /.col -->
+
+
+
+                            <div class="col-sm-2 invoice-col text-center">
+
+                                <div style="position:absolute;left:0px;top:0px">
+                                    <input class="knob minute" data-min="0" data-max="100" data-displayInput=false data-width="90" data-height="90" data-thickness=".3" value="30" data-fgColor="#5bc0de" data-linecap=round>
+                                    <br /><span class="label label-info">30 %</span>&nbsp;<span class="label label-danger">30%</span> <br />
+                                    <strong>Adv / Time</strong>
+                                </div>
+                                <div style="position:absolute;left:15px;top:15px">
+                                    <input class="knob second" data-min="0" data-max="100"  data-fgColor="#d9534f" data-displayInput=false data-width="60" data-height="60" data-thickness=".4" value="70" data-linecap=round>
+
+                                </div>
+                            </div><!-- /.col -->
+                        </div><!-- /.row -->
+                        
+                        </section>
+                    </div>
+                    
+
+                    <div class="tab-pane" id="timeline" >
+                        <section id="new-2">
+                            <h3>Time Line</h3>
+                            {% include "task/timeline.html" %}
+                        </section>
+                    </div>
+
+                    <div class="tab-pane" id="comments" >
+                        <section id="new-3">
+                            {% include "tasks/comment.html" %}
+                        </section>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+                    <!-- info row -->
+                        
+
+    
+</section>
+{% include "tasks/history.html" %}
+
+

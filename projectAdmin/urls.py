@@ -30,7 +30,7 @@ urlpatterns = patterns('',
 
     url(r'^tasks/list','principal.task.taskList'),
     url(r'^tasks/new','principal.task.taskAdd'),
-    url(r'^tasks/show','principal.task.taskShow'),
+    url(r'^tasks/show','principal.task.showDetail'),
     url(r'^tasks/admin','principal.task.taskAdmin'),
     url(r'^tasks/save','principal.task.taskSave'),
 
@@ -46,7 +46,7 @@ urlpatterns = patterns('',
 
      ##############COMMENTS#########################
 
-    url(r'^comment/add','principal.comment.add'),
+    url(r'^comment/addfortask','principal.comment.addForTask'),
     url(r'^comment/list','principal.comment.listByTaskId'),
 
 

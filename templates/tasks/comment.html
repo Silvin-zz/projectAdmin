@@ -1,9 +1,13 @@
 {% load staticfiles %}
-<br />
 <div class="row">
-    <div class="col-xs-12 col-sm-8"><textarea style="width:100%;" rows="2" spellcheck="false" placeholder="Write Your Comment Here ..." id="txtTaskComment"></textarea></div>
-    <div class="col-xs-12 col-sm-1"><button id="btnAddTask" class="btn btn-info"><i class="glyphicon glyphicon-plus"></i>&nbsp;Add Comment</button></div>
+	<form id="frmComment">
+		<input type="hidden" id="token" name="csrfmiddlewaretoken" value="{{ csrf_token }}" />
+		<input type="hidden" id="taskId" name="taskId" value="{{ task.id }}">
+    	<div class="col-xs-12 col-sm-10"><textarea name="comment" id="comment" style="width:100%;" rows="3" spellcheck="false" placeholder="Write Your Comment Here ..." id="txtTaskComment"></textarea></div>
+    </form>
+    <div class="col-xs-12 col-sm-1"><button id="btnAddCommentTask" class="btn btn-info btn-flat"><i class="glyphicon glyphicon-plus"></i>&nbsp;Add Comment</button></div>
 </div>
+
 <h4> Comment History</h4>
 <br />
 <div id="taskCommentBody">

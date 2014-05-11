@@ -1,0 +1,99 @@
+    <div class="form-group">
+        <label class="col-sm-3 control-label">Title</label>
+        <div class="row">
+            <div class="col-xs-7">
+                <input type="text" name="title" id="title" class="form-control" />
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-3 control-label">Description</label>
+        <div class="row">
+            <div class="col-xs-7">
+                <textarea name="description" id="descrtiption" rows="3" style="width:100%;"></textarea>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label class="col-sm-3 control-label">Task Type</label>
+        <div class="row">
+            <div class="col-xs-7">
+                <select name="tasktype">
+                {% for type in tasktypes %}
+                <option value="{{ type.id }}">{{ type.name }}</option>
+                {% endfor %}
+                </select>
+
+            </div>
+        </div>
+    </div>    
+
+
+    <div class="form-group">
+        <label class="col-sm-3 control-label">Owner</label>
+        <div class="row">
+            <div class="col-xs-7">
+                <select name="owner">
+                {% for user in users %}
+                <option value="{{ user.id }}">{{ user.name }}</option>
+                {% endfor %}
+                </select>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-3 control-label">Priorityyyy</label>
+        <div class="row">
+            <div class="col-xs-4">
+                <select name="priorityId" id="priorityId">
+                {% for priority in priorities %}
+                <option value="{{ priority.id }}">{{ priority.name }}</option>
+                {% endfor %}
+                </select>
+            </div>
+            <div class="col-xs-4">
+                <label class="control-label">Is Critical</label>
+                <input type="checkbox" value="1" name="iscritical">
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <div class="form-group">
+        <label class="col-sm-3 control-label">Period</label>
+        <div class="row">
+            <div class="col-xs-4">
+                <label class="control-label">Date Start</label>
+                <input type="text" name="datestart" id="datestart" value="{{datestart}}" class="form-control" />
+            </div>
+            <div class="col-xs-4">
+                <label class="control-label">Date End</label>
+                <input type="text" name="dateend" id="dateend" value="{{dateend}}" class="form-control" />
+            </div>
+        </div>
+    </div>
+
+
+    
+
+    <div class="form-group">
+        <label class="col-sm-3 control-label">Estimated Hours</label>
+        <div class="row">
+            <div class="col-xs-2">
+                <input type="text" name="estimatedhours" id="estimatedhours" value="{{estimatedhours}}" class="form-control" />
+            </div>
+        </div>
+    </div>
+
+
+
+
+

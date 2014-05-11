@@ -17,6 +17,9 @@ from decimal import *
 
 from django.conf import settings
 import os
+import bson
+import datetime
+
 
 
 
@@ -130,8 +133,9 @@ class Project(Document):
         return difference.days
 
     def timePercent(self):
-        difference =  datetime.now() - self.datestart
-        return round((Decimal(100) / Decimal(self.dateDiff())) * difference.days,2)
+        # difference =  datetime.now() - self.datestart
+        # return round((Decimal(100) / Decimal(self.dateDiff())) * difference.days,2)
+        return(100)
 
     def endPercent(self):
         if(self.totaltasks >0):
@@ -147,8 +151,8 @@ class Project(Document):
 
 class Comment(EmbeddedDocument):
     description     = StringField()
-    date            = DateTimeField()
-    user            = ReferenceField(User)
+    date            = DateTimeField(default=datetime.datetime.now)
+    owner           = ReferenceField(User)
 
 
 
@@ -161,15 +165,20 @@ class TaskType(Document):
 
 
 
+class PriorityTask(Document):
+    name            = StringField()
+    number          = IntField()
+    classname       = StringField()
 
 
 
-class Task (EmbeddedDocument):
+
+
+class Task (Document):
     title           = StringField(max_length=2000)
     description     = StringField()
     key             = StringField(default= "")
     active          = BooleanField(default=True)
-    project         = ReferenceField(Project)
     owner           = ReferenceField(User)
     comments        = ListField(EmbeddedDocumentField(Comment))
     datestart       = DateTimeField()
@@ -183,12 +192,17 @@ class Task (EmbeddedDocument):
     usedhours       = IntField(default=0)
     iscritical      = BooleanField(default= False)
     finished        = BooleanField(default= False)
+    priority        = ReferenceField(PriorityTask)
     meta            = {'allow_inheritance': True}
+
+    def getShortDescription(self):
+        return (self.description[:130] + " ...") if(len(self.description)>130) else self.description
 
 
 
 class TargetType(Document):
     name            = StringField()
+
 
 
 
@@ -207,7 +221,10 @@ class Target(Document):
     comments        = ListField(EmbeddedDocumentField(Comment), required=False)
     finished        = BooleanField(default = False)
     meta            = {'allow_inheritance': True}
-    tasks           = ListField(EmbeddedDocumentField(Task), required=False)
+    tasks           = ListField(ReferenceField(Task), required=False)
+    def getShortDescription(self):
+        return (self.description[:130] + " ...") if(len(self.description)>130) else self.description
+    
 
     def taskCount(self):
         return(len(self.tasks))

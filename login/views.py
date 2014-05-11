@@ -20,6 +20,9 @@ from principal.models import User
 from principal.models import Menu
 from principal.models import Projecttype
 from principal.models import TargetType
+from principal.models import TaskType
+from principal.models import PriorityTask
+
 
 
 
@@ -27,7 +30,7 @@ from principal.models import TargetType
 
 def userList(request):
 
-    titulo = "Hola"
+    titulo = ""
     return render_to_response('userList.html',{'title' :titulo})
 
 
@@ -36,22 +39,48 @@ def userList(request):
 
 def home (request):
 
-    tg = TargetType()
-    tg.name="Entrega"
-    tg.save()
 
-    tg = TargetType()
-    tg.name="Analisis de Software"
-    tg.save()
+    # pr = PriorityTask()
+    # pr.name= "Fire"
+    # pr.number=1
+    # pr.classname="danger"
+    # pr.save()
 
 
-    tg = TargetType()
-    tg.name="Diseno de Software"
-    tg.save()
+    # pr = PriorityTask()
+    # pr.name= "High"
+    # pr.number=2
+    # pr.classname="warning"
+    # pr.save()
 
-    tg = TargetType()
-    tg.name="Testing de Software"
-    tg.save()
+    # pr = PriorityTask()
+    # pr.name= "Medium"
+    # pr.number=3
+    # pr.classname="info"
+    # pr.save()
+
+    # pr = PriorityTask()
+    # pr.name= "Low"
+    # pr.number=4
+    # pr.classname="success"
+    # pr.save()
+
+    #tg = TargetType()
+    #tg.name="Entrega"
+    #tg.save()
+
+    #tg = TargetType()
+    #tg.name="Analisis de Software"
+    #tg.save()
+
+
+    #tg = TargetType()
+    #tg.name="Diseno de Software"
+    #tg.save()
+
+    #tg = TargetType()
+    #tg.name="Testing de Software"
+    #tg.save()
 
 
     #user    = User()

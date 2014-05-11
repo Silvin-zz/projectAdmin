@@ -12,9 +12,11 @@ import time
 
 from principal.models  		import Target
 from principal.models  		import TargetType
+from principal.models  		import TaskType
 from principal.models  		import User
 from principal.models  		import Project
 from business.project       import BProject
+from principal.models	 	import PriorityTask
 
 
 
@@ -83,11 +85,17 @@ def targetSave(request):
 
 def targetDetail(request):
 	
-
+	users 						= User.objects()
+	tasktypes					= TaskType.objects()
+	priority 					= PriorityTask.objects()
 	targetobject   				= Target.objects(pk=request.POST["targetid"])
 	print(targetobject)
 	return render_to_response('target/detail.html', {
-        "target"      :   targetobject[0],
+        "target"      	:   targetobject[0],
+        "users"			:	users,
+        "tasktypes"		:	tasktypes,
+        "priorities"	: 	priority,
+
     },context_instance = RequestContext(request))
 
 

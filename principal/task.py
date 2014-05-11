@@ -11,7 +11,19 @@ import json
 from business.task import BTask
 from business.user import BUser
 from principal.models import AuthUser
+
+
+## models necesaryes from work with a TASK, sorry for my bad english :(
+
+
+
 from principal.models import Task
+from principal.models import Target
+from principal.models import User
+from principal.models import TaskType
+from principal.models import PriorityTask
+
+
 
 import time
 
@@ -34,9 +46,12 @@ def taskAdd(request):
     
     
     
-def taskShow(request):
-    taskObject = Task.objects.get(id=request.POST["taskid"])
-    return render_to_response('tasks/show.html', {"task": taskObject}, context_instance=RequestContext(request))
+def showDetail(request):
+    print("Esta es el task")
+    print(request.POST["taskId"])
+    taskObject = Task.objects(pk=request.POST["taskId"]).get()
+    print(taskObject)
+    return render_to_response('tasks/show.html', {"task":taskObject}, context_instance=RequestContext(request))
     
     
     
@@ -49,13 +64,45 @@ def taskAdmin(request):
     
     
 def taskSave(request):
+
+
+
+    #targetObject                = 
+    tasktypeObject              = TaskType.objects(pk=request.POST["tasktype"]).get()
+    userObject                  = User.objects(pk=request.POST["owner"]).get()
+    priorityObject              = PriorityTask.objects(pk=request.POST["priorityId"]).get()
+    taskObject                  = Task()
+
+    print("Prioridad")
+    print(priorityObject.name)
+    print(priorityObject.id)
+    iscritical                  = False
+    if("iscritical" in request.POST):
+        iscritical = True
+
+    taskObject.title            = request.POST["title"]
+    taskObject.description      = request.POST["description"]
+    taskObject.datestart        = request.POST["datestart"]
+    taskObject.dateend          = request.POST["dateend"]
+    taskObject.estimatedhours   = request.POST["estimatedhours"]
+    taskObject.title            = request.POST["title"]
+    taskObject.iscritical       = iscritical
+    taskObject.tasktype         = tasktypeObject
+    taskObject.owner            = userObject
+    taskObject.priority         = priorityObject
+    taskObject.save()
     
-    taskObject  = BTask();
-    if taskObject.saveProgress(request.POST) == True :
-        message                     = "The Progress Task  has Saved Correctly"
-        request.session["WNotify"]  = {"message": message, "type": "success", "title": "Update Data Task"}
-    else:
-        message                     = "The Progress Task Do Not has been Saved"
-        request.session["WNotify"]  = {"message": message, "type": "error", "title": "Update Data Task"}
-    return HttpResponseRedirect("list")
+    Target.objects(pk=request.POST["targetId"]).update_one(push__tasks=taskObject)
+    return render_to_response('task/intable.html', {"task": taskObject}, context_instance=RequestContext(request))
+
+
+
+    # taskObject  = BTask();
+    # if taskObject.saveProgress(request.POST) == True :
+    #     message                     = "The Progress Task  has Saved Correctly"
+    #     request.session["WNotify"]  = {"message": message, "type": "success", "title": "Update Data Task"}
+    # else:
+    #     message                     = "The Progress Task Do Not has been Saved"
+    #     request.session["WNotify"]  = {"message": message, "type": "error", "title": "Update Data Task"}
+    # return HttpResponseRedirect("list")
     
