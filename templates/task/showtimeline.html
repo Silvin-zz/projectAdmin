@@ -1,0 +1,27 @@
+                        
+<div class="col-md-12">
+	<!-- The time line -->
+    <ul class="timeline">
+    	<!-- timeline time label -->
+    	{% for timeline in timelines %}
+	        <li class="time-label">
+	        	<span class="bg-green">{{ timeline.date }}</span>
+	        </li>
+	        <!-- /.timeline-label -->
+	        <!-- timeline item -->
+	        <li>
+	        	<i class="glyphicon glyphicon-link bg-blue"></i>
+	            <div class="timeline-item">
+	            	<span class="time"><i class="fa fa-clock-o"></i>{{ timeline.date }} </span>
+	                <div class="timeline-body">
+	                	{{ timeline.activity }}
+	                </div>
+	                <div class='timeline-footer'>
+	                	<strong>Reference 1 </strong>:&nbsp;<a href="{{ timeline.urlreference1 }}" target="_blank">{{ timeline.urlreference1 }} </a><br />
+	                	<strong>Reference 2 </strong>:&nbsp;<a href="{{ timeline.urlreference2 }}" target="_blank">{{ timeline.urlreference2 }} </a>
+	                </div>
+	            </div>
+	        </li>
+	    {% endfor %}
+    </ul>
+</div>

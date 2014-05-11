@@ -1,14 +1,19 @@
 {% load staticfiles %}
-<div class="row">
-            <div class="col-xs-2 text-right"><strong>Hours Spend:</strong></div>
-            <div class="col-xs-1 text-left">
-                <input type="number" class="form-control" placeholder="" name="occupiedhours" id="occupiedhours" min="1" value="{{ task.occupiedhours }}">
+
+<div class="callout callout-info">
+    <form id="frmTimeLine" action="#">
+        <input type="hidden" id="token" name="csrfmiddlewaretoken" value="{{ csrf_token }}" />
+        <div class="row">
+            
+            <div class="col-xs-2 text-left">
+                <strong>Hours Spend:</strong>
+                <input type="number" class="form-control" placeholder="" name="occupiedhours" id="occupiedhours" min="1" />
             </div>
             
             
-            <div class="col-xs-1 text-right"><strong>End %:</strong></div>
-            <div class="col-xs-1 text-left">
-                   
+            
+            <div class="col-xs-2 text-left">
+                 <strong>End %:</strong>  
                  <select class="form-control" name="endpercent" id="endpercent">
                     {% for i in "x"|rjust:"100"|make_list   %}
                         
@@ -17,11 +22,37 @@
                     {% endfor %}
                 </select>
             </div>
-            <div class="col-xs-1 text-right"><strong>Activity:</strong></div>
-            <div class="col-xs-3 text-left">
-                <textarea style="width:100%;" rows="2"></textarea>
+            
+            <div class="col-xs-8 text-left">
+                <strong>Activity:</strong>
+                <textarea name="activity" style="width:100%;" rows="2"></textarea>
             </div>
-            <div class="col-xs-3 col-sm-2">
-                <button class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> &nbsp;Save Activity</button>
+            
+        </div>
+        <div class="row">
+            <div class="row col-xs-10 text-left">
+                <div class="col-xs-12 text-left">
+                    <strong>Url Reference 1:</strong>
+                    <input type="text" class="form-control" placeholder="" name="reference1" id="reference1" min="1" value="">
+                </div>
+                <div class="col-xs-12 text-left">
+                    <strong>Url Reference 2:</strong>
+                    <input type="text" class="form-control" placeholder="" name="reference2" id="reference2" min="1" value="">
+                </div>
             </div>
+            <div class="row col-xs-2 text-right">
+                <div class="col-xs-12 col-sm-2">
+                        <br />
+                        <button class="btn btn-primary" type="button" id="btnTimeLineSave"><i class="glyphicon glyphicon-floppy-save"></i> &nbsp;Save Activity</button>
+                    </div>
+            </div>
+        </div>
+
+        <input type="hidden" id="timeLineTaskId" name="taskId" value="{{ task.id }}">
+    </form>
+</div>
+<br />
+
+<div class="row" id="timeLineContent">
+
 </div>

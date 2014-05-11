@@ -149,10 +149,6 @@ class Project(Document):
 
 
 
-class Comment(EmbeddedDocument):
-    description     = StringField()
-    date            = DateTimeField(default=datetime.datetime.now)
-    owner           = ReferenceField(User)
 
 
 
@@ -169,6 +165,29 @@ class PriorityTask(Document):
     name            = StringField()
     number          = IntField()
     classname       = StringField()
+
+
+
+############## ATTR FROM TASK
+
+
+class Comment(EmbeddedDocument):
+    description     = StringField()
+    date            = DateTimeField(default=datetime.datetime.now)
+    owner           = ReferenceField(User)
+
+
+
+
+
+class TimeLine(EmbeddedDocument):
+    hoursspend      = IntField()
+    activity        = StringField()
+    endpercent      = IntField()
+    urlreference1   = StringField()
+    urlreference2   = StringField()
+    dateadd         = DateTimeField(default=datetime.datetime.now)
+    date            = DateTimeField(default=datetime.datetime.now)
 
 
 
@@ -189,14 +208,25 @@ class Task (Document):
     tasktype        = ReferenceField(TaskType)
     endpercent      = IntField(default=0)
     estimatedhours  = IntField(default=0)
+    hoursspend      = IntField(default=0)
     usedhours       = IntField(default=0)
     iscritical      = BooleanField(default= False)
     finished        = BooleanField(default= False)
     priority        = ReferenceField(PriorityTask)
+    timeline        = ListField(EmbeddedDocumentField(TimeLine))
     meta            = {'allow_inheritance': True}
 
     def getShortDescription(self):
         return (self.description[:130] + " ...") if(len(self.description)>130) else self.description
+
+
+    def updateHoursSpend(self, newhours):
+        self.usedhours=self.usedhours + int(newhours)
+        self.save()
+
+    def updateEndPercent(self, endpercent):
+        self.endpercent=int(endpercent)
+        self.save()
 
 
 

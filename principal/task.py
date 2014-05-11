@@ -22,6 +22,7 @@ from principal.models import Target
 from principal.models import User
 from principal.models import TaskType
 from principal.models import PriorityTask
+from principal.models import TimeLine
 
 
 
@@ -47,10 +48,7 @@ def taskAdd(request):
     
     
 def showDetail(request):
-    print("Esta es el task")
-    print(request.POST["taskId"])
     taskObject = Task.objects(pk=request.POST["taskId"]).get()
-    print(taskObject)
     return render_to_response('tasks/show.html', {"task":taskObject}, context_instance=RequestContext(request))
     
     
@@ -59,7 +57,29 @@ def showDetail(request):
     
 def taskAdmin(request):
     return render_to_response('tasks/show2.html', {}, context_instance=RequestContext(request))
-    
+
+
+
+
+
+def saveTimeLine(request):
+    print("llegamos")
+    tmObject                = TimeLine()
+    tmObject.hoursspend     = request.POST["occupiedhours"]
+    tmObject.activity       = request.POST["activity"]
+    tmObject.endpercent     = request.POST["endpercent"]
+    tmObject.urlreference1  = request.POST["reference1"]
+    tmObject.urlreference2  = request.POST["reference2"]
+    Task.objects(pk=request.POST["taskId"]).update_one(push__timeline=tmObject)
+
+    taskObject              = Task.objects(pk=request.POST["taskId"]).order_by('-timeline__date').get()
+    taskObject.updateEndPercent(tmObject.endpercent)
+    taskObject.updateHoursSpend(tmObject.hoursspend)
+    timelines               = taskObject.timeline
+    return render_to_response('task/showtimeline.html', {"timelines": timelines}, context_instance=RequestContext(request))
+
+
+
     
     
     

@@ -29,6 +29,7 @@ def addForTask(request):
 def listByTaskId(request):
     
     
-    taskObject       = Task.objects(pk=request.POST["taskid"]).get()
-    return render_to_response('comments/showall.html', {"comments": taskObject.comments}, context_instance=RequestContext(request))
+    taskObject       = Task.objects(pk=request.POST["taskid"]).order_by('-comments__date').get()
+    comments         = taskObject.comments
+    return render_to_response('comments/showall.html', {"comments": comments}, context_instance=RequestContext(request))
      
