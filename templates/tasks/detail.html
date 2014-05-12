@@ -1,5 +1,5 @@
 
-{% load staticfiles %}
+
 
 <section class="content invoice box box-info">
 
@@ -25,8 +25,8 @@
 
                     <li class="active"><a href="#info" data-toggle="tab"><i class="glyphicon glyphicon-list-alt"></i>&nbsp; &nbsp;Information</a></li>
 
-                    <li><a href="#timeline" data-toggle="tab"><i class="glyphicon glyphicon-list-alt"></i>&nbsp; &nbsp;Time Line</a></li>
-                    <li><a href="#comments" data-toggle="tab"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;Comments</a></li>
+                    <li><a href="#timeline" data-toggle="tab"><i class="glyphicon glyphicon-pencil"></i>&nbsp; &nbsp;Time Line</a></li>
+                    <li><a href="#comments" data-toggle="tab"><i class="glyphicon glyphicon-comment"></i>&nbsp;&nbsp;Comments</a></li>
                     <li><a href="#comments" data-toggle="tab"><i class="glyphicon glyphicon-book"></i>&nbsp;&nbsp;Documents</a></li>
                     <li><a href="#comments" data-toggle="tab"><i class="glyphicon glyphicon-th"></i>&nbsp;&nbsp;Knowledge Tips</a></li>
                     <li><a href="#comments" data-toggle="tab"><i class="glyphicon glyphicon-phone-alt"></i>&nbsp;&nbsp;Change Request</a></li>
@@ -36,39 +36,7 @@
                 <div class="tab-content">
                     <div class="tab-pane active" id="info" >
                         <section id="new">
-                            <br />
-                            <div class="row invoice-info">
-
-                            <div class="col-sm-10 invoice-col">
-                                                     
-                                <address>
-                                    <img src="{% static "images/users/" %}{{ task.owner.getUrlImage }}" width="40" class="img-circle" />
-                                    &nbsp;&nbsp;<strong>{{ task.owner.name }}</strong><br>
-                                    {{ task.description }} <br />
-                                    <span class="label label-primary">{{task.estimatedhours }}&nbsp;Hrs.</span> <br />
-                                    <strong>Start: </strong> {{ task.datestart |date:"M d Y"}}<br>
-                                    <strong>Finish: </strong> {{ task.dateend |date:"M d Y"}}<br>
-                                    <strong>{{ 2 }} </strong>days left
-                                    
-                                    
-                                </address>
-                            </div><!-- /.col -->
-
-
-
-                            <div class="col-sm-2 invoice-col text-center">
-
-                                <div style="position:absolute;left:0px;top:0px">
-                                    <input class="knob minute" data-min="0" data-max="100" data-displayInput=false data-width="90" data-height="90" data-thickness=".3" value="30" data-fgColor="#5bc0de" data-linecap=round>
-                                    <br /><span class="label label-info">30 %</span>&nbsp;<span class="label label-danger">30%</span> <br />
-                                    <strong>Adv / Time</strong>
-                                </div>
-                                <div style="position:absolute;left:15px;top:15px">
-                                    <input class="knob second" data-min="0" data-max="100"  data-fgColor="#d9534f" data-displayInput=false data-width="60" data-height="60" data-thickness=".4" value="70" data-linecap=round>
-
-                                </div>
-                            </div><!-- /.col -->
-                        </div><!-- /.row -->
+                            {% include "task/resume.html" %}
                         
                         </section>
                     </div>
@@ -91,14 +59,8 @@
                 </div>
             </div>
         </div>
-    </div>
-
-
-                    <!-- info row -->
-                        
-
-    
+    </div>    
 </section>
-{% include "tasks/history.html" %}
+
 
 

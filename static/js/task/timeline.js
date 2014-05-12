@@ -4,13 +4,13 @@ $(document).ready(function(){
 		@bravocado
 	 **/
 	$("#btnTimeLineSave").click(function(){
-		alert("iniciamos");
 		$.ajax({  
       
 	        url   : "/tasks/savetimeline",
 	        type    : "POST",
 	        data    : $("#frmTimeLine").serialize(),
 	        success : function(result){
+	        	alert(result);
 	          	$("#timeLineContent").html(result);
 	          }
 	    });

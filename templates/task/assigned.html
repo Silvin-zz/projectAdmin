@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %} <h2>My Assigned Tasks</h2>
+{% endblock title %}
+{% block content %}
+
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th width="50%">Task</th>
+				<th>Period</th>
+				<th>Progress</th>
+				<th width="100">Options</th>
+			</tr>
+		</thead>
+		<tbody>
+		{% for task in tasks %}
+			<tr>
+				<td><span class="label label-{{ task.priority.classname }}">{{ task.priority.name }} Priority</span> &nbsp;<strong>{{ task.title }}</strong> <br />{{ task.getShortDescription }}</td>
+				<td>
+					{{task.datestart|date:"M d Y"}} <br />  {{task.dateend|date:"M d Y"}}
+				</td>
+				<td>
+				
+					<div class="col-xs-10">
+						<div class="progress xs progress-striped active">
+		                    <div class="progress-bar progress-bar-info" style="width: {{ task.endpercent }}%"></div>
+		                </div>
+					</div>
+					<div class="col-xs-2">
+						<span class="badge bg-green">{{task.endpercent}} %</span></td>
+					</div>	
+				</td>
+				<td class="text-center">
+					
+					<button class="btn btn-xs btn-primary btn-flat taskdetail" title="Show" lang="{{ task.id }}"><i class="glyphicon glyphicon-search white"></i></button>
+				</td>
+			</tr>
+
+		{% endfor %}
+		</tbody>
+	</table>
+	<form action="{% url "principal.task.showDetail" %}" method="POST" class="form-horizontal" role="form" id="frmTaskDetail">
+        <input type="hidden" id="token" name="csrfmiddlewaretoken" value="{{ csrf_token }}" />
+        <input type="hidden" id="taskId" name="taskId" value="" />              
+    </form>
+{% endblock content %}
+
+{% block scripts %}
+  <script src="{% static "js/task/mytasks.js" %}"></script>
+{% endblock scripts %}

@@ -34,6 +34,8 @@ urlpatterns = patterns('',
     url(r'^tasks/admin'         ,'principal.task.taskAdmin'),
     url(r'^tasks/savetimeline'  ,'principal.task.saveTimeLine'),
     url(r'^tasks/save'          ,'principal.task.taskSave'),
+    url(r'^tasks/mytasks'       ,'principal.task.myTasks'),
+    
     
 
     

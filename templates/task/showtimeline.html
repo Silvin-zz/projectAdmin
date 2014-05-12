@@ -5,14 +5,15 @@
     	<!-- timeline time label -->
     	{% for timeline in timelines %}
 	        <li class="time-label">
-	        	<span class="bg-green">{{ timeline.date }}</span>
+	        	<span class="bg-red">{{ timeline.date |date:"M d Y" }}</span>
 	        </li>
 	        <!-- /.timeline-label -->
 	        <!-- timeline item -->
 	        <li>
 	        	<i class="glyphicon glyphicon-link bg-blue"></i>
 	            <div class="timeline-item">
-	            	<span class="time"><i class="fa fa-clock-o"></i>{{ timeline.date }} </span>
+	            	<span class="time"><i class="fa fa-clock-o"></i>{{ timeline.date |date:"H:i" }} </span>
+	            	<h3 class="timeline-header">{{timeline.owner.name }}  <label class="label label-success">{{timeline.endpercent}} % End </label></h3>
 	                <div class="timeline-body">
 	                	{{ timeline.activity }}
 	                </div>

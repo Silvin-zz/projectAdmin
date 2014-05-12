@@ -44,19 +44,27 @@ def taskAdd(request):
     taskObject  = BTask();
     return render_to_response('tasks/list.html', {"tasks":taskObject.getAll(True)}, context_instance=RequestContext(request))
     
-    
-    
-    
-def showDetail(request):
-    taskObject = Task.objects(pk=request.POST["taskId"]).get()
-    return render_to_response('tasks/show.html', {"task":taskObject}, context_instance=RequestContext(request))
-    
-    
-    
-    
+
+
     
 def taskAdmin(request):
     return render_to_response('tasks/show2.html', {}, context_instance=RequestContext(request))
+
+
+
+
+def myTasks(request):
+
+    tasks   = Task.objects(owner=request.session["userid"], finished=False).order_by("-datestart", "priority__number")
+    return render_to_response('task/assigned.html', {"tasks":tasks}, context_instance=RequestContext(request))
+
+
+
+
+def showDetail(request):
+    taskObject  = Task.objects(pk=request.POST["taskId"]).order_by('-timelinasdadasde__date').get()
+    timelines   = taskObject.timeline
+    return render_to_response('tasks/show.html', {"timelines": timelines, "task":taskObject}, context_instance=RequestContext(request))
 
 
 
@@ -70,9 +78,10 @@ def saveTimeLine(request):
     tmObject.endpercent     = request.POST["endpercent"]
     tmObject.urlreference1  = request.POST["reference1"]
     tmObject.urlreference2  = request.POST["reference2"]
+    tmObject.owner          = User.objects(pk=request.session["userid"]).get()
     Task.objects(pk=request.POST["taskId"]).update_one(push__timeline=tmObject)
 
-    taskObject              = Task.objects(pk=request.POST["taskId"]).order_by('-timeline__date').get()
+    taskObject              = Task.objects(pk=request.POST["taskId"]).get()
     taskObject.updateEndPercent(tmObject.endpercent)
     taskObject.updateHoursSpend(tmObject.hoursspend)
     timelines               = taskObject.timeline

@@ -4,9 +4,18 @@
         <em style="color:#747474; font-size:10px;">{{ target.getShortDescription }}</em>
     </td>
     <td>{{ target.owner.name }}</td>
-    <td>{{ target.taskCount }}</td>
-    <td>{{ target.endpercent }}</td>
+    <td><span class="badge bg-yellow">{{ target.taskCount }}</span></td>
     <td>
+        <div class="col-xs-10">
+            <div class="progress xs progress-striped active">
+                <div class="progress-bar progress-bar-info" style="width: {{ target.getEndPercent }}%"></div>
+            </div>
+        </div>
+        <div class="col-xs-2">
+            <span class="badge bg-green">{{target.getEndPercent}} %</span></td>
+        </div>  
+    </td>
+    <td class="text-right">
     	<button class="btn btn-xs btn-default btn-flat targetdetail" title="Show" lang="{{ target.id }}"><i class="glyphicon glyphicon-search white"></i></button>
     	<button class="btn btn-xs btn-default btn-flat" title="Remove" lang="{{ target.id }}"><a href="#" class="targetremove"><i class="glyphicon glyphicon-remove"></i></a></button>
     </td>

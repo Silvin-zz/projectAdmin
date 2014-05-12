@@ -133,9 +133,16 @@ class Project(Document):
         return difference.days
 
     def timePercent(self):
-        # difference =  datetime.now() - self.datestart
-        # return round((Decimal(100) / Decimal(self.dateDiff())) * difference.days,2)
-        return(100)
+        difference      = self.dateend - self.datestart
+        realdifference  = datetime.datetime.now() - self.datestart
+        if(self.datestart.date() > datetime.datetime.now().date() ):
+            print("Entramos 1")
+            return 0
+        if(datetime.datetime.now().date() >= self.dateend.date()):
+            print("Entramos 2")
+            return 100
+        print("Entramos 3")
+        return round(float(float(100) / float(difference.days)) * float(realdifference.days))
 
     def endPercent(self):
         if(self.totaltasks >0):
@@ -188,6 +195,7 @@ class TimeLine(EmbeddedDocument):
     urlreference2   = StringField()
     dateadd         = DateTimeField(default=datetime.datetime.now)
     date            = DateTimeField(default=datetime.datetime.now)
+    owner           = ReferenceField(User)
 
 
 
@@ -199,7 +207,7 @@ class Task (Document):
     key             = StringField(default= "")
     active          = BooleanField(default=True)
     owner           = ReferenceField(User)
-    comments        = ListField(EmbeddedDocumentField(Comment))
+    comments        = SortedListField(EmbeddedDocumentField(Comment), ordering="date")
     datestart       = DateTimeField()
     dateend         = DateTimeField()
     realdatestart   = DateTimeField()
@@ -213,7 +221,7 @@ class Task (Document):
     iscritical      = BooleanField(default= False)
     finished        = BooleanField(default= False)
     priority        = ReferenceField(PriorityTask)
-    timeline        = ListField(EmbeddedDocumentField(TimeLine))
+    timeline        = SortedListField(EmbeddedDocumentField(TimeLine), ordering="dateadd")
     meta            = {'allow_inheritance': True}
 
     def getShortDescription(self):
@@ -227,6 +235,19 @@ class Task (Document):
     def updateEndPercent(self, endpercent):
         self.endpercent=int(endpercent)
         self.save()
+
+    def getTaskLive(self):
+        difference      = self.dateend - self.datestart
+        realdifference  = datetime.datetime.now() - self.datestart
+        if(self.datestart.date() > datetime.datetime.now().date() ):
+            print("Entramos 1")
+            return 0
+        if(datetime.datetime.now().date() >= self.dateend.date()):
+            print("Entramos 2")
+            return 100
+        print("Entramos 3")
+        return round(float(float(100) / float(difference.days)) * float(realdifference.days))
+
 
 
 
@@ -258,6 +279,15 @@ class Target(Document):
 
     def taskCount(self):
         return(len(self.tasks))
+
+    def getEndPercent(self):
+
+        realpercent     =0
+        for task in self.tasks:
+            realpercent = realpercent + int(task.endpercent)
+        totalpercent    = len(self.tasks) * 100
+        return (0) if(realpercent <= 0) else round((float(float(100)/ float(totalpercent))) * float(realpercent))
+
 
     
     
