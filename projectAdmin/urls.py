@@ -38,6 +38,11 @@ urlpatterns = patterns('',
     
     
 
+    #######################DOCUMENTS, WITH GOOGLE SOURE#########################
+
+    url(r'^document/show'          ,'principal.document.showDocuments'),
+    
+
     
 
 
