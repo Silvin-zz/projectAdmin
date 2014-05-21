@@ -7,7 +7,7 @@ from business.Auth		import googleAuth
 from apiclient.http 	import MediaFileUpload
 import json
 
-import gdata.docs.service
+
 
 
 def showDocuments(request):
@@ -16,17 +16,38 @@ def showDocuments(request):
 	# documents_feed 	= client.GetDocumentListFeed()
 	token 		= googleAuth()
 	service 	=token.getToken()
-	resource = {
-		'title': "Inventario",
-  		"mimeType": "application/vnd.google-apps.folder",
-  		"parents": [{"id": "0B5Z_u9bE4oZlTTVsQVpqSEc3TlE"}]
-
-
+	resource = { 'title': 'Datos Ventas', "mimeType": "application/vnd.google-apps.folder" }
+	
+    resource = {
+        'title': "Datos Ventas",
+        "mimeType": "application/vnd.google-apps.folder",
   	}
-  	# result = service.files().list().execute()
-  	result = service.files().insert(
+  	
+  	
+  	newdoc = service.files().insert(
         body=resource,
     ).execute()
+    
+    new_permission = {
+  	    'value': "singleprojects@gmail.com",
+  	    'type': "user",
+  	    'role': "owner",
+    }
+    
+	
+	result = service.permissions().insert(
+        fileId= newdoc['id'], body=new_permission).execute()
+        
+        
+    result = service.files().list().execute()
+	
+  	
+    
+  	
+  	
+  	#result = service.files().insert(
+    #    body=resource,
+    #).execute()
     # Respond with the new file id as JSON.
     # self.RespondJSON(resource['id'])
 	
