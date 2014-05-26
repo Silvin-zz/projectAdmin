@@ -41,6 +41,9 @@ urlpatterns = patterns('',
     #######################DOCUMENTS, WITH GOOGLE SOURE#########################
 
     url(r'^document/show'          ,'principal.document.showDocuments'),
+    url(r'^document/getList'       ,'principal.document.getList'),
+    url(r'^document/newFolder'     ,'principal.document.newFolder'),
+    
     
 
     

@@ -37,15 +37,6 @@ class AuthUser(Document):
     first_name  = StringField(max_length=2000)
     meta = {'allow_inheritance': True}
 
-
-
-
-
-
-
-
-
-
 #Manejo de Menus
 
 
@@ -110,6 +101,7 @@ class Project(Document):
 
     title           = StringField(max_length=2000)
     description     = StringField()
+    code            = StringField()
     active          = BooleanField(default= True)
     client          = ReferenceField(Client)
     typeproject     = ReferenceField(Projecttype)
@@ -126,6 +118,7 @@ class Project(Document):
     priority        = IntField(default=1)
     meta            = {'allow_inheritance': True}
     key             = StringField(default="")
+    folderreference = StringField(default="")
 
     
     def dateDiff(self):
@@ -295,6 +288,16 @@ class Target(Document):
 class Taskstatus(Document):
     name            = StringField(max_length=2000)
     meta            = {'allow_inheritance': True}
+
+
+class driveConfiguration(Document):
+
+    active          = BooleanField(default=True)
+    datestart       = DateTimeField(default=datetime.datetime.now)
+    token           = StringField()
+    credential      = StringField()
+
+
 
     
     

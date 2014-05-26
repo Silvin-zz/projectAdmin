@@ -1198,6 +1198,19 @@ body > .header .logo .icon {
   font-size: 90px;
   color: rgba(0, 0, 0, 0.15);
 }
+
+
+.small-box .icon2 {
+  position: absolute;
+  top: auto;
+  bottom: 0px;
+  right: 5px;
+  z-index: 0;
+  font-size: 90px;
+  margin: 0px auto;
+  color: rgba(0, 0, 0, 0.15);
+}
+
 .small-box:hover {
   text-decoration: none;
   color: #f9f9f9;
@@ -1219,6 +1232,26 @@ body > .header .logo .icon {
   -moz-animation-timing-function: ease;
   -moz-animation-fill-mode: forwards;
 }
+
+
+.small-box:hover .icon2 {
+  animation-name: tansformAnimation;
+  animation-duration: .5s;
+  animation-iteration-count: 1;
+  animation-timing-function: ease;
+  animation-fill-mode: forwards;
+  -webkit-animation-name: tansformAnimation;
+  -webkit-animation-duration: .5s;
+  -webkit-animation-iteration-count: 1;
+  -webkit-animation-timing-function: ease;
+  -webkit-animation-fill-mode: forwards;
+  -moz-animation-name: tansformAnimation;
+  -moz-animation-duration: .5s;
+  -moz-animation-iteration-count: 1;
+  -moz-animation-timing-function: ease;
+  -moz-animation-fill-mode: forwards;
+}
+
 @keyframes tansformAnimation {
   from {
     font-size: 90px;

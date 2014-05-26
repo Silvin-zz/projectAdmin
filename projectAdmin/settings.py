@@ -14,6 +14,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 
 
+BASE_EMAIL = "singleprojects@gmail.com"
+
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/

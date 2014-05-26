@@ -1198,6 +1198,21 @@ body > .header .logo .icon {
   font-size: 90px;
   color: rgba(0, 0, 0, 0.15);
 }
+
+
+.small-box .icon2 {
+  position: absolute;
+  left: 30%;
+  top: auto;
+  bottom: 0px;
+  right: 0px;
+  z-index: 0;
+  font-size: 90px;
+  color: rgba(0, 0, 0, 0.15);
+}
+
+
+
 .small-box:hover {
   text-decoration: none;
   color: #f9f9f9;
@@ -1219,6 +1234,10 @@ body > .header .logo .icon {
   -moz-animation-timing-function: ease;
   -moz-animation-fill-mode: forwards;
 }
+
+
+
+
 @keyframes tansformAnimation {
   from {
     font-size: 90px;
@@ -3401,4 +3420,9 @@ fieldset[disabled] .btn-vk.active {
 .btn-vk .badge {
   color: #587ea3;
   background-color: #ffffff;
+}
+.drivedocument:hover{
+    background: red
+    background-color: red;  
+
 }

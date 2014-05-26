@@ -1,5 +1,61 @@
 {% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}
+	Documents List
+{% endblock title %}
+{% block breadcrumb %}
+	 
+{% endblock breadcrumb %}
+
 {% block content %}
-    <h2>Documents List</h2>
-    {{ documents }}
-{% endblock %}
+    <form action="#" class="form-horizontal" role="form" id="frmQuery">
+        <input type="hidden" id="token" name="csrfmiddlewaretoken" value="{{ csrf_token }}" />
+        <input type="hidden" id="folderId" name="folderId" value="root" />
+    </form>
+
+    <div class="row">
+	    <div class="col-lg-10 col-xs-10" >
+	    	<button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-plus"></i> &nbsp; <i class="glyphicon glyphicon-folder-open"></i></button>
+	    </div>
+	</div>
+    <BR />
+
+    <div class="row" id="driveList">
+ 
+    </div>
+
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	        <h4 class="modal-title" id="myModalLabel">New Folder</h4>
+	      </div>
+	      <div class="modal-body">
+	        	<form action="#" class="form-horizontal" role="form" id="frmNewFolder">
+                  	<input type="hidden" id="token" name="csrfmiddlewaretoken" value="{{ csrf_token }}" />
+                  	<input type="hidden" id="folderIdParent" name="folderIdParent" value="root" />
+	            	<div class="form-group">
+		                <label class="col-sm-2 control-label">Title Folder:</label>
+		                <div class="col-xs-9">
+		                  <input type="text" name="title" required id="title" class="form-control">
+		                </div>
+		            </div>
+		        </form>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-primary" id="createFolder">Create</button>
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	        
+	      </div>
+	    </div>
+	  </div>
+	</div>
+    
+{% endblock content %}
+
+
+{% block scripts %}
+  <script src="{% static "js/document/show.js" %}"></script>
+{% endblock scripts %}

@@ -111,6 +111,7 @@ def home (request):
             request.session["profile"]      = users[0].profile
             request.session["userid"]       = str(users[0].id)
             request.session["userimage"]    = users[0].getUrlImage()
+            request.session["email"]        = users[0].email
             request.session["menu"]         = ""
             request.session["WNotify"]      = {"message":"", "type":"", "title":""}
             return HttpResponseRedirect("/dashboard")
