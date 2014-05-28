@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}
+	Upload Files to Google Drive Project's Account 
+{% endblock title %}
+{% block breadcrumb %}
+	 
+{% endblock breadcrumb %}
+
+{% block content %}
+ <input type="file" id="filePicker" />
+ 
+ <form action="#" class="form-horizontal" role="form" id="frmQuery">
+    <input type="hidden" id="token" name="csrfmiddlewaretoken" value="{{ csrf_token }}" />
+</form>        
+{% endblock content %}
+
+
+{% block scripts %}
+  <script type="text/javascript" src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
+  <script type="text/javascript" src="{% static "js/document/upload.js" %}"></script>
+{% endblock scripts %}

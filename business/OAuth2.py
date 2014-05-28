@@ -202,6 +202,22 @@ def getAPIService():
   http = httplib2.Http()
   http = credentials.authorize(http)
   return build('drive', 'v2', http=http)
+  
+  
+  
+def getAPICredential():
+  print("Iniciamos la busqueda")
+  objs       = driveConfiguration.objects()
+  obj        = objs[0]
+  if(obj.active==True):
+    print("ya hay una credencial")
+    credentials=oauth2client.client.Credentials.new_from_json(obj.credential)
+    print("Obtuvimos la crdencial")
+  else:
+    print("Token:" + objs[0].token)
+    credentials =get_credentials(objs[0].token,2)
+  print(credentials.to_json())
+  return credentials
 
 
 def get_credentials(authorization_code, state):

@@ -43,6 +43,8 @@ urlpatterns = patterns('',
     url(r'^document/show'          ,'principal.document.showDocuments'),
     url(r'^document/getList'       ,'principal.document.getList'),
     url(r'^document/newFolder'     ,'principal.document.newFolder'),
+    url(r'^document/upload'        ,'principal.document.upload'),
+    url(r'^document/getToken'      ,'principal.document.getProjectAccountToken'),
     
     
 

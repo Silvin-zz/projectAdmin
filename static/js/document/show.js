@@ -6,6 +6,7 @@ $(document).ready(function(){
 	addBreadCrum("root", "ROOT");
 
 	function getDriveList(){
+	    $("#driveList").html('<div class="alert alert-success col-xs-4">looking data .... </div>');
 		$.ajax({  
 			url			: "/document/getList",
 			type		: "POST",

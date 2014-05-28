@@ -22,6 +22,7 @@ from principal.models import Projecttype
 from principal.models import TargetType
 from principal.models import TaskType
 from principal.models import PriorityTask
+from principal.models import driveConfiguration
 
 
 
@@ -38,6 +39,12 @@ def userList(request):
 
 
 def home (request):
+    
+    # drive  = driveConfiguration()
+    # drive.credential="{\"_module\": \"oauth2client.client\", \"token_expiry\": \"2014-05-26T05:49:39Z\", \"access_token\": \"ya29.IgCImXaOM88F9xoAAAAqWEzWg5pqF_7JONWBJtBCOoSnNoa4oUmN2Nzla7klSA\", \"token_uri\": \"https://accounts.google.com/o/oauth2/token\", \"invalid\": false, \"token_response\": {\"access_token\": \"ya29.IgCImXaOM88F9xoAAAAqWEzWg5pqF_7JONWBJtBCOoSnNoa4oUmN2Nzla7klSA\", \"token_type\": \"Bearer\", \"expires_in\": 3600, \"refresh_token\": \"1/_tkmi9tXUaY6OmEUjzG53-LcVBOe3-UHRA3cSeau-DE\", \"id_token\": {\"sub\": \"118382467861745398798\", \"cid\": \"952570055288-14thfi8q8jbanlaq1kfvekl9nsk5cucq.apps.googleusercontent.com\", \"iss\": \"accounts.google.com\", \"email_verified\": true, \"id\": \"118382467861745398798\", \"at_hash\": \"_kg1-ot_hyrksYgny-m7JA\", \"exp\": 1401083381, \"azp\": \"952570055288-14thfi8q8jbanlaq1kfvekl9nsk5cucq.apps.googleusercontent.com\", \"iat\": 1401079481, \"verified_email\": true, \"token_hash\": \"_kg1-ot_hyrksYgny-m7JA\", \"email\": \"singleprojects@gmail.com\", \"aud\": \"952570055288-14thfi8q8jbanlaq1kfvekl9nsk5cucq.apps.googleusercontent.com\"}}, \"client_id\": \"952570055288-14thfi8q8jbanlaq1kfvekl9nsk5cucq.apps.googleusercontent.com\", \"id_token\": {\"sub\": \"118382467861745398798\", \"cid\": \"952570055288-14thfi8q8jbanlaq1kfvekl9nsk5cucq.apps.googleusercontent.com\", \"iss\": \"accounts.google.com\", \"email_verified\": true, \"id\": \"118382467861745398798\", \"at_hash\": \"_kg1-ot_hyrksYgny-m7JA\", \"exp\": 1401083381, \"azp\": \"952570055288-14thfi8q8jbanlaq1kfvekl9nsk5cucq.apps.googleusercontent.com\", \"iat\": 1401079481, \"verified_email\": true, \"token_hash\": \"_kg1-ot_hyrksYgny-m7JA\", \"email\": \"singleprojects@gmail.com\", \"aud\": \"952570055288-14thfi8q8jbanlaq1kfvekl9nsk5cucq.apps.googleusercontent.com\"}, \"client_secret\": \"06ILhZBgt7-RAJfnu0FCx7zD\", \"revoke_uri\": \"https://accounts.google.com/o/oauth2/revoke\", \"_class\": \"OAuth2Credentials\", \"refresh_token\": \"1/_tkmi9tXUaY6OmEUjzG53-LcVBOe3-UHRA3cSeau-DE\", \"user_agent\": null}"
+    # drive.token= "4/qRwMw8KAfHr3QTRRlS2892e0Hunu.0pK8PQimUIcXEnp6UAPFm0FglrxtjAI"
+    # drive.active=True;
+    # drive.save()
 
 
     # pr = PriorityTask()

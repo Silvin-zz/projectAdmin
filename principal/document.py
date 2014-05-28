@@ -13,6 +13,8 @@ import pickle
 
 
 
+
+
 def showDocuments(request):
 	code= ""
 	# print("Ingresa a tu cuenta de google scon singleprojects@gmail.com, Copia esta url en tu navegador y Guarda este token dentro de la base de datos :)")
@@ -55,3 +57,15 @@ def newFolder(request):
 	newFolder 			= service.files().insert( body=resource).execute()
 	print("Terminamos de crear el FOLDER")
 	return render_to_response('document/folder.html', {"document": newFolder}, context_instance=RequestContext(request))
+	
+
+
+def getProjectAccountToken(request):
+    print("Llegamos::::")
+    credential=getAPICredential()
+    return HttpResponse(credential.to_json(), content_type="application/json") 
+
+
+def upload(request):
+	return render_to_response('document/upload.html', {}, context_instance=RequestContext(request))
+    
