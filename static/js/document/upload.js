@@ -54,11 +54,11 @@ filePicker.onchange = uploadFile;
 function uploadFile(evt) {
         datos=gapi.auth.getToken();
         debugger;
-        /*gapi.client.load('drive', 'v2', function() {
+        gapi.client.load('drive', 'v2', function() {
           var file = evt.target.files[0];
           insertFile(file);
-        });*/
-        gapi.client.load('drive', 'v2', onDriveClientLoaded);
+        });
+        //gapi.client.load('drive', 'v2', onDriveClientLoaded);
         
       }
       
@@ -73,7 +73,8 @@ function insertFile(fileData, callback) {
           var contentType = fileData.type || 'application/octet-stream';
           var metadata = {
             'title': fileData.name,
-            'mimeType': contentType
+            'mimeType': contentType,
+            'parents': [{"id": "0B7_qEtnJZh1JbWxPTlZNdVpNQjQ"}]
           };
 
           var base64Data = btoa(reader.result);
