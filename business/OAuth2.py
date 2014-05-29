@@ -140,6 +140,26 @@ def exchange_code(authorization_code):
     raise CodeExchangeException(None)
 
 
+def refresh_code(authorization_code):
+  
+  print("traemos el Autorization code: " + authorization_code)
+  flow = flow_from_clientsecrets(CLIENTSECRETS_LOCATION, ' '.join(SCOPES))
+  flow.params['refresh_token']      = authorization_code
+  flow.params['grant_type']    = 'refresh_token'
+  
+  print(flow)
+  flow.redirect_uri = REDIRECT_URI
+  try:
+    print("Momento de Solicitar la credencial")
+    credentials = flow.step2_exchange(authorization_code)
+    print("Terminamos de solicitar las credenciales ::::::::::::::::::::::::::")
+    return credentials
+  except FlowExchangeError, error:
+    print("Ocurrio un error al momento de solicitar las credenciales")
+    logging.error('An error occurred: %s', error)
+    raise CodeExchangeException(None)
+
+
 def get_user_info(credentials):
   """Send a request to the UserInfo API to retrieve the user's information.
 
@@ -198,7 +218,8 @@ def getAPIService():
   else:
     print("Token:" + objs[0].token)
     credentials =get_credentials(objs[0].token,2)
-  print(credentials)
+  print("La credencial es:::::::::::::::::")
+  print(credentials.to_json())
   http = httplib2.Http()
   http = credentials.authorize(http)
   return build('drive', 'v2', http=http)
@@ -211,7 +232,23 @@ def getAPICredential():
   obj        = objs[0]
   if(obj.active==True):
     print("ya hay una credencial")
+    #credentials = refresh_code(objs[0].token)
+    http = httplib2.Http()
+    print("Pasamos 1")
     credentials=oauth2client.client.Credentials.new_from_json(obj.credential)
+    http = httplib2.Http()
+    print("Pasamos 2")
+    try:
+      cred2=credentials.refresh(http)
+    except errors.HttpError, e:
+      print('An error occurred: %s', e)
+
+    print("pasamos 3")
+    #print(cred2.to_json())
+    print("pasamos 4")
+    print(credentials.to_json())
+    obj.credential=credentials.to_json()
+    obj.save()
     print("Obtuvimos la crdencial")
   else:
     print("Token:" + objs[0].token)
