@@ -1,25 +1,23 @@
+var myapi=gapi;
+var mytoken="";
 $(document).ready(function(){
     
 
     getToken();
     
     
-    function setToken(token){
-        
-        gapi.auth.setToken(token);
-       
-    }
     
     
     function getToken(){
-        
+        alert("Iniciamos");
         $.ajax({  
 			url			: "/document/getToken",
 			type		: "POST",
 			data		: $("#frmQuery").serialize(),
 			success	: function(result){
-			    setToken(result);
-			    
+			    alert(result);
+			    mytoken=result;
+			    debugger;
 			}
 		});
         
@@ -51,14 +49,45 @@ $(document).ready(function(){
 var filePicker      = document.getElementById('filePicker');
 filePicker.onchange = uploadFile;
 
-function uploadFile(evt) {
-        datos=gapi.auth.getToken();
+function listItems(resp) {
+    debugger;
+ var result = resp.items;
+ var i = 0;
+ for (i = 0; i < result.length; i++) {
+  console.log(result[i].title);
+ }
+}
+
+
+    function setToken(){
+        
+        myapi.auth.setToken(mytoken);
+        token=myapi.auth.getToken();
         debugger;
-        gapi.client.load('drive', 'v2', function() {
+       
+    }
+
+function uploadFile(evt) {
+    
+    
+        var request = gapi.client.request({
+      'path': 'drive/v2/files',
+      'method': 'GET',
+      'access_type:' : 'offline',
+      'params': {
+       'maxResults': '10'
+      }
+     });
+ request.execute(listItems);
+        
+        setToken();
+        datos=myapi.auth.getToken();
+        debugger;
+        /*gapi.client.load('drive', 'v2', function() {
           var file = evt.target.files[0];
           insertFile(file);
-        });
-        //gapi.client.load('drive', 'v2', onDriveClientLoaded);
+        });*/
+        myapi.client.load('drive', 'v2', onDriveClientLoaded);
         
       }
       
@@ -73,8 +102,7 @@ function insertFile(fileData, callback) {
           var contentType = fileData.type || 'application/octet-stream';
           var metadata = {
             'title': fileData.name,
-            'mimeType': contentType,
-            'parents': [{"id": "0B7_qEtnJZh1JbWxPTlZNdVpNQjQ"}]
+            'mimeType': contentType
           };
 
           var base64Data = btoa(reader.result);
@@ -89,7 +117,7 @@ function insertFile(fileData, callback) {
               base64Data +
               close_delim;
 
-          var request = gapi.client.request({
+          var request = myapi.client.request({
               'path': '/upload/drive/v2/files',
               'method': 'POST',
               'params': {'uploadType': 'multipart'},
@@ -117,7 +145,7 @@ function retrieveFiles() {
        result = result.concat(resp.items);
        var nextPageToken = resp.nextPageToken;
        if (nextPageToken) {
-         request = gapi.client.drive.files.list({'pageToken': nextPageToken});
+         request = myapi.client.drive.files.list({'pageToken': nextPageToken});
          retrievePageOfFiles(request, result);
        } else {
       console.log(result);
@@ -126,6 +154,6 @@ function retrieveFiles() {
        }
      });
    };
-   var initialRequest = gapi.client.drive.files.list();
+   var initialRequest = myapi.client.drive.files.list();
    retrievePageOfFiles(initialRequest, []);
 }

@@ -27,9 +27,9 @@
 
                     <li><a href="#timeline" data-toggle="tab"><i class="glyphicon glyphicon-pencil"></i>&nbsp; &nbsp;Time Line</a></li>
                     <li><a href="#comments" data-toggle="tab"><i class="glyphicon glyphicon-comment"></i>&nbsp;&nbsp;Comments</a></li>
-                    <li><a href="#comments" data-toggle="tab"><i class="glyphicon glyphicon-book"></i>&nbsp;&nbsp;Documents</a></li>
-                    <li><a href="#comments" data-toggle="tab"><i class="glyphicon glyphicon-th"></i>&nbsp;&nbsp;Knowledge Tips</a></li>
-                    <li><a href="#comments" data-toggle="tab"><i class="glyphicon glyphicon-phone-alt"></i>&nbsp;&nbsp;Change Request</a></li>
+                    <li><a href="#documents" data-toggle="tab"><i class="glyphicon glyphicon-book"></i>&nbsp;&nbsp;Documents</a></li>
+                    <li><a href="#tips" data-toggle="tab"><i class="glyphicon glyphicon-th"></i>&nbsp;&nbsp;Knowledge Tips</a></li>
+                    <li><a href="#requests" data-toggle="tab"><i class="glyphicon glyphicon-phone-alt"></i>&nbsp;&nbsp;Change Request</a></li>
                     
                     
                 </ul>
@@ -52,6 +52,13 @@
                     <div class="tab-pane" id="comments" >
                         <section id="new-3">
                             {% include "tasks/comment.html" %}
+                        </section>
+                    </div>
+                    
+                    
+                    <div class="tab-pane" id="tips" >
+                        <section id="new-3">
+                            {% include "tasks/tips.html" %}
                         </section>
                     </div>
 

@@ -1,0 +1,19 @@
+{% load staticfiles %}
+<div class="timeline-item">
+    <h3 class="timeline-header">
+        <img src="{% static "images/users/" %}{{ tip.owner.getUrlImage }}" width="40" class="img-circle" /> &nbsp;&nbsp;
+        <small><strong>{{comment.owner.name}}</strong></small>
+    </h3>
+    <div class="timeline-body">
+        <blockquote>
+            <p>{{ tip.description }}</p>
+            <small><strong>{{ tip.dateadd }}</strong></small>
+            <small><strong>Keywords: &nbsp;&nbsp;</strong>
+                {% for key in  tip.keywords %}
+                {%  if forloop.counter > 1 %} , {% endif %}
+                {{ key }}  
+                {% endfor %}
+            </small>
+        </blockquote>
+    </div>
+</div>

@@ -197,7 +197,7 @@ class TimeLine(EmbeddedDocument):
 class Task (Document):
     title           = StringField(max_length=2000)
     description     = StringField()
-    key             = StringField(default= "")
+    code            = StringField(default= "")
     active          = BooleanField(default=True)
     owner           = ReferenceField(User)
     comments        = SortedListField(EmbeddedDocumentField(Comment), ordering="date")
@@ -215,6 +215,7 @@ class Task (Document):
     finished        = BooleanField(default= False)
     priority        = ReferenceField(PriorityTask)
     timeline        = SortedListField(EmbeddedDocumentField(TimeLine), ordering="dateadd")
+    folderreference = StringField(default="")
     meta            = {'allow_inheritance': True}
 
     def getShortDescription(self):
@@ -253,7 +254,7 @@ class TargetType(Document):
 class Target(Document):
     title           = StringField(max_length=2000)
     description     = StringField()
-    key             = StringField(default="")
+    code             = StringField(default="")
     targettype      = ReferenceField(TargetType)
     owner           = ReferenceField(User)
     project         = ReferenceField(Project)
@@ -264,8 +265,10 @@ class Target(Document):
     endpercent      = IntField(default=0)
     comments        = ListField(EmbeddedDocumentField(Comment), required=False)
     finished        = BooleanField(default = False)
+    folderreference = StringField(default="")
     meta            = {'allow_inheritance': True}
     tasks           = ListField(ReferenceField(Task), required=False)
+    
     def getShortDescription(self):
         return (self.description[:130] + " ...") if(len(self.description)>130) else self.description
     
@@ -296,6 +299,18 @@ class driveConfiguration(Document):
     datestart       = DateTimeField(default=datetime.datetime.now)
     token           = StringField()
     credential      = StringField()
+
+
+
+class KnowledgeTips(Document):
+    
+    task            = ReferenceField(Task)
+    description     = StringField()
+    keywords        = ListField()
+    owner           = ReferenceField(User)
+    active          = BooleanField(default= True)
+    dateadd         = DateTimeField(default=datetime.datetime.now)
+    
 
 
 
