@@ -83,11 +83,11 @@ function uploadFile(evt) {
         setToken();
         datos=myapi.auth.getToken();
         debugger;
-        /*gapi.client.load('drive', 'v2', function() {
+        gapi.client.load('drive', 'v2', function() {
           var file = evt.target.files[0];
           insertFile(file);
-        });*/
-        myapi.client.load('drive', 'v2', onDriveClientLoaded);
+        });
+        //myapi.client.load('drive', 'v2', onDriveClientLoaded);
         
       }
       

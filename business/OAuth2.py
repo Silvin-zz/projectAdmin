@@ -10,6 +10,12 @@ from principal.models    import driveConfiguration
 import json
 import httplib2
 import oauth2client
+
+
+
+
+
+
 # ...
 
 
@@ -31,6 +37,10 @@ SCOPES = [
     'https://www.googleapis.com/auth/userinfo.profile',
     # Add other requested scopes.
 ]
+
+
+
+
 
 class GetCredentialsException(Exception):
   """Error raised when an error occurred while retrieving credentials.
