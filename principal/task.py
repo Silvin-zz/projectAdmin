@@ -23,6 +23,7 @@ from principal.models import User
 from principal.models import TaskType
 from principal.models import PriorityTask
 from principal.models import TimeLine
+from business.GApi	  import *
 
 
 
@@ -109,6 +110,7 @@ def taskSave(request):
     if("iscritical" in request.POST):
         iscritical = True
 
+    target                      = Target.objects(pk=request.POST["targetId"]).get()
     taskObject.title            = request.POST["title"]
     taskObject.description      = request.POST["description"]
     taskObject.datestart        = request.POST["datestart"]
@@ -119,6 +121,10 @@ def taskSave(request):
     taskObject.tasktype         = tasktypeObject
     taskObject.owner            = userObject
     taskObject.priority         = priorityObject
+    gapi                        = GApi()
+    taskFolder                  = gapi.createFolder("TK_" +request.POST["code"], target.folderreference)
+    taskObject.folderreference  = taskFolder["id"]
+    print(taskFolder["id"])
     taskObject.save()
     
     Target.objects(pk=request.POST["targetId"]).update_one(push__tasks=taskObject)

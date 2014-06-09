@@ -28,6 +28,7 @@ def getList(request):
 	query 			= "'" + request.POST["folderId"] + "' in parents"
 	gapi            = GApi()
 	response_data	= gapi.find(query)
+	print(response_data)
 	return render_to_response('document/list.html', {"list": response_data}, context_instance=RequestContext(request))
 	
 	

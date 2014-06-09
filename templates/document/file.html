@@ -1,0 +1,19 @@
+<div class="col-lg-2 col-xs-4">
+	<a class="drivedocument" href="#" documentId="{{ document.id }}" title="{{ document.title }}">
+		<div class="box box-info">
+		    <div style="text-align:center;">
+		    {% if "thumbnailLink" in document %}
+		    <img src="{{ document.thumbnailLink }}" />
+		    {%  else %}
+		    <img src="{{ document.iconLink }}" />
+		    {%  endif %}
+		     <br /> <label style="font-size: 100%;"> {{ document.title }} </label>
+		    </div>
+		    <div class="small-box-footer" style="text-align:center;">
+		        <button class="btn btn-success btn-sm btn-flat" style="width:20px; height: 20px; font-size: 10px; padding:0px;"><i class="glyphicon glyphicon-share"></i></button>
+		        <button class="btn btn-info btn-sm btn-flat"  style="width:20px; height: 20px; font-size: 10px; padding:0px;"><i class="glyphicon glyphicon-share"></i></button>
+		    </div>
+		</div>
+	</a>
+	
+</div>

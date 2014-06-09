@@ -19,6 +19,7 @@ from principal.models       import Projecttype
 from principal.models       import User
 from business.Auth          import googleAuth 
 from django.conf            import settings
+from business.GApi	        import *
 
 import time
 
@@ -62,9 +63,11 @@ def projectSave(request):
 
     if(request.method == "POST"):
          
-        owner       = User.objects(pk=request.POST["owner"]).get()
-        client      = Client.objects(pk=request.POST["clientid"]).get()
-        projecttype = Projecttype.objects(pk=request.POST['projecttypeid']).get()
+        owner                   = User.objects(pk=request.POST["owner"]).get()
+        client                  = Client.objects(pk=request.POST["clientid"]).get()
+        projecttype             = Projecttype.objects(pk=request.POST['projecttypeid']).get()
+        gapi                    = GApi()
+        projectFolder           = gapi.createFolder("PR_" + request.POST["code"], "root")
         
         project                 = Project()
         project.title           = request.POST["title"]
@@ -75,13 +78,14 @@ def projectSave(request):
         project.datestart       = datetime.strptime(request.POST["datestart"],"%Y-%m-%d")
         project.dateend         = datetime.strptime(request.POST["dateend"],"%Y-%m-%d")
         project.code            = request.POST["code"]
+        project.folderreference = projectFolder["id"]
         project.save()
         message                     = "The " + request.POST["title"] + " Project project successfully saved"
         request.session["WNotify"]  = {"message": message, "type": "success", "title": "New Project Success"}
 
-        token                       = googleAuth()
-        newfolder                   = token.newFolder(request.POST["code"])
-        token.shareDocument(newfolder['id'],  settings.BASE_EMAIL, "owner")    
+        #token                       = googleAuth()
+        #newfolder                   = token.newFolder(request.POST["code"])
+        #token.shareDocument(newfolder['id'],  settings.BASE_EMAIL, "owner")    
 
         
 

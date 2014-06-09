@@ -17,6 +17,9 @@
 
 
 {% block scripts %}
-  <script type="text/javascript" src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
-  <script type="text/javascript" src="{% static "js/document/upload.js" %}"></script>
+<script type="text/javascript" src="{% static "js/plugins/tus-jquery-client/js/jquery.tus.js" %}"></script>
+<script type="text/javascript" src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
+<script type="text/javascript" src="{% static "js/document/upload.js" %}"></script>
+  
+  
 {% endblock scripts %}

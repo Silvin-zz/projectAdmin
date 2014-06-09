@@ -17,6 +17,7 @@ from principal.models  		import User
 from principal.models  		import Project
 from business.project       import BProject
 from principal.models	 	import PriorityTask
+from business.GApi	        import *
 
 
 
@@ -70,6 +71,11 @@ def targetSave(request):
 	target.project 			= project[0]
 	target.datestart 		= request.POST["datestart"]
 	target.dateend 			= request.POST["dateend"]
+	gapi                    = GApi()
+	targetFolder            = gapi.createFolder("TG_" + request.POST["code"], project[0].folderreference)
+	target.folderreference  = targetFolder["id"]
+	target.code             = request.POST["code"]
+    
 	
 	
 

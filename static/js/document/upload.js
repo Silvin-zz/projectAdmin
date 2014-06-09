@@ -27,6 +27,27 @@ $(document).ready(function(){
         
     });
     
+    $('#filePicker').change(function() {
+      var options = { endpoint: 'https://www.googleapis.com/upload/drive/v2/files' };
+      var input   = $(this);
+    
+      tus
+        .upload(this.files[0], options)
+        .fail(function(error) {
+          console.log('upload failed', error);
+        })
+        .always(function() {
+           input.val('');
+        })
+        .progress(function(e, bytesUploaded, bytesTotal) {
+           console.log(bytesUploaded, bytesTotal);
+        })
+        .done(function(url, file) {
+          console.log(url);
+          console.log(file.name);
+        });
+    });
+    
     
     
     /**

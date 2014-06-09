@@ -3,6 +3,6 @@
 	{% if "application/vnd.google-apps.folder" in document.mimeType %}
 		{% include "document/folder.html" %}
 		{% else%}
-			{% include "document/folder.html" %}
+			{% include "document/file.html" %}
 	{% endif %}
 {% endfor %}
