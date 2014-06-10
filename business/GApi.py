@@ -13,6 +13,16 @@ import oauth2client
 
 
 
+CLIENTSECRETS_LOCATION = settings.BASE_DIR + "/auth/client_secrets.json"
+REDIRECT_URI = 'http://bravopikino.kd.io:8000/auth/savecode'
+SCOPES = [
+    'https://www.googleapis.com/auth/drive',
+    #'https://www.googleapis.com/auth/drive.file',
+    #'https://www.googleapis.com/auth/userinfo.email',
+    #'https://www.googleapis.com/auth/userinfo.profile',
+    # Add other requested scopes.
+]
+
 
 
 
@@ -22,9 +32,10 @@ class GApi():
         Variables publicas de la clase
     """
     
-    service     =""
-    tokenObject =""
-    credential  =""
+    service     = ""
+    tokenObject = ""
+    credential  = ""
+    email       = "singleprojects@gmail.com"
     
     
     
@@ -43,11 +54,23 @@ class GApi():
     """
         Guardamos el token en la base de datos
     """
-    def saveToken(self):
-        a=""
-    
-    
-    
+    def saveTokenAndCredential(self,token, credential):
+        
+        objs= driveConfiguration.objects()
+        
+        if(len(objs) ==0):
+            obj= driveConfiguration()
+        else:
+            obj=objs[0]
+        
+        obj.credential  = credential.to_json()
+        obj.token       = token
+        obj.active      = True
+        obj.save()
+        
+        
+        
+  
     
     
     """
@@ -155,4 +178,33 @@ class GApi():
         self.generateService()
         resource 		= { 'title': title, "mimeType": "application/vnd.google-apps.folder", "parents": [{"id": parentId }] }
         newFolder 		= self.service.files().insert( body=resource).execute()
-        return (newFolder)  
+        return (newFolder)
+        
+    
+    
+    
+    
+    """
+        Generamos una credencial a partir de un Codigo de aceptacion valido
+    """
+    
+    def generateCredentialFromCode(self, code):
+        flow = flow_from_clientsecrets(CLIENTSECRETS_LOCATION, ' '.join(SCOPES))
+        flow.redirect_uri = REDIRECT_URI
+        
+        try:
+            credentials = flow.step2_exchange(code)
+            return credentials
+        except FlowExchangeError, error:
+            
+            print("Ocurrio un Error al momento de realizar la credencial a partir del codigo valido")
+    
+    
+    
+    
+    def getURLAuthorization(self):
+        flow = flow_from_clientsecrets(CLIENTSECRETS_LOCATION, ' '.join(SCOPES))
+        flow.params['access_type']      = 'offline'
+        flow.params['approval_prompt']  = 'force'
+        flow.params['user_id']          = self.email
+        return flow.step1_get_authorize_url(REDIRECT_URI)

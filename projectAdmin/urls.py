@@ -59,26 +59,36 @@ urlpatterns = patterns('',
 
     ##############TARGETS #########################
 
-    url(r'^target/list','principal.target.targetList'),
-    url(r'^target/getbyproject','principal.target.getTargetByProjectId'),
-    url(r'^target/save','principal.target.targetSave'),
-    url(r'^target/detail','principal.target.targetDetail'),
-    url(r'^target/prueba','principal.target.targetPrueba'),
+    url(r'^target/list'             ,'principal.target.targetList'),
+    url(r'^target/getbyproject'     ,'principal.target.getTargetByProjectId'),
+    url(r'^target/save'             ,'principal.target.targetSave'),
+    url(r'^target/detail'           ,'principal.target.targetDetail'),
+    url(r'^target/prueba'           ,'principal.target.targetPrueba'),
     
+
+
 
      ##############COMMENTS#########################
 
-    url(r'^comment/addfortask','principal.comment.addForTask'),
-    url(r'^comment/list','principal.comment.listByTaskId'),
+    url(r'^comment/addfortask'      ,'principal.comment.addForTask'),
+    url(r'^comment/list'            ,'principal.comment.listByTaskId'),
 
 
-    url(r'^teams/list','principal.views.teamList'),
-    url(r'^documents/list','principal.views.documentList'),
+    url(r'^teams/list'              ,'principal.views.teamList'),
+    url(r'^documents/list'          ,'principal.views.documentList'),
+
+
 
 
     ####################CLIENT ###########################
-    url(r'^client/save-ajax','principal.client.saveNewByAjax'),
-
+    url(r'^client/save-ajax'        ,'principal.client.saveNewByAjax'),
+    
+    
+    
+    ####################GOOGLE AUTH ###########################
+    url(r'^auth/code'               ,'principal.auth.home'),
+    url(r'^auth/savecode'           ,'principal.auth.saveCode'),
+    
 
 
 ) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
