@@ -14,7 +14,7 @@ import oauth2client
 
 
 CLIENTSECRETS_LOCATION = settings.BASE_DIR + "/auth/client_secrets.json"
-REDIRECT_URI = 'http://bravopikino.kd.io:8000/auth/savecode'
+REDIRECT_URI = 'http://127.0.0.1:8000/auth/savecode'
 SCOPES = [
     'https://www.googleapis.com/auth/drive',
     #'https://www.googleapis.com/auth/drive.file',
