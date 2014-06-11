@@ -9,6 +9,7 @@ function DocumentClass(){
     this.fileObjectId         = "filePicker"; 
     this.contentFilesId       = "driveList";
     this.token                = "";
+    this.rootFolderId         = "root";
     
     this.init=function(){
         this.listenUpload();
@@ -65,7 +66,9 @@ function DocumentClass(){
     
     
     this.insertFile=function(fileData, callback) {
+       
         owner=this;
+        alert(owner.rootFolderId);
         const boundary = '-------314159265358979323846';
         const delimiter = "\r\n--" + boundary + "\r\n";
         const close_delim = "\r\n--" + boundary + "--";
@@ -75,8 +78,9 @@ function DocumentClass(){
         reader.onload = function(e) {
           var contentType = fileData.type || 'application/octet-stream';
           var metadata = {
-            'title': fileData.name,
-            'mimeType': contentType
+            'title'     : fileData.name,
+            'mimeType'  : contentType,
+            'parents'   :[{'id': owner.rootFolderId}]
           };
 
           var base64Data = btoa(reader.result);
@@ -90,19 +94,17 @@ function DocumentClass(){
               '\r\n' +
               base64Data +
               close_delim;
-
+alert(owner.rootFolderId);
           var request = gapi.client.request({
               'path': '/upload/drive/v2/files',
               'method': 'POST',
-              'params': {'uploadType': 'multipart', 'parents':[{'id': 'root'}]},
+              'params': {'uploadType': 'multipart'},
               'headers': {
                 'Content-Type': 'multipart/mixed; boundary="' + boundary + '"'
               },
               'body': multipartRequestBody});
           if (!callback) {
             callback = function(file) {
-              debugger;
-              alert("llegamos :)");
               owner.printFile(file);    
               
             };
@@ -151,6 +153,20 @@ function DocumentClass(){
         
         
     }
+    
+    
+    this.getDriveList   =function(){
+        var owner=this;
+	    $("#" +  + this.contentFilesId).html('<div class="alert alert-success col-xs-4">looking data .... </div>');
+		$.ajax({  
+			url			: "/document/getList",
+			type		: "POST",
+			data		: $("#" + this.formComunitationId).serialize(),
+			success	: function(result){
+				$("#" + owner.contentFilesId ).html(result);
+			}
+		});
+	}
     
     
     

@@ -1,13 +1,9 @@
 {% load staticfiles %}
-    <form action="#" class="form-horizontal" role="form" id="frmQuery">
-        <input type="hidden" id="token" name="csrfmiddlewaretoken" value="{{ csrf_token }}" />
-        <input type="hidden" id="folderId" name="folderId" value="root" />
-    </form>
-
     <div class="row">
 	    <div class="col-lg-10 col-xs-10" >
 	        <form action="#" class="form-horizontal" role="form" id="frmDocument">
-                <input type="hidden" id="token" name="csrfmiddlewaretoken" value="{{ csrf_token }}" />
+                <input type="hidden" name="csrfmiddlewaretoken" id="token"      value="{{ csrf_token }}"            />
+                <input type="hidden" name="folderId"            id="folderId"   value="{{ task.folderreference }}"  />
             </form>
 	    	
 	    	<span class="btn btn-file btn-primary btn-sm" style="width:50px; height: 30px;"><i class="glyphicon glyphicon-file"></i>&nbsp;<i class="glyphicon glyphicon-cloud-upload"></i><input type="file" id="filePicker" /></span>
