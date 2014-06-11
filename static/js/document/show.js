@@ -1,5 +1,6 @@
+var folderId="root";
 $(document).ready(function(){
-	var folderId="root";
+	
 
 	getDriveList();
 	breadcrumHandler();
