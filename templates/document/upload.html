@@ -8,7 +8,7 @@
 {% endblock breadcrumb %}
 
 {% block content %}
- <input type="file" id="filePicker" />
+<span class="btn btn-file btn-primary">Upload<input type="file" id="filePicker" /></span>
  
  <form action="#" class="form-horizontal" role="form" id="frmQuery">
     <input type="hidden" id="token" name="csrfmiddlewaretoken" value="{{ csrf_token }}" />

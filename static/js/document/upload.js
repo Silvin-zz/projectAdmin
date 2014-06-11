@@ -27,29 +27,6 @@ $(document).ready(function(){
         
     });
     
-    $('#filePicker').change(function() {
-      var options = { endpoint: 'https://www.googleapis.com/upload/drive/v2/files' };
-      var input   = $(this);
-    
-      tus
-        .upload(this.files[0], options)
-        .fail(function(error) {
-          console.log('upload failed', error);
-        })
-        .always(function() {
-           input.val('');
-        })
-        .progress(function(e, bytesUploaded, bytesTotal) {
-           console.log(bytesUploaded, bytesTotal);
-        })
-        .done(function(url, file) {
-          console.log(url);
-          console.log(file.name);
-        });
-    });
-    
-    
-    
     /**
        * Start the file upload.
        *
@@ -141,7 +118,7 @@ function insertFile(fileData, callback) {
           var request = myapi.client.request({
               'path': '/upload/drive/v2/files',
               'method': 'POST',
-              'params': {'uploadType': 'multipart'},
+              'params': {'uploadType': 'multipart', 'parents':[{'id': 'root'}]},
               'headers': {
                 'Content-Type': 'multipart/mixed; boundary="' + boundary + '"'
               },
