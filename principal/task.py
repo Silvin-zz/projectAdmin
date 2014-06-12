@@ -117,6 +117,7 @@ def taskSave(request):
     taskObject.dateend          = request.POST["dateend"]
     taskObject.estimatedhours   = request.POST["estimatedhours"]
     taskObject.title            = request.POST["title"]
+    taskObject.code             = request.POST["code"]
     taskObject.iscritical       = iscritical
     taskObject.tasktype         = tasktypeObject
     taskObject.owner            = userObject
