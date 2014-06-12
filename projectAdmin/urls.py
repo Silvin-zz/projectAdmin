@@ -44,6 +44,7 @@ urlpatterns = patterns('',
     url(r'^document/getList'       ,'principal.document.getList'),
     url(r'^document/newFolder'     ,'principal.document.newFolder'),
     url(r'^document/upload'        ,'principal.document.upload'),
+    url(r'^document/share'          ,'principal.document.shareItem'),
     url(r'^document/getToken'      ,'principal.document.getProjectAccountToken'),
     
     
@@ -88,6 +89,7 @@ urlpatterns = patterns('',
     ####################GOOGLE AUTH ###########################
     url(r'^auth/code'               ,'principal.auth.home'),
     url(r'^auth/savecode'           ,'principal.auth.saveCode'),
+    
     
 
 

@@ -5,7 +5,7 @@
 		    {% if "thumbnailLink" in document %}
 		    <img src="{{ document.thumbnailLink }}"style="width:150px; height: 150px;"  />
 		    {%  else %}
-		    <img src="{{ document.iconLink }}" style="font-size: 100px;" />
+		    <img src="{{ document.iconLink }}" />
 		    {%  endif %}
 		     <div style="width:100%; height:30px; font-size: 70%; overflow:hidden;"><label style="font-size: 100%; width: 100%; overflow: hidden;"> {{ document.title }}</div></label>
 		    </div>

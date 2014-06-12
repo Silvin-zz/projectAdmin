@@ -241,6 +241,11 @@ class Task (Document):
             return 100
         print("Entramos 3")
         return round(float(float(100) / float(difference.days)) * float(realdifference.days))
+    
+    
+    def daysLeft(self):
+        realdifference  = self.dateend -datetime.datetime.now() 
+        return realdifference.days
 
 
 

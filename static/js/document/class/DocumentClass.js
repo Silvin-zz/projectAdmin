@@ -1,6 +1,6 @@
 
 /**
- * Clase para el manejo de google drive a través de javacript e integración con el servidor para algunas peticiones :)
+ * Clase para el manejo de google drive a travs de javacript e integración con el servidor para algunas peticiones :)
  * 
  **/
 
@@ -12,9 +12,16 @@ function DocumentClass(){
     this.token                = "";              //Token para comunicación con google drive
     this.rootFolderId         = "root";          //FolderId por default
     this.createFolderButtonId = "createFolder";  //id del Boton Guardar que esta en el modal para crear una carpeta :D
-    this.formCreateFolderId   = "frmNewFolder";  //Id del formulario que se enviará al servidor para crear el nuevo directorio :D
+    this.formCreateFolderId   = "frmNewFolder";  //Id del formulario que se enviara al servidor para crear el nuevo directorio :D
     this.modalFolderId        = "myModal";
     this.breadcrumbRoot       = "Root";
+    
+    
+    /* Variables para el caso de compartir documentos :) */
+    
+    this.shareFormId          ="frmShareDocument";
+    this.shareItemId          = "shareItemId";
+    this.shareRoleId          = "shareRole"
     
     
     this.init=function(){
@@ -124,7 +131,8 @@ function DocumentClass(){
               'body': multipartRequestBody});
           if (!callback) {
             callback = function(file) {
-              owner.printFile(file);    
+              owner.printFile(file);  
+              owner.shareItem(file.id);
               
             };
           }
@@ -280,6 +288,22 @@ function DocumentClass(){
 				}
 			});
 		});
+	}
+	
+	
+	this.shareItem=function(itemId){
+	    
+        $("#" +this.shareItemId).attr("value",itemId);
+	    
+	    $.ajax({  
+			url			: "/document/share",
+			type		: "POST",
+			data		: $("#" + this.shareFormId).serialize(),
+			success	: function(result){
+			    
+			}
+		});
+	    
 	}
     
     

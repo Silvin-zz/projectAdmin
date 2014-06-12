@@ -55,3 +55,11 @@
 	    </div>
 	  </div>
 	</div>
+	
+	<form action="#" class="form-horizontal" role="form" id="frmShareDocument">
+	    <input type="hidden" name="csrfmiddlewaretoken" id="shareToken"                 value="{{ csrf_token }}"            />
+        <input type="hidden" name="itemId"              id="shareItemId"                value=""                            />
+        <input type="hidden" name="role"                id="shareRole"                  value="writer"                      />
+        <input type="hidden" name="email"               id="shareEmail"                 value=""                            />
+                    
+    </form>

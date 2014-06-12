@@ -108,6 +108,7 @@ class GApi():
     def generateService(self):
         
         if("" in self.service):
+            print("INiciamos la creacion del servicio")
             http            = httplib2.Http()
             http            = self.credential.authorize(http)
             self.service    = build('drive', 'v2', http=http)
@@ -208,3 +209,11 @@ class GApi():
         flow.params['approval_prompt']  = 'force'
         flow.params['user_id']          = self.email
         return flow.step1_get_authorize_url(REDIRECT_URI)
+        
+        
+    def shareItem(self, itemId, userEmail, role="writer"):
+        print("Iniciamos compartir Item")
+        new_permission  = { 'value': userEmail, 'type': "user", 'role': role }
+        print(new_permission)
+        result 	= self.service.permissions().insert( fileId= itemId, body=new_permission).execute()
+        return new_permission

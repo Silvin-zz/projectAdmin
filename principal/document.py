@@ -35,6 +35,7 @@ def getList(request):
 def newFolder(request):
     gapi            = GApi()
     newFolder       = gapi.createFolder(request.POST["title"], request.POST["folderIdParent"])
+    gapi.shareItem(newFolder["id"],request.session["email"], "writer")
     return render_to_response('document/folder.html', {"document": newFolder}, context_instance=RequestContext(request))
 	
 
@@ -47,4 +48,15 @@ def getProjectAccountToken(request):
 
 def upload(request):
 	return render_to_response('document/upload.html', {}, context_instance=RequestContext(request))
+	
+
+
+def shareItem(request):
+    gapi    = GApi()
+    gapi.generateService()
+    email   = request.session["email"]
+    if("email" in request.POST and "" not in request.POST["email"]):
+        email=request.POST["email"]
+    result  =gapi.shareItem(request.POST["itemId"], email, request.POST["role"])
+    return HttpResponse(result, content_type="application/json")
     
