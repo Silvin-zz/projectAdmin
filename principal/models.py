@@ -54,14 +54,10 @@ class Menu(Document):
     iconclass       = StringField()
     meta            = {'allow_inheritance': True}
 
-
-
 class Profile(Document):
     name           = StringField()
     options        = ListField(ReferenceField(Menu))
     meta           = {'allow_inheritance': True}
-
-
 
 
 class User(Document):
@@ -72,6 +68,8 @@ class User(Document):
     profile         = ReferenceField(Profile)
     active          = BooleanField()
     email           = EmailField()
+    urlimage        = StringField(default="")
+    token           = StringField(default="")
     meta            = {'allow_inheritance': True}
     
     def getUrlImage(self):
@@ -317,6 +315,12 @@ class KnowledgeTips(Document):
     dateadd         = DateTimeField(default=datetime.datetime.now)
     
 
+
+
+    
+    
+    
+    
 
 
     

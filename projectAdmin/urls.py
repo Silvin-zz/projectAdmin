@@ -11,19 +11,24 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
     url(r'^$','login.views.home'),
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-    url(r'^admin/', include(admin.site.urls)),
+    #url(r'^admin/', include(admin.site.urls)),
     url(r'^user/validate/','login.views.userValidate'),
     url(r'^dashboard/','principal.views.index'),
 
 
+    ###############LOGIN #########################
+    url(r'^login/validate/'     ,'login.views.loginValidate'),
+    
+    
+
     ##############PROJECTS#########################
 
 
-    url(r'^projects/list','principal.project.projectList'),
-    url(r'^projects/new','principal.project.projectAdd'),
-    url(r'^projects/edit','principal.project.projectEdit'),
-    url(r'^projects/delete','principal.project.projectDelete'),
-    url(r'^projects/save','principal.project.projectSave'),
+    url(r'^projects/list'       ,'principal.project.projectList'),
+    url(r'^projects/new'        ,'principal.project.projectAdd'),
+    url(r'^projects/edit'       ,'principal.project.projectEdit'),
+    url(r'^projects/delete'     ,'principal.project.projectDelete'),
+    url(r'^projects/save'       ,'principal.project.projectSave'),
 
 
     ##############TASKS#########################
@@ -89,6 +94,38 @@ urlpatterns = patterns('',
     ####################GOOGLE AUTH ###########################
     url(r'^auth/code'               ,'principal.auth.home'),
     url(r'^auth/savecode'           ,'principal.auth.saveCode'),
+    
+    
+    
+    
+    
+    ####################USER, PROFILES, MENUS  ADMIN  ###########################
+    
+    ######USER
+        
+    url(r'^admin/user'              ,'principal.admin.userList'),
+    url(r'^admin/user/new'          ,'principal.admin.userNew'),
+    url(r'^admin/user/edit'         ,'principal.admin.userEdit'),
+    url(r'^admin/user/save'         ,'principal.admin.userSave'),
+    
+    
+    
+    #####PROFILE
+    
+    url(r'^admin/profile'           ,'principal.admin.profileList'),
+    url(r'^admin/profile/new'       ,'principal.admin.profileNew'),
+    url(r'^admin/profile/edit'      ,'principal.admin.profileEdit'),
+    url(r'^admin/profile/save'      ,'principal.admin.profileSave'),
+    
+    
+    
+    #####MENU
+    
+    url(r'^admin/menu'              ,'principal.admin.menuList'),
+    url(r'^admin/menu/new'          ,'principal.admin.menuNew'),
+    url(r'^admin/menu/edit'         ,'principal.admin.menuEdit'),
+    url(r'^admin/menu/save'         ,'principal.admin.menuSave'),
+    
     
     
 

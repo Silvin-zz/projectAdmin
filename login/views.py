@@ -122,10 +122,14 @@ def home (request):
             request.session["menu"]         = ""
             request.session["WNotify"]      = {"message":"", "type":"", "title":""}
             return HttpResponseRedirect("/dashboard")
-    return render_to_response('login/login.html', {}, context_instance= RequestContext(request))
+    return render_to_response('login/login2.html', {}, context_instance= RequestContext(request))
 
 
 
 def userValidate(request):
 
+    return HttpResponseRedirect("/")
+
+
+def loginValidate(request):
     return HttpResponseRedirect("/")
