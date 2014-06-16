@@ -17,7 +17,9 @@ urlpatterns = patterns('',
 
 
     ###############LOGIN #########################
-    url(r'^login/validate/'     ,'login.views.loginValidate'),
+    url(r'^login/validate/'             ,'login.views.loginValidate'),
+    url(r'^login/validateFromGoogle/'   ,'login.views.validateFromGoogle'),
+    url(r'^login/logout/'               ,'login.views.logout'),
     
     
 

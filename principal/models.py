@@ -19,6 +19,7 @@ from django.conf import settings
 import os
 import bson
 import datetime
+import urllib
 
 
 
@@ -77,6 +78,18 @@ class User(Document):
         if(os.path.isfile(settings.STATICFILES_USER_IMAGES_DIRS[0] + "/" + str(self.id) + ".png")):
             return (str(self.id) + ".png")
         return ("1.png")
+        
+        
+        
+    def saveImageFromUrl(self, url):
+       
+        extension   = url.split(".")[-1]
+        resource    = urllib.urlopen(url)
+        output      = open(os.path.join(settings.STATICFILES_USER_IMAGES_DIRS[0] + "/" + str(self.id) + "." + str(extension)),"ab")
+        output.write(resource.read())
+        print("Guardamos.")
+        output.close()
+        
         
 
 

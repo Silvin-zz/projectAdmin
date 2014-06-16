@@ -23,6 +23,12 @@ from principal.models import TargetType
 from principal.models import TaskType
 from principal.models import PriorityTask
 from principal.models import driveConfiguration
+import json
+import urllib2
+
+import httplib2
+
+
 
 
 
@@ -125,6 +131,43 @@ def home (request):
     return render_to_response('login/login2.html', {}, context_instance= RequestContext(request))
 
 
+
+
+def validateFromGoogle(request):
+    
+    
+    ok  ="false"
+    url ="/dashboard"
+    if(request.method=="POST"):
+        
+        users= User.objects(email=request.POST["email"])
+        if(users>0):
+            user                            = users[0]
+            user.name                       = request.POST["email"]
+            user.saveImageFromUrl(request.POST["urlimage"])
+            request.session["name"]         = user.name
+            request.session["profile"]      = user.profile
+            request.session["userid"]       = str(user.id)
+            request.session["userimage"]    = user.getUrlImage()
+            request.session["email"]        = user.email
+            request.session["menu"]         = ""
+            request.session["token"]        = request.POST["token"]
+            request.session["session_type"] = "google"
+            ok                              ="true"
+    
+            print(request.session)
+    return HttpResponse(json.dumps({"ok":"true", "url": "/dashboard"}), content_type="application/json") 
+    
+
+
+
+def logout(request):
+    if  "google" in request.session["session_type"]:
+        access_token    = request.session["token"]
+        url             = 'https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout'
+        h               = httplib2.Http()
+        result          = h.request(url, 'GET')[0]
+    return HttpResponseRedirect("https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=http://bravopikino.kd.io:8000/")
 
 def userValidate(request):
 
