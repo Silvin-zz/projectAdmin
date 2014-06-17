@@ -125,13 +125,15 @@ def home (request):
     
     
     
-    
+    print("llegamos")
+    print("LLegamos carajo")
     if(request.method=="POST"):
-        
+        print("Entramos al post")
         
         print(Menu.objects)
         
         users   =   User.objects(username=request.POST["username"], password=request.POST["password"])
+        print(users)
         if(users.count()>0):
             request.session.set_expiry(60 * 60 * 24)
             request.session["name"]         = users[0].name
@@ -140,6 +142,7 @@ def home (request):
             request.session["userimage"]    = users[0].getUrlImage()
             request.session["email"]        = users[0].email
             request.session["menu"]         = ""
+            request.session["session_type"] = "local"
             request.session["WNotify"]      = {"message":"", "type":"", "title":""}
             return HttpResponseRedirect("/dashboard")
     return render_to_response('login/login2.html', {}, context_instance= RequestContext(request))
@@ -170,6 +173,8 @@ def validateFromGoogle(request):
             request.session["session_type"] = "google"
             ok                              = "true"
             url                             = "/dashboard"
+        else:
+            request.session["session_type"] = "local"
     
             
     return HttpResponse(json.dumps({"ok":ok, "url": url}), content_type="application/json") 

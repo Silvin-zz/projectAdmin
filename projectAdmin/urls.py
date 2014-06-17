@@ -115,17 +115,13 @@ urlpatterns = patterns('',
     
     url(r'^admin/profile'           ,'principal.admin.profileList'),
     url(r'^admin/profile/new'       ,'principal.admin.profileNew'),
-    url(r'^admin/profile/edit'      ,'principal.admin.profileEdit'),
-    url(r'^admin/profile/save'      ,'principal.admin.profileSave'),
     
     
     
     #####MENU
-    
-    url(r'^admin/menu'              ,'principal.admin.menuList'),
     url(r'^admin/menu/new'          ,'principal.admin.menuNew'),
-    url(r'^admin/menu/edit'         ,'principal.admin.menuEdit'),
-    url(r'^admin/menu/save'         ,'principal.admin.menuSave'),
+    url(r'^admin/menu'              ,'principal.admin.menuList'),
+    
     
     
     

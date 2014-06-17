@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %} <h2>Menu List</h2> {% endblock title %}
+{% block content %}
+    <button class="btn btn-primary btn-flat taskdetail" title="New Menu" action="new" id="new"  type="button"  data-toggle="modal" data-target="#userModal"><i class="glyphicon glyphicon-plus white"></i> New Menu</button>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th width="40%">Icon</th>
+                <th>Menu</th>
+                <th>Url</th>
+                <th>Options</th>
+            </tr>
+        </thead>
+        <tbody id="usersBody">
+            {% for menu in menus %}
+            
+            <tr>
+                <td>
+                    
+                    <i class="{{ menu.iconclass }}">
+                        {{menu.iconclass}}
+                        <div class="color-swatch brand-primary"></div>
+                    
+                </td>
+                
+                <td>{{ menu.name }}</td>
+                <td>{{ menu.url }}</td>
+                <td width="100">
+                    	<button class="btn btn-xs btn-primary btn-flat taskdetail" title="edit"     action="edit"  lang="{{ user.id }}" data-toggle="modal" data-target="#userModal"><i class="glyphicon glyphicon-pencil white"></i></button>
+                    	<button class="btn btn-xs btn-primary btn-flat taskdetail" title="remove"   action="edit"  lang="{{ user.id }}" data-toggle="modal" data-target="#userModal"><i class="glyphicon glyphicon-remove white"></i></button>
+                    
+                </td>
+                
+            </tr>
+            
+            {% endfor %}
+        </tbody>
+
+
+    </table>
+    
+    
+<div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Menu</h4>
+      </div>
+      <div class="modal-body">
+      
+        <form  class="form-signin" role="form" id="frmMenu" action="" method="post">
+        {% csrf_token %}
+            {% include "menu/menuForm.html" %}
+            <input type="hidden" name="action" id="menuAction" value="new" />
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="menuSave">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+    
+    
+{% endblock content %}
+
+{% block scripts %}
+  <script src="{% static "js/menu/menu.js" %}"></script>
+{% endblock scripts %}

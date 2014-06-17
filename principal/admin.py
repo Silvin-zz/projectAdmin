@@ -55,12 +55,6 @@ def userNew(request):
         return HttpResponse(json.dumps(result), content_type="application/json") 
 
 
-def userEdit(request):
-    return render_to_response('user/list.html', {}, context_instance=RequestContext(request))
-    
-
-def userSave(request):
-    return render_to_response('user/list.html', {}, context_instance=RequestContext(request))
     
     
 ############### PROFILE #######
@@ -85,20 +79,20 @@ def profileSave(request):
 ############### MENU #######
     
 def menuList(request):
-    return render_to_response('user/list.html', {}, context_instance=RequestContext(request))
+    menus = Menu.objects()
+    return render_to_response('menu/list.html', {"menus":menus}, context_instance=RequestContext(request))
 
 def menuNew(request):
-    return render_to_response('user/list.html', {}, context_instance=RequestContext(request))
-
-
-def menuEdit(request):
-    return render_to_response('user/list.html', {}, context_instance=RequestContext(request))
-    
-
-def menuSave(request):
-    return render_to_response('user/list.html', {}, context_instance=RequestContext(request))
-
-
+    result={"success":"false", "message":"", "data":""}
+    if( "new" in request.POST["action"]):
+        menu            = Menu()
+        menu.name       = request.POST["name"]
+        menu.iconclass  = request.POST["iconclass"]
+        menu.url        = request.POST["url"]
+        menu.save()
+        result["data"]  = {"id": str(menu.id), "name": menu.name, "iconclass": menu.iconclass, "url": menu.url}
+        result["success"]= "true"
+    return HttpResponse(json.dumps(result), content_type="application/json") 
 
 
 
