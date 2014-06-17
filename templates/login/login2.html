@@ -124,6 +124,7 @@
   gapi.auth.authorize({client_id: '952570055288-fekav9gb37bmboidioth7eq5kvqknmkq.apps.googleusercontent.com', scope: 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email', immediate: true}, function(){
         gapi.client.load('oauth2', 'v2', function() {
               gapi.client.oauth2.userinfo.get().execute(function(resp) {
+                  console.log(resp);
                  //enviamos al servidor a verificar que este usuario este registrado y que efectivamente tenga permisos para ingresar :)
                  $("#email").attr("value"       ,resp.email);
                  $("#username").attr("value"    ,resp.name);
@@ -131,20 +132,17 @@
                  $("#urlimage").attr("value"    ,resp.picture);
                  $.ajax({  
       
-                    url   : "/login/validateFromGoogle/",
+                    url   : "/login/validateFromGoogle",
                     type    : "POST",
                     dataType: "JSON",
                     data    : $("#frmValidate").serialize(),
                     success : function(result){
-                        if(result.ok=="true"){
-                            window.location.href=result.url;
-                        }
-                        else{
+                        if(result.ok!="true"){
                             
                             alert("Tu Usuario no ha sido registrado dentro de Single Projects");
-                            disconnectUser(e.acess_token);
+                           
                         }
-                      console.log(result);
+                       window.location.href=result.url;
             
                       }
                   });

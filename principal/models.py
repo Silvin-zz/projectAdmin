@@ -71,22 +71,26 @@ class User(Document):
     email           = EmailField()
     urlimage        = StringField(default="")
     token           = StringField(default="")
+    imageextension  = StringField(default="png")
     meta            = {'allow_inheritance': True}
     
     def getUrlImage(self):
         
-        if(os.path.isfile(settings.STATICFILES_USER_IMAGES_DIRS[0] + "/" + str(self.id) + ".png")):
-            return (str(self.id) + ".png")
+        if(os.path.isfile(settings.STATICFILES_USER_IMAGES_DIRS[0] + "/" + str(self.id) + "." + str(self.imageextension))):
+            return (str(self.id) + "." + str(self.imageextension))
         return ("1.png")
         
         
         
     def saveImageFromUrl(self, url):
        
-        extension   = url.split(".")[-1]
-        resource    = urllib.urlopen(url)
-        output      = open(os.path.join(settings.STATICFILES_USER_IMAGES_DIRS[0] + "/" + str(self.id) + "." + str(extension)),"ab")
+        extension           = url.split(".")[-1]
+        self.imageextension = extension
+        resource            = urllib.urlopen(url)
+        filename            = os.path.join(settings.STATICFILES_USER_IMAGES_DIRS[0] + "/" + str(self.id) + "." + str(extension))
+        output              = open(filename,"ab")
         output.write(resource.read())
+        os.chmod(filename, 0777)
         print("Guardamos.")
         output.close()
         

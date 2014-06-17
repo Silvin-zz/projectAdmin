@@ -23,6 +23,8 @@ from principal.models import TargetType
 from principal.models import TaskType
 from principal.models import PriorityTask
 from principal.models import driveConfiguration
+from principal.models import Menu
+from principal.models import Profile
 import json
 import urllib2
 
@@ -45,6 +47,18 @@ def userList(request):
 
 
 def home (request):
+    
+    
+    #menu= Menu()
+    #menu.name            = "Targets"
+    #menu.url             = "/target/list/"
+    #menu.iconclass       = "glyphicon glyphicon-screenshot"
+    #menu.save()
+    
+    #profile             =Profile()
+    #profile.name        ="Administrator"
+    #profile.options     =[menu]
+    #profile.save()
     
     # drive  = driveConfiguration()
     # drive.credential="{\"_module\": \"oauth2client.client\", \"token_expiry\": \"2014-05-26T05:49:39Z\", \"access_token\": \"ya29.IgCImXaOM88F9xoAAAAqWEzWg5pqF_7JONWBJtBCOoSnNoa4oUmN2Nzla7klSA\", \"token_uri\": \"https://accounts.google.com/o/oauth2/token\", \"invalid\": false, \"token_response\": {\"access_token\": \"ya29.IgCImXaOM88F9xoAAAAqWEzWg5pqF_7JONWBJtBCOoSnNoa4oUmN2Nzla7klSA\", \"token_type\": \"Bearer\", \"expires_in\": 3600, \"refresh_token\": \"1/_tkmi9tXUaY6OmEUjzG53-LcVBOe3-UHRA3cSeau-DE\", \"id_token\": {\"sub\": \"118382467861745398798\", \"cid\": \"952570055288-14thfi8q8jbanlaq1kfvekl9nsk5cucq.apps.googleusercontent.com\", \"iss\": \"accounts.google.com\", \"email_verified\": true, \"id\": \"118382467861745398798\", \"at_hash\": \"_kg1-ot_hyrksYgny-m7JA\", \"exp\": 1401083381, \"azp\": \"952570055288-14thfi8q8jbanlaq1kfvekl9nsk5cucq.apps.googleusercontent.com\", \"iat\": 1401079481, \"verified_email\": true, \"token_hash\": \"_kg1-ot_hyrksYgny-m7JA\", \"email\": \"singleprojects@gmail.com\", \"aud\": \"952570055288-14thfi8q8jbanlaq1kfvekl9nsk5cucq.apps.googleusercontent.com\"}}, \"client_id\": \"952570055288-14thfi8q8jbanlaq1kfvekl9nsk5cucq.apps.googleusercontent.com\", \"id_token\": {\"sub\": \"118382467861745398798\", \"cid\": \"952570055288-14thfi8q8jbanlaq1kfvekl9nsk5cucq.apps.googleusercontent.com\", \"iss\": \"accounts.google.com\", \"email_verified\": true, \"id\": \"118382467861745398798\", \"at_hash\": \"_kg1-ot_hyrksYgny-m7JA\", \"exp\": 1401083381, \"azp\": \"952570055288-14thfi8q8jbanlaq1kfvekl9nsk5cucq.apps.googleusercontent.com\", \"iat\": 1401079481, \"verified_email\": true, \"token_hash\": \"_kg1-ot_hyrksYgny-m7JA\", \"email\": \"singleprojects@gmail.com\", \"aud\": \"952570055288-14thfi8q8jbanlaq1kfvekl9nsk5cucq.apps.googleusercontent.com\"}, \"client_secret\": \"06ILhZBgt7-RAJfnu0FCx7zD\", \"revoke_uri\": \"https://accounts.google.com/o/oauth2/revoke\", \"_class\": \"OAuth2Credentials\", \"refresh_token\": \"1/_tkmi9tXUaY6OmEUjzG53-LcVBOe3-UHRA3cSeau-DE\", \"user_agent\": null}"
@@ -136,27 +150,29 @@ def home (request):
 def validateFromGoogle(request):
     
     
-    ok  ="false"
-    url ="/dashboard"
+    ok  = "false"
+    url = "login/logout/"
     if(request.method=="POST"):
         
         users= User.objects(email=request.POST["email"])
-        if(users>0):
+        if(len(users)>0):
             user                            = users[0]
-            user.name                       = request.POST["email"]
+            user.name                       = request.POST["username"]
             user.saveImageFromUrl(request.POST["urlimage"])
+            user.save()
             request.session["name"]         = user.name
-            request.session["profile"]      = user.profile
+            request.session["profile"]      = user.profile.name
             request.session["userid"]       = str(user.id)
             request.session["userimage"]    = user.getUrlImage()
             request.session["email"]        = user.email
             request.session["menu"]         = ""
             request.session["token"]        = request.POST["token"]
             request.session["session_type"] = "google"
-            ok                              ="true"
+            ok                              = "true"
+            url                             = "/dashboard"
     
-            print(request.session)
-    return HttpResponse(json.dumps({"ok":"true", "url": "/dashboard"}), content_type="application/json") 
+            
+    return HttpResponse(json.dumps({"ok":ok, "url": url}), content_type="application/json") 
     
 
 

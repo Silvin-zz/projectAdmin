@@ -15,6 +15,7 @@ PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 
 
 BASE_EMAIL = "singleprojects@gmail.com"
+BASE_EMAIL_PASSWORD = "s1ngl3pr0j3cts"
 
 
 

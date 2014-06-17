@@ -18,7 +18,7 @@ urlpatterns = patterns('',
 
     ###############LOGIN #########################
     url(r'^login/validate/'             ,'login.views.loginValidate'),
-    url(r'^login/validateFromGoogle/'   ,'login.views.validateFromGoogle'),
+    url(r'^login/validateFromGoogle'   ,'login.views.validateFromGoogle'),
     url(r'^login/logout/'               ,'login.views.logout'),
     
     
@@ -104,11 +104,10 @@ urlpatterns = patterns('',
     ####################USER, PROFILES, MENUS  ADMIN  ###########################
     
     ######USER
-        
+    url(r'^admin/user/new'          ,'principal.admin.userNew'), 
     url(r'^admin/user'              ,'principal.admin.userList'),
-    url(r'^admin/user/new'          ,'principal.admin.userNew'),
-    url(r'^admin/user/edit'         ,'principal.admin.userEdit'),
-    url(r'^admin/user/save'         ,'principal.admin.userSave'),
+    
+    
     
     
     

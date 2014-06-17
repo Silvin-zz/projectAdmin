@@ -1,0 +1,35 @@
+<div class="form-group">
+                <label class="col-sm-3 control-label">Name</label>
+                <div class="row">
+                    <div class="col-xs-8">
+                        <input type="text" name="userName" id="userName" class="form-control" />
+                    </div>
+                </div>
+</div>
+            
+            
+<div class="form-group">
+                <label class="col-sm-3 control-label">Email</label>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <input type="text" name="userEmail" id="userEmail" class="form-control" />
+                    </div>
+                </div>
+</div>
+        
+
+        
+<div class="form-group">
+                <label class="col-sm-3 control-label">Profile</label>
+                <div class="row">
+                    <div class="col-xs-7">
+                        <select name="userProfile">
+                        {% for profile in profiles %}
+                        <option value="{{ profile.id }}">{{ profile.name }}</option>
+                        {% endfor %}
+                        </select>
+                    </div>
+                </div>
+</div>  
+
+<input type="hidden" id="userId" name="userId" value="" />
