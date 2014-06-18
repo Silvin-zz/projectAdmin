@@ -25,18 +25,18 @@ import urllib
 
 
 class Company(Document):
-    name        = StringField(max_length=500, required=True)
-    description = StringField(max_length=2000)
+    name            = StringField(max_length=500, required=True)
+    description     = StringField(max_length=2000)
 
 
 class Taskcomment(Document):
-    comment     = StringField(max_length=2000)
-    meta = {'allow_inheritance': True}
+    comment         = StringField(max_length=2000)
+    meta            = {'allow_inheritance': True}
     
     
 class AuthUser(Document):
-    first_name  = StringField(max_length=2000)
-    meta = {'allow_inheritance': True}
+    first_name      = StringField(max_length=2000)
+    meta            = {'allow_inheritance': True}
 
 #Manejo de Menus
 
@@ -53,12 +53,56 @@ class Menu(Document):
     name            = StringField()
     url             = StringField()
     iconclass       = StringField()
+    isFather        = BooleanField()
+    subItem         = StringField() 
     meta            = {'allow_inheritance': True}
+    
+    
+    def getMyFather(self):
+        
+        if("" in str(self.subItem)):
+            
+            return "None"
+            
+        else:
+            
+            father= Menu.objects(pk=self.subItem).get()
+            return father.name
+        
 
 class Profile(Document):
     name           = StringField()
     options        = ListField(ReferenceField(Menu))
     meta           = {'allow_inheritance': True}
+    def totalOptions(self):
+        return(len(self.options))
+        
+    def generateMenu(self):
+        vtmenu              ={}
+        vtmenu["options"]   =[]
+        for option in Menu.objects("_id" in self.options).order_by("_id") :
+            
+            if(len(option.subItem.strip()) <= 0 ):
+                    
+                vtmenu["options"].append({"name":option.name,  "icon": option.iconclass, "url": option.url, "father":False})
+            else:
+                father=Menu.objects(pk=option.subItem).get()
+                if(father.name not in vtmenu):
+                    vtmenu[father.name]             ={}
+                    vtmenu[father.name]["name"]     =father.name
+                    vtmenu[father.name]["icon"]     =father.iconclass
+                    vtmenu[father.name]["url"]      ="#"
+                    vtmenu[father.name]["father"]   =True
+                    vtmenu[father.name]["options"]  =[]
+                    
+                vtmenu[father.name]["options"].append({"name":option.name,  "icon": option.iconclass, "url": option.url, "father":False})
+                
+        return vtmenu
+                
+            
+        
+        
+        
 
 
 class User(Document):

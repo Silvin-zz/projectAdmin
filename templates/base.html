@@ -50,7 +50,7 @@
                                     <img src="{% static "images/users/" %}{{request.session.userimage}}" class="img-circle" alt="User Image" />
                                     <p>
                                         {{ request.session.name }}
-                                        <small>{{ request.session.profile }}</small>
+                                        <small>{{ request.session.profilename }}</small>
                                     </p>
                                 </li>
                                 <!-- Menu Body -->
@@ -82,8 +82,6 @@
                         </div>
                         <div class="pull-left info">
                             <p>{{ request.session.name }}</p>
-
-                            <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                         </div>
                     </div>
                     <!-- search form -->
@@ -93,57 +91,35 @@
                     <ul class="sidebar-menu">
                         {% block leftmenu %}
 
-                            <li>
-                                <a href="{% url "principal.project.projectList" %}"><i class="glyphicon glyphicon-th-large"></i> <span>Dashboard</span></a>
-                            </li>
-
-                            <li>
-                                <a href="{% url "principal.project.projectList" %}"><i class="glyphicon glyphicon-flag"></i> <span>Projects</span></a>
-                            </li>
-
-
-                            <li>
-                                <a href="{% url "principal.target.targetList" %}"><i class="glyphicon glyphicon-screenshot"></i> <span>Targets</span></a>
-                            </li>
-
-
-                            <li>
-                                <a href="{% url "principal.task.myTasks" %}"><i class="glyphicon glyphicon-bookmark"></i> <span>My Assigned Tasks</span></a>
-                            </li>
-
-                            <li>
-                                <a href="{% url "principal.document.showDocuments" %}"><i class="glyphicon glyphicon-book"></i> <span>Documents Project</span></a>
-                            </li>
+                            {% for profile in request.session.profile.options %}
+                               
+                                <li>
+                                    <a href="{{ profile.url }}"><i class="{{ profile.icon }}"></i> <span>{{ profile.name }}</span></a>
+                                </li>   
+                            {% endfor %}
                             
                             <li>
-                                <a href="{% url "principal.document.upload" %}"><i class="glyphicon glyphicon-book"></i> <span>Upload</span></a>
-                            </li>
-
-                            <li>
-                                <a href="{% url "principal.task.myTasks" %}"><i class="glyphicon glyphicon-tasks"></i> <span>Performance</span></a>
-                            </li>
-                            
-                            <li>
-                                <a href="#"><i class="fa fa-dashboard"></i> <span>Team</span></a>
-                            </li>
-
-                            <!--
-                            <li class="treeview active">
                                 <a href="#">
-                                    <i class="fa fa-folder"></i> <span>Examples</span>
+                                    <i class="fa fa-folder"></i> <span>Administrator</span>
                                     <i class="fa fa-angle-left pull-right"></i>
                                 </a>
-                                <ul class="treeview-menu">
-                                    <li><a href="invoice.html"><i class="fa fa-angle-double-right"></i> Invoice</a></li>
-                                    <li><a href="login.html"><i class="fa fa-angle-double-right"></i> Login</a></li>
-                                    <li><a href="register.html"><i class="fa fa-angle-double-right"></i> Register</a></li>
-                                    <li><a href="lockscreen.html"><i class="fa fa-angle-double-right"></i> Lockscreen</a></li>
-                                    <li><a href="404.html"><i class="fa fa-angle-double-right"></i> 404 Error</a></li>
-                                    <li><a href="500.html"><i class="fa fa-angle-double-right"></i> 500 Error</a></li>
-                                    <li class="active"><a href="blank.html"><i class="fa fa-angle-double-right"></i> Blank Page</a></li>
-                                </ul>
+                                <ul class="sidebar-menu">
+                                    
+                                
+                            
+                            
+                            {% for profile in request.session.profile.Administrator.options %}
+                            
+                                <li>
+                                    <a href="{{ profile.url }}"><i class="{{ profile.icon }}"></i> <span>{{ profile.name }}</span></a>
+                                </li>
+                            
+                            
+                            {%endfor %}
+                            
+                            </ul>
                             </li>
-                            -->
+                        
                         {% endblock leftmenu %}
 
                     </ul>
@@ -163,7 +139,7 @@
 
                     <ol class="breadcrumb" id="breadcrumb">
                         {% block breadcrumb %}
-
+                        
                         {% endblock breadcrumb %}
                     </ol>
                 </section>

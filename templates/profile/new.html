@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %} <h2>New Profile</h2> {% endblock title %}
+{% block content %}
+    
+    <form  class="form-signin" role="form" id="frmMenu" action="/admin/profile/save" method="post">
+        {% csrf_token %}
+    <div class="form-group">
+                <label class="col-sm-1 control-label">Profile Name</label>
+                <div class="row">
+                    <div class="col-xs-8">
+                        <input type="text" name="name" id="name" class="form-control" />
+                    </div>
+                </div>
+</div>
+
+    
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th colspan="2">Menu</th>
+                <th>URL</th>
+            </tr>
+        </thead>
+        <tbody id="usersBody">
+            {% for option in options %}
+            
+            <tr>
+                <td>
+                        <input   type="checkbox" name="options[]" id="options[]" value="{{ option.id }}" />
+                    
+                </td>
+                <td>
+                    <i class="{{ option.iconclass }}"></i> &nbsp; {{option.name}}
+                    
+                </td>
+                
+                <td>{{ option.url }}</td>
+                
+                
+            </tr>
+            
+            {% endfor %}
+        </tbody>
+
+
+    </table>
+    <div class="modal-footer">
+        <a  class="btn btn-default" href="/admin/profile" >Return </a>
+        <button type="submit" class="btn btn-primary" id="menuSave">Save changes</button>
+      </div>
+    </form>
+    
+{% endblock content %}
+
+{% block scripts %}
+ 
+{% endblock scripts %}

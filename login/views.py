@@ -25,6 +25,7 @@ from principal.models import PriorityTask
 from principal.models import driveConfiguration
 from principal.models import Menu
 from principal.models import Profile
+from bson           import json_util
 import json
 import urllib2
 
@@ -126,18 +127,18 @@ def home (request):
     
     
     print("llegamos")
-    print("LLegamos carajo")
     if(request.method=="POST"):
         print("Entramos al post")
         
-        print(Menu.objects)
+        print(request.POST)
         
         users   =   User.objects(username=request.POST["username"], password=request.POST["password"])
         print(users)
         if(users.count()>0):
             request.session.set_expiry(60 * 60 * 24)
             request.session["name"]         = users[0].name
-            request.session["profile"]      = users[0].profile
+            request.session["profile"]      = users[0].profile.generateMenu()  #to_json()
+            request.session["profilename"]  = users[0].profile.name
             request.session["userid"]       = str(users[0].id)
             request.session["userimage"]    = users[0].getUrlImage()
             request.session["email"]        = users[0].email
@@ -164,7 +165,8 @@ def validateFromGoogle(request):
             user.saveImageFromUrl(request.POST["urlimage"])
             user.save()
             request.session["name"]         = user.name
-            request.session["profile"]      = user.profile.name
+            request.session["profile"]      = users[0].profile.generateMenu()  #to_json()
+            request.session["profilename"]  = users[0].profile.name()
             request.session["userid"]       = str(user.id)
             request.session["userimage"]    = user.getUrlImage()
             request.session["email"]        = user.email

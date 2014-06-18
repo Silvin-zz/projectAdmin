@@ -31,7 +31,7 @@ def userList(request):
 
 def userNew(request):
     result={"success":"false", "message":"", "data":""}
-    print("Iniciamos::::::::::::::::::::")
+    
     
     if( "new" in request.POST["userAction"]):
         users           = User.objects(email=request.POST["userEmail"])
@@ -60,18 +60,34 @@ def userNew(request):
 ############### PROFILE #######
     
 def profileList(request):
-    return render_to_response('user/list.html', {}, context_instance=RequestContext(request))
+    profiles = Profile.objects()
+    return render_to_response('profile/list.html', {"profiles": profiles}, context_instance=RequestContext(request))
 
 def profileNew(request):
-    return render_to_response('user/list.html', {}, context_instance=RequestContext(request))
-
-
-def profileEdit(request):
-    return render_to_response('user/list.html', {}, context_instance=RequestContext(request))
+    
+    options= Menu.objects(isFather=False)
+    return render_to_response('profile/new.html', {"options":options}, context_instance=RequestContext(request))
+    
+def profileSave(request):
+    options     = request.POST.getlist('options[]')
+    profileName = request.POST["name"]
+    vtoptions   = []
+    
+    for idOption in options:
+        print("Este  es el ID OPTION" + str(idOption) + "   :::::::::")
+        option  = Menu.objects(pk=idOption).get()
+        vtoptions.append(option)
+    
+    profile= Profile()
+    profile.name=profileName
+    profile.options = vtoptions
+    profile.save()
+    return HttpResponseRedirect("/admin/profile")
+    
     
 
-def profileSave(request):
-    return render_to_response('user/list.html', {}, context_instance=RequestContext(request))
+
+
 
 
 
@@ -79,18 +95,24 @@ def profileSave(request):
 ############### MENU #######
     
 def menuList(request):
-    menus = Menu.objects()
-    return render_to_response('menu/list.html', {"menus":menus}, context_instance=RequestContext(request))
+    menus        = Menu.objects()
+    principals   = Menu.objects(isFather=True)
+    return render_to_response('menu/list.html', {"menus":menus, "principals":principals}, context_instance=RequestContext(request))
 
 def menuNew(request):
     result={"success":"false", "message":"", "data":""}
     if( "new" in request.POST["action"]):
+        isFather        =False
+        if("isFather" in request.POST):
+            isFather=True
         menu            = Menu()
         menu.name       = request.POST["name"]
         menu.iconclass  = request.POST["iconclass"]
         menu.url        = request.POST["url"]
+        menu.subItem    = request.POST["submenu"]
+        menu.isFather   = isFather
         menu.save()
-        result["data"]  = {"id": str(menu.id), "name": menu.name, "iconclass": menu.iconclass, "url": menu.url}
+        result["data"]  = {"id": str(menu.id), "name": menu.name, "iconclass": menu.iconclass, "url": menu.url, "isFather": menu.isFather, "subItem": menu.getMyFather()}
         result["success"]= "true"
     return HttpResponse(json.dumps(result), content_type="application/json") 
 

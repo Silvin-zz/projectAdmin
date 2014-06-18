@@ -109,12 +109,11 @@ urlpatterns = patterns('',
     
     
     
-    
-    
     #####PROFILE
-    
-    url(r'^admin/profile'           ,'principal.admin.profileList'),
     url(r'^admin/profile/new'       ,'principal.admin.profileNew'),
+    url(r'^admin/profile/save'      ,'principal.admin.profileSave'),
+    url(r'^admin/profile'           ,'principal.admin.profileList'),
+    
     
     
     
