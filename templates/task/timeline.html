@@ -16,9 +16,9 @@
                  <strong>End %:</strong>  
                  <select class="form-control" name="endpercent" id="endpercent">
                     {% for i in "x"|rjust:"100"|make_list   %}
-                        
-                        <option value="{{ forloop.counter }}" {% if forloop.counter == task.endpercent  %} selected="selected" {% endif %} >{{ forloop.counter }}</option>
-                        
+                        {% if forloop.counter|divisibleby:"10" %} 
+                        <option value="{{ forloop.counter }}" {% if forloop.counter == task.endpercent  %} selected="selected" {% endif %} >{{ forloop.counter  }}</option>
+                        {% endif %}
                     {% endfor %}
                 </select>
             </div>

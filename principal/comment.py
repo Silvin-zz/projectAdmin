@@ -30,6 +30,6 @@ def listByTaskId(request):
     
     
     taskObject       = Task.objects(pk=request.POST["taskid"]).get()
-    comments         = taskObject.comments
+    comments         = list(reversed(taskObject.comments))
     return render_to_response('comments/showall.html', {"comments": comments}, context_instance=RequestContext(request))
      

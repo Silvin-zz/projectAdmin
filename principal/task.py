@@ -63,8 +63,8 @@ def myTasks(request):
 
 
 def showDetail(request):
-    taskObject  = Task.objects(pk=request.POST["taskId"]).order_by('-timelinasdadasde__date').get()
-    timelines   = taskObject.timeline
+    taskObject  = Task.objects(pk=request.POST["taskId"]).order_by('-timeline').get()
+    timelines   = list(reversed(taskObject.timeline))
     return render_to_response('tasks/show.html', {"timelines": timelines, "task":taskObject}, context_instance=RequestContext(request))
 
 
@@ -72,7 +72,7 @@ def showDetail(request):
 
 
 def saveTimeLine(request):
-    print("llegamos")
+
     tmObject                = TimeLine()
     tmObject.hoursspend     = request.POST["occupiedhours"]
     tmObject.activity       = request.POST["activity"]
