@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load staticfiles %}
-{% block title %} <h2>My Assigned Tasks</h2>
+{% block title %} My Assigned Tasks
 {% endblock title %}
 {% block content %}
 
@@ -13,16 +13,20 @@
         
     </form>
 
-    <div class="row text-center">
-        <div class="btn-group">
-            <button type="button" class="btn btn-info period" alt="today">Today</button>
-            <button type="button" class="btn btn-info period" alt="week">This Week</button>
-            <button type="button" class="btn btn-info period" alt="month">this Month</button>
-            
-            <button type="button" class="btn btn-success type" alt="active">Active</button>
-            <button type="button" class="btn btn-success type" alt="finished">Finished</button>
-            
-            
+    <div class="row text-left">
+        <div class="col-xs-6">
+            <div class="btn-group">
+                <button type="button" class="btn btn-default btn-sm period active" alt="today">Today</button>
+                <button type="button" class="btn btn-default btn-sm period" alt="week">This Week</button>
+                <button type="button" class="btn btn-default btn-sm period" alt="month">this Month</button>
+            </div>
+        </div>
+        <div class="col-xs-6 pull-right right-text">
+            <div class="btn-group pull-right">
+                <button type="button" class="btn  btn-default btn-sm type active" alt="active">Active</button>
+                <button type="button" class="btn  btn-default btn-sm type" alt="finished">Finished</button>
+            </div>
+        </div>
         
         
     </div>

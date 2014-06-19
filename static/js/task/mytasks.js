@@ -2,8 +2,13 @@ $(document).ready(function(){
     finished="true"
     type    ="today"
     
+    
+    $("#tablebody").on("click",".taskdetail",function(){
+        	loadTaskDetail($(this));    
+        
+    });
 	$(".taskdetail").on("click",function(){
-		loadTaskDetail($(this));
+	
 	});
 
 	function loadTaskDetail(element){
