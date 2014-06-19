@@ -240,7 +240,7 @@ class Comment(EmbeddedDocument):
 
 
 class TimeLine(EmbeddedDocument):
-    hoursspend      = IntField()
+    hoursspend      = FloatField()
     activity        = StringField()
     endpercent      = IntField()
     urlreference1   = StringField()
@@ -267,9 +267,9 @@ class Task (Document):
     dateadd         = DateTimeField()
     tasktype        = ReferenceField(TaskType)
     endpercent      = IntField(default=0)
-    estimatedhours  = IntField(default=0)
-    hoursspend      = IntField(default=0)
-    usedhours       = IntField(default=0)
+    estimatedhours  = FloatField(default=0)
+    hoursspend      = FloatField(default=0)
+    usedhours       = FloatField(default=0)
     iscritical      = BooleanField(default= False)
     finished        = BooleanField(default= False)
     priority        = ReferenceField(PriorityTask)
@@ -282,11 +282,18 @@ class Task (Document):
 
 
     def updateHoursSpend(self, newhours):
-        self.usedhours=self.usedhours + int(newhours)
+        print("Iniciamos::::::::::::::")
+        print(newhours)
+        print(self.usedhours)
+        self.usedhours  =float(self.usedhours) + float(newhours)
         self.save()
+        print("terminamos:S:S:S:S:S:S:S:S:S:S:")
 
     def updateEndPercent(self, endpercent):
+        
         self.endpercent=int(endpercent)
+        if(self.endpercent == 100):
+            self.finished=True
         self.save()
 
     def getTaskLive(self):
@@ -368,8 +375,10 @@ class driveConfiguration(Document):
 
 class KnowledgeTips(Document):
     
-    task            = ReferenceField(Task)
+    reference       = StringField(default="")
+    referencetype   = StringField(default="task")
     description     = StringField()
+    title           = StringField()
     keywords        = ListField()
     owner           = ReferenceField(User)
     active          = BooleanField(default= True)

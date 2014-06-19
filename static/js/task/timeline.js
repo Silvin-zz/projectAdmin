@@ -10,8 +10,13 @@ $(document).ready(function(){
 	        type    : "POST",
 	        data    : $("#frmTimeLine").serialize(),
 	        success : function(result){
-	        	alert(result);
+	            
+	        	$("#occupiedhours").val("");
+	        	$("#timeLineActivity").val("");
+	        	$("#reference1").val("");
+	        	$("#reference2").val("");
 	          	$("#timeLineContent").html(result);
+	          	
 	          }
 	    });
 

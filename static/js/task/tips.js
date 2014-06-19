@@ -15,6 +15,7 @@ $(document).ready(function(){
 			  type		:  "POST",
 			  data		:  $("#frmTips").serialize(),
 			  success	: function(result){
+			      clearTipForm();
 			      $("#taskTipsBody").prepend(result);
 		      },
 		      error: function(XMLHttpRequest, textStatus, errorThrown) { 
@@ -40,5 +41,15 @@ $(document).ready(function(){
                     
                 }   
 	    }); 
+   }
+   
+   
+   
+   function clearTipForm(){
+       debugger;
+       $("#taskTitle").val("");
+       $("#tipKeywords").val("");
+       $("#descriptionTip").val("");
+       
    }
 });

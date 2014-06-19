@@ -2,10 +2,12 @@
 <div class="timeline-item">
     <h3 class="timeline-header">
         <img src="{% static "images/users/" %}{{ tip.owner.getUrlImage }}" width="40" class="img-circle" /> &nbsp;&nbsp;
-        <small><strong>{{comment.owner.name}}</strong></small>
+       
+        <small>{{tip.owner.name}}</small>
     </h3>
     <div class="timeline-body">
         <blockquote>
+             <strong>{{tip.title}}</strong>
             <p>{{ tip.description }}</p>
             <small><strong>{{ tip.dateadd }}</strong></small>
             <small><strong>Keywords: &nbsp;&nbsp;</strong>

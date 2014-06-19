@@ -18,8 +18,12 @@
 	                	{{ timeline.activity }}
 	                </div>
 	                <div class='timeline-footer'>
+	                    {% if  timeline.urlreference1 != "" %}
 	                	<strong>Reference 1 </strong>:&nbsp;<a href="{{ timeline.urlreference1 }}" target="_blank">{{ timeline.urlreference1 }} </a><br />
-	                	<strong>Reference 2 </strong>:&nbsp;<a href="{{ timeline.urlreference2 }}" target="_blank">{{ timeline.urlreference2 }} </a>
+	                	{% endif %}
+	                	{% if  timeline.urlreference2 != "" %}
+	                	    <strong>Reference 2 </strong>:&nbsp;<a href="{{ timeline.urlreference2 }}" target="_blank">{{ timeline.urlreference2 }} </a>
+	                	{% endif %}
 	                </div>
 	            </div>
 	        </li>

@@ -22,20 +22,18 @@ import time
 def add(request):
     
     tip                 = KnowledgeTips()
-    task                = Task.objects(pk=request.POST["taskId"]).get()
+    tip.reference       = request.POST["reference"]
+    tip.referencetype   = request.POST["type"]
+    tip.title           = request.POST["title"]
     tip.description     = request.POST["description"]
     tip.keywords        = request.POST["keywords"].split(",")
     tip.owner           = User.objects(pk=request.session["userid"]).get()
-    tip.task            = task
     tip.save()
     return render_to_response('tips/show.html', {"tip": tip}, context_instance=RequestContext(request))
     
     
 def listTips(request):
-    task                = Task.objects(pk=request.POST["taskId"]).get()
-    print("Llegando a la tarea :::::::::::::::")
-    print(task)
-    tips                = KnowledgeTips.objects(task=task)
+    tips                = KnowledgeTips.objects(reference=request.POST["reference"], referencetype="task")
     print("Llegando a los tips::::::::::::::::::::::::::::")
     print(tips)
     return render_to_response('tips/list.html', {"tips": tips}, context_instance=RequestContext(request))

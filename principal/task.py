@@ -60,6 +60,13 @@ def myTasks(request):
     return render_to_response('task/assigned.html', {"tasks":tasks}, context_instance=RequestContext(request))
 
 
+def Tasksfilter(request):
+    print("Llegamos ::::::::::::::::::::::::::::::::::::::::::")
+    finished=False
+    if("finished" in request.POST["finished"]):
+        finished=True
+    tasks   = Task.objects(owner=request.session["userid"], finished=finished).order_by("-datestart", "priority__number")
+    return render_to_response('task/listassigned.html', {"tasks":tasks}, context_instance=RequestContext(request))
 
 
 def showDetail(request):
@@ -71,10 +78,12 @@ def showDetail(request):
 
 
 
+
+
 def saveTimeLine(request):
 
     tmObject                = TimeLine()
-    tmObject.hoursspend     = request.POST["occupiedhours"]
+    tmObject.hoursspend     = float(request.POST["occupiedhours"])
     tmObject.activity       = request.POST["activity"]
     tmObject.endpercent     = request.POST["endpercent"]
     tmObject.urlreference1  = request.POST["reference1"]
@@ -83,9 +92,12 @@ def saveTimeLine(request):
     Task.objects(pk=request.POST["taskId"]).update_one(push__timeline=tmObject)
 
     taskObject              = Task.objects(pk=request.POST["taskId"]).get()
-    taskObject.updateEndPercent(tmObject.endpercent)
+    
     taskObject.updateHoursSpend(tmObject.hoursspend)
-    timelines               = taskObject.timeline
+    taskObject.updateEndPercent(tmObject.endpercent)
+    
+    
+    timelines               = list(reversed(taskObject.timeline))
     return render_to_response('task/showtimeline.html', {"timelines": timelines}, context_instance=RequestContext(request))
 
 
@@ -115,7 +127,7 @@ def taskSave(request):
     taskObject.description      = request.POST["description"]
     taskObject.datestart        = request.POST["datestart"]
     taskObject.dateend          = request.POST["dateend"]
-    taskObject.estimatedhours   = request.POST["estimatedhours"]
+    taskObject.estimatedhours   = float(request.POST["estimatedhours"])
     taskObject.title            = request.POST["title"]
     taskObject.code             = request.POST["code"]
     taskObject.iscritical       = iscritical
