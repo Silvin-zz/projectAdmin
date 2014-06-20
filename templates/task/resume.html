@@ -6,11 +6,13 @@
                                 <address>
                                     <img src="{% static "images/users/" %}{{ task.owner.getUrlImage }}" width="40" class="img-circle" />
                                     &nbsp;&nbsp;<strong>{{ task.owner.name }}</strong><br>
+                                    <strong>Code: {{ task.code }}</strong><br />
                                     {{ task.description }} <br />
                                     <span class="label label-primary">{{task.estimatedhours }}&nbsp;Hrs.</span> <br />
-                                    <strong>Start: </strong> {{ task.datestart |date:"M d Y"}}<br>
+                                    <strong>Start: </strong> {{ task.datestart |date:"M d Y"}}
                                     <strong>Finish: </strong> {{ task.dateend |date:"M d Y"}}<br>
                                     <strong>{{ task.daysLeft }} </strong>days left
+                                    <br/><span class="label label-warning"><strong>{{ task.estimatedhours }}</strong></span> Estimated Hours,   <span class="label label-success"><strong>{{ task.usedhours }}</strong></span> Hours Spent
                                     
                                     
                                 </address>

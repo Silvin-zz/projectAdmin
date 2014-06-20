@@ -61,6 +61,9 @@ urlpatterns = patterns('',
     ########################### TIPS #############################################
     url(r'^tips/add'                ,'principal.knowledgeTips.add'),
     url(r'^tips/list'               ,'principal.knowledgeTips.listTips'),
+    url(r'^tips/home'               ,'principal.knowledgeTips.home'),
+    url(r'^tips/search'             ,'principal.knowledgeTips.filterTips'),
+    
     
 
     

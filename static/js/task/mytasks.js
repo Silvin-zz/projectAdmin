@@ -1,6 +1,5 @@
 $(document).ready(function(){
-    finished="true"
-    type    ="today"
+    loadTasks();
     
     
     $("#tablebody").on("click",".taskdetail",function(){
@@ -36,6 +35,8 @@ $(document).ready(function(){
 	}
 	
 	$(".period").click(function(){
+	    $(".period").removeClass("active");
+	    $(this).addClass("active");
 	    period=$(this).attr("alt");
 	    $("#taskType").val(period);
 	    loadTasks();
@@ -44,6 +45,10 @@ $(document).ready(function(){
 	
 	
 	$(".type").click(function(){
+	    
+	    $(".type").removeClass("active");
+	    $(this).addClass("active");
+	    
 	    finished=$(this).attr("alt");
 	    $("#taskFinished").val(finished);
 	    loadTasks();

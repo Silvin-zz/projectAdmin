@@ -8,7 +8,7 @@
     <form action="#" class="form-horizontal" role="form" id="frmmyTasks">
         <input type="hidden" id="token"         name="csrfmiddlewaretoken" value="{{ csrf_token }}" />
         <input type="hidden" id="taskFinished"  name="finished"  value="True"  />
-        <input type="hidden" id="taskType"      name="type"     value="today"  />
+        <input type="hidden" id="taskType"      name="type"     value="week"  />
         
         
     </form>
@@ -16,9 +16,9 @@
     <div class="row text-left">
         <div class="col-xs-6">
             <div class="btn-group">
-                <button type="button" class="btn btn-default btn-sm period active" alt="today">Today</button>
-                <button type="button" class="btn btn-default btn-sm period" alt="week">This Week</button>
-                <button type="button" class="btn btn-default btn-sm period" alt="month">this Month</button>
+                <button type="button" class="btn btn-default btn-sm period "        alt="today">Today</button>
+                <button type="button" class="btn btn-default btn-sm period active"         alt="week">This Week</button>
+                <button type="button" class="btn btn-default btn-sm period"         alt="month">this Month</button>
             </div>
         </div>
         <div class="col-xs-6 pull-right right-text">
@@ -40,30 +40,7 @@
 			</tr>
 		</thead>
 		<tbody id="tablebody">
-		{% for task in tasks %}
-			<tr>
-				<td><span class="label label-{{ task.priority.classname }}">{{ task.priority.name }} Priority</span> &nbsp;<strong>{{ task.title }}</strong> <br />{{ task.getShortDescription }}</td>
-				<td>
-					{{task.datestart|date:"M d Y"}} <br />  {{task.dateend|date:"M d Y"}}
-				</td>
-				<td>
-				
-					<div class="col-xs-10">
-						<div class="progress xs progress-striped active">
-		                    <div class="progress-bar progress-bar-info" style="width: {{ task.endpercent }}%"></div>
-		                </div>
-					</div>
-					<div class="col-xs-2">
-						<span class="badge bg-green">{{task.endpercent}} %</span></td>
-					</div>	
-				</td>
-				<td class="text-center">
-					
-					<button class="btn btn-xs btn-primary btn-flat taskdetail" title="Show" lang="{{ task.id }}"><i class="glyphicon glyphicon-search white"></i></button>
-				</td>
-			</tr>
-
-		{% endfor %}
+		
 		</tbody>
 	</table>
 	<form action="{% url "principal.task.showDetail" %}" method="POST" class="form-horizontal" role="form" id="frmTaskDetail">

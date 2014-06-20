@@ -4,12 +4,12 @@
         <img src="{% static "images/users/" %}{{ tip.owner.getUrlImage }}" width="40" class="img-circle" /> &nbsp;&nbsp;
        
         <small>{{tip.owner.name}}</small>
+        <p class="pull-right"><small style="font-size: 12px; font-weight: bold;">{{ tip.dateadd }}</small></p>
     </h3>
     <div class="timeline-body">
         <blockquote>
              <strong>{{tip.title}}</strong>
             <p>{{ tip.description }}</p>
-            <small><strong>{{ tip.dateadd }}</strong></small>
             <small><strong>Keywords: &nbsp;&nbsp;</strong>
                 {% for key in  tip.keywords %}
                 {%  if forloop.counter > 1 %} , {% endif %}

@@ -1,21 +1,47 @@
 {% extends "base.html" %}
 {% load staticfiles %}
-{% block title %} <h2>Targets By Project</h2>
+{% block title %}Targets By Project
 
-    <form action="#" class="form-horizontal" role="form" id="frmGetTargets">
-        <input type="hidden" id="token" name="csrfmiddlewaretoken" value="{{ csrf_token }}" />
-        <label> Project:</label>&nbsp;&nbsp;
-        <select class="" name="projectId" id="projectId">
-            {% for project in projects %}
-                <option value="{{ project.id }}">{{project.title}}</option>
-            {% endfor %}
-        </select>
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        <button type="button" class="btn btn-primary btn-flat" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-plus"></i>&nbsp; Add New Target</button>
-
-    </form>
+    
+    
 {% endblock title %}
 {% block content %}
+    
+    <div class="row text-left">
+     <div class="col-xs-4">
+        <form action="#" class="form-horizontal" role="form" id="frmGetTargets">
+            <input type="hidden" id="token" name="csrfmiddlewaretoken" value="{{ csrf_token }}" />
+            <label> Project:</label>&nbsp;&nbsp;
+            <select class="" name="projectId" id="projectId">
+                {% for project in projects %}
+                    <option value="{{ project.id }}">{{project.title}}</option>
+                {% endfor %}
+            </select>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <button type="button" class="btn btn-primary btn-flat" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-plus"></i>&nbsp; Add New Target</button>
+            <input type="hidden" id="taskFinished"  name="finished"  value="active"  />
+        <input type="hidden" id="taskType"          name="type"     value="week"  />
+        </form>
+        </div>
+    
+    
+        <div class="col-xs-4">
+            <div class="btn-group">
+                <button type="button" class="btn btn-default btn-sm period "        alt="today">Today</button>
+                <button type="button" class="btn btn-default btn-sm period active" id="periodweek" alt="week">This Week</button>
+                <button type="button" class="btn btn-default btn-sm period"         alt="month">this Month</button>
+            </div>
+        </div>
+        <div class="col-xs-4 pull-right right-text">
+            <div class="btn-group pull-right">
+                <button type="button" class="btn  btn-default btn-sm type active" id="typeactive" alt="active">Active</button>
+                <button type="button" class="btn  btn-default btn-sm type" alt="finished">Finished</button>
+            </div>
+        </div>
+        
+        
+    </div>
+    
     
     <div id="listcontent">
 

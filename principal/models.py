@@ -80,7 +80,14 @@ class Profile(Document):
     def generateMenu(self):
         vtmenu              ={}
         vtmenu["options"]   =[]
-        for option in Menu.objects("_id" in self.options).order_by("_id") :
+        vtoptions           =[]
+        
+        for myoption in self.options:
+            vtoptions.append(myoption.id)
+        
+        
+        
+        for option in Menu.objects(pk__in=vtoptions).order_by("_id") :
             
             if(len(option.subItem.strip()) <= 0 ):
                     
@@ -293,7 +300,8 @@ class Task (Document):
         
         self.endpercent=int(endpercent)
         if(self.endpercent == 100):
-            self.finished=True
+            self.finished       = True
+            self.realdateend    = datetime.datetime.now().date()
         self.save()
 
     def getTaskLive(self):
@@ -310,8 +318,13 @@ class Task (Document):
     
     
     def daysLeft(self):
-        realdifference  = self.dateend -datetime.datetime.now() 
-        return realdifference.days
+        if(self.finished == False):
+            realdifference  = self.dateend.date() -datetime.datetime.now().date()
+            return realdifference.days
+        else:
+            realdifference  = self.dateend -datetime.datetime.now()
+            return  0
+        
 
 
 

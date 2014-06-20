@@ -9,7 +9,7 @@ from datetime               import datetime
 
 import json
 import time
-
+import datetime
 from principal.models  		import Target
 from principal.models  		import TargetType
 from principal.models  		import TaskType
@@ -18,7 +18,7 @@ from principal.models  		import Project
 from business.project       import BProject
 from principal.models	 	import PriorityTask
 from business.GApi	        import *
-
+from principal.library  import Library
 
 
 def targetList(request):
@@ -31,23 +31,37 @@ def targetList(request):
 
 
     return render_to_response('target/list.html', {
+        
         "projects"      :   bproject.getAllProjects(True),
         "users"			:   users,
         "WNotify"       :   wNotify,
         "datestart"     :   time.strftime("%Y-%m-%d"),
         "dateend"       :   time.strftime("%Y-%m-%d"),
         "targettypes"	: 	targettypes,
+        
     },context_instance = RequestContext(request))
 
 
 
 
 def getTargetByProjectId(request):
-
-	project      			= Project.objects(pk=request.POST["projectId"]).get()
-	targets 				= Target.objects(project=project)
-
-	return render_to_response('target/listByProject.html', {
+    print(request.POST)
+    project      			= Project.objects(pk=request.POST["projectId"]).get()
+    lb                      = Library()
+    period                  = {"start": datetime.datetime.now().date(), "end": datetime.datetime.now().date()}
+    finished                = False
+    if("finished" in request.POST["finished"]):
+        finished=True
+    if("week" in request.POST["type"]):
+        period  = lb.getPeriodWeek()
+    if("month" in request.POST["type"]):
+        period  = lb.getPeriodMonth()
+    
+    
+    print(period)
+    targets 				= Target.objects(project=project, finished=finished, datestart__gte= period["start"], datestart__lte= period["end"])
+    
+    return render_to_response('target/listByProject.html', {
         "targets"      :   targets,
     },context_instance 		= RequestContext(request))
 

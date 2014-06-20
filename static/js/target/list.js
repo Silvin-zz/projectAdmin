@@ -3,8 +3,37 @@ $(document).ready(function(){
 loadTargets();
 
 $("#projectId").change(function(event) {
+    $(".type").removeClass("active");
+    $(".period").removeClass("active");
+    $("#periodweek").addClass("active");
+    $("#typeactive").addClass("active");
+    $("#taskFinished").val("active");
+    $("#taskType").val("week");
 	loadTargets();
 });
+
+
+
+$(".period").click(function(){
+	    $(".period").removeClass("active");
+	    $(this).addClass("active");
+	    period=$(this).attr("alt");
+	    $("#taskType").val(period);
+	    loadTargets();
+	    
+	});
+	
+	
+	$(".type").click(function(){
+	    
+	    $(".type").removeClass("active");
+	    $(this).addClass("active");
+	    
+	    finished=$(this).attr("alt");
+	    $("#taskFinished").val(finished);
+	    loadTargets();
+	    
+	});
 
 
 $("#btnSaveTarget").click(function(event) {

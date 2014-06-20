@@ -8,7 +8,11 @@
     <div class="row">
         <div class="col-xs-12">
             <h2 class="page-header">
-                <i class="glyphicon glyphicon-bookmark"></i>&nbsp;&nbsp;{{task.title}}
+                <i class="glyphicon glyphicon-bookmark"></i>&nbsp;&nbsp;{{task.title}}  
+                
+                 {% if  task.daysLeft < 0 %}
+                                        &nbsp;&nbsp;<span class="label label-danger">Task is out of time</span>
+                                    {% endif %}
                 <small class="pull-right">
                     <span class="label label-{{ task.priority.classname }}">{{ task.priority.name }} Priority</span>
                 </small>

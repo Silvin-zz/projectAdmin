@@ -1,0 +1,15 @@
+{% load staticfiles %}
+<table class="table">
+    
+    <tbody>
+        
+    
+{% for tip in tips %}
+<tr>
+    {% include "tips/show.html" %}
+    <hr>
+</tr>
+{%  endfor %}
+
+</tbody>
+</table>

@@ -165,8 +165,8 @@ def validateFromGoogle(request):
             user.saveImageFromUrl(request.POST["urlimage"])
             user.save()
             request.session["name"]         = user.name
-            request.session["profile"]      = users[0].profile.generateMenu()  #to_json()
-            request.session["profilename"]  = users[0].profile.name()
+            request.session["profile"]      = user.profile.generateMenu()  #to_json()
+            request.session["profilename"]  = user.profile.name
             request.session["userid"]       = str(user.id)
             request.session["userimage"]    = user.getUrlImage()
             request.session["email"]        = user.email

@@ -2,15 +2,17 @@ from django.conf.urls import url
 from django.shortcuts import render
 
 
+
 # Create your views here.
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.http import HttpResponseRedirect, HttpResponse, HttpRequest
 
 import json
-from business.task import BTask
-from business.user import BUser
-from principal.models import AuthUser
+from business.task      import BTask
+from business.user      import BUser
+from principal.models   import AuthUser
+from principal.library  import Library
 
 
 ## models necesaryes from work with a TASK, sorry for my bad english :(
@@ -28,6 +30,7 @@ from business.GApi	  import *
 
 
 import time
+import datetime
 
 
 def taskList(request):
@@ -56,16 +59,28 @@ def taskAdmin(request):
 
 def myTasks(request):
 
-    tasks   = Task.objects(owner=request.session["userid"], finished=False).order_by("-datestart", "priority__number")
-    return render_to_response('task/assigned.html', {"tasks":tasks}, context_instance=RequestContext(request))
+    
+    return render_to_response('task/assigned.html', {}, context_instance=RequestContext(request))
 
 
 def Tasksfilter(request):
-    print("Llegamos ::::::::::::::::::::::::::::::::::::::::::")
+    
+    lb= Library()
+    
+    period  = {"start": datetime.datetime.now().date(), "end": datetime.datetime.now().date()}
+    
     finished=False
     if("finished" in request.POST["finished"]):
         finished=True
-    tasks   = Task.objects(owner=request.session["userid"], finished=finished).order_by("-datestart", "priority__number")
+    
+    if("week" in request.POST["type"]):
+        period  = lb.getPeriodWeek()
+        
+    if("month" in request.POST["type"]):
+        period  = lb.getPeriodMonth()
+        
+    
+    tasks   = Task.objects(owner=request.session["userid"], finished=finished, datestart__gte= period["start"], datestart__lte= period["end"]).order_by("-datestart", "priority__number")
     return render_to_response('task/listassigned.html', {"tasks":tasks}, context_instance=RequestContext(request))
 
 
@@ -121,7 +136,9 @@ def taskSave(request):
     iscritical                  = False
     if("iscritical" in request.POST):
         iscritical = True
-
+    
+    print(request.POST)
+    
     target                      = Target.objects(pk=request.POST["targetId"]).get()
     taskObject.title            = request.POST["title"]
     taskObject.description      = request.POST["description"]
@@ -137,7 +154,8 @@ def taskSave(request):
     gapi                        = GApi()
     taskFolder                  = gapi.createFolder("TK_" +request.POST["code"], target.folderreference)
     taskObject.folderreference  = taskFolder["id"]
-    print(taskFolder["id"])
+    print("Nueva task")
+    print(taskObject.to_json())
     taskObject.save()
     
     Target.objects(pk=request.POST["targetId"]).update_one(push__tasks=taskObject)
