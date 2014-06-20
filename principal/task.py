@@ -163,6 +163,12 @@ def taskSave(request):
 
 
 
+
+def dashboard(request):
+    period  = {"start": datetime.datetime.now().date(), "end": datetime.datetime.now().date()}
+    tasks   = Task.objects(owner=request.session["userid"], finished=False, datestart__gte= period["start"], datestart__lte= period["end"]).order_by("-datestart", "priority__number")
+    return render_to_response('task/dashboard.html', {"tasks":tasks}, context_instance=RequestContext(request))
+
     # taskObject  = BTask();
     # if taskObject.saveProgress(request.POST) == True :
     #     message                     = "The Progress Task  has Saved Correctly"

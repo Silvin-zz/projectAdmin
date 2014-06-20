@@ -1,0 +1,12 @@
+{% for task in tasks %}
+			<tr>
+				<td><span class="label label-{{ task.priority.classname }}">{{ task.priority.name }} Priority</span> &nbsp;<strong><br>{{ task.title }}</strong> <br />{{ task.getShortDescription }}</td>
+				
+				<td width="100">
+					<div class="col-xs-2">
+						<span class="badge bg-green">{{task.endpercent}} %</span></td>
+					</div>	
+				</td>
+			</tr>
+
+		{% endfor %}

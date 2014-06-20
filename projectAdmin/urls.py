@@ -42,7 +42,9 @@ urlpatterns = patterns('',
     url(r'^tasks/savetimeline'  ,'principal.task.saveTimeLine'),
     url(r'^tasks/save'          ,'principal.task.taskSave'),
     url(r'^tasks/mytasks'       ,'principal.task.myTasks'),
-    url(r'^tasks/filter'       ,'principal.task.Tasksfilter'),
+    url(r'^tasks/filter'        ,'principal.task.Tasksfilter'),
+    url(r'^tasks/dashboard'    ,'principal.task.dashboard'),
+    
     
     
 
