@@ -78,9 +78,12 @@ def Tasksfilter(request):
         
     if("month" in request.POST["type"]):
         period  = lb.getPeriodMonth()
-        
-    
-    tasks   = Task.objects(owner=request.session["userid"], finished=finished, datestart__gte= period["start"], datestart__lte= period["end"]).order_by("-datestart", "priority__number")
+     
+    if("pending" in request.POST["type"]):
+        period  = lb.getPeriodMonth()
+        tasks   = Task.objects(owner=request.session["userid"], finished=finished, datestart__lte = period["start"]).order_by("-datestart", "priority__number")
+    else:
+        tasks   = Task.objects(owner=request.session["userid"], finished=finished, datestart__gte= period["start"], datestart__lte= period["end"]).order_by("-datestart", "priority__number")
     return render_to_response('task/listassigned.html', {"tasks":tasks}, context_instance=RequestContext(request))
 
 
@@ -168,6 +171,50 @@ def dashboard(request):
     period  = {"start": datetime.datetime.now().date(), "end": datetime.datetime.now().date()}
     tasks   = Task.objects(owner=request.session["userid"], finished=False, datestart__gte= period["start"], datestart__lte= period["end"]).order_by("-datestart", "priority__number")
     return render_to_response('task/dashboard.html', {"tasks":tasks}, context_instance=RequestContext(request))
+    
+    
+    
+    
+def generateWeeklyReport(request):
+    
+    lb      = Library()
+    period  = lb.getPeriodWeek()
+    users   = User.objects()
+    vt      = []
+    vtdatos = {}
+    print("Estos  son mis uisuarios::::::::::")
+    print(period)
+    
+    for tmpuser in users:
+        #tasks   = Task.objects(owner=request.session["userid"], finished=finished, datestart__gte= period["start"], datestart__lte= period["end"]).order_by("-datestart", "priority__number")
+        tasks    = Task.objects(owner=tmpuser.id,timeline__date__gte= period["start"], timeline__date__lte= period["end"]).order_by("-timeline__date")
+        
+        for task in tasks:
+            for event in task.timeline:
+                
+                if((event.date.date()>= period["start"]) & (event.owner.id == tmpuser.id)):
+                    print("=============================")
+                    print(event.to_json())
+                    print(event.date)
+                    print("==============================")
+                    target = Target.objects(tasks__in=[task]).get()
+                   
+                    if(target.project.title not in vtdatos):
+                        vtdatos[target.project.title]={}
+                        
+                
+                    if(task.title not in vtdatos[target.project.title]):
+                        vtdatos[target.project.title][task.title]={"description": task.description, "MON":0, "TUE": 0, "WED": 0, "THU":0, "FRI": 0, "SAT":0, "SUN":0}
+                    print("El dia de la semana es::::::::::::::::::::::::::::::")
+                    print(event.date.weekday())
+                    vtdatos[target.project.title][task.title]["MON"]+=event.hoursspend
+                    
+                    
+    print("$$$$$$$$$$$$$$$$$$$$$$$$")                
+    print(vtdatos)    
+    return render_to_response('task/assigned.html', {}, context_instance=RequestContext(request))
+        
+        
 
     # taskObject  = BTask();
     # if taskObject.saveProgress(request.POST) == True :

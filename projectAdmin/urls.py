@@ -43,7 +43,9 @@ urlpatterns = patterns('',
     url(r'^tasks/save'          ,'principal.task.taskSave'),
     url(r'^tasks/mytasks'       ,'principal.task.myTasks'),
     url(r'^tasks/filter'        ,'principal.task.Tasksfilter'),
-    url(r'^tasks/dashboard'    ,'principal.task.dashboard'),
+    url(r'^tasks/dashboard'     ,'principal.task.dashboard'),
+    url(r'^tasks/report'        ,'principal.task.generateWeeklyReport'),
+    
     
     
     
@@ -88,7 +90,7 @@ urlpatterns = patterns('',
     url(r'^comment/list'            ,'principal.comment.listByTaskId'),
 
 
-    url(r'^teams/list'              ,'principal.views.teamList'),
+    #url(r'^teams/list'              ,'principal.team.List'),
     url(r'^documents/list'          ,'principal.views.documentList'),
 
 

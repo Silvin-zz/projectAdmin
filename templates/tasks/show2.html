@@ -4,7 +4,6 @@
     <br />
     {% include "tasks/detail.html" %}
      <br />
-   
     <form class="form-signin" role="form" action="{% url "principal.task.taskSave" %}" method="post">
     {% csrf_token %}
          <div class="row ">
