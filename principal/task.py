@@ -3,6 +3,7 @@ from django.shortcuts import render
 
 
 
+
 # Create your views here.
 from django.shortcuts import render_to_response
 from django.template import RequestContext
@@ -13,6 +14,7 @@ from business.task      import BTask
 from business.user      import BUser
 from principal.models   import AuthUser
 from principal.library  import Library
+from principal.libExcel import libExcel
 
 
 ## models necesaryes from work with a TASK, sorry for my bad english :(
@@ -182,21 +184,19 @@ def generateWeeklyReport(request):
     users   = User.objects()
     vt      = []
     vtdatos = {}
+    lbExcel = libExcel()
     print("Estos  son mis uisuarios::::::::::")
     print(period)
     
     for tmpuser in users:
         #tasks   = Task.objects(owner=request.session["userid"], finished=finished, datestart__gte= period["start"], datestart__lte= period["end"]).order_by("-datestart", "priority__number")
         tasks    = Task.objects(owner=tmpuser.id,timeline__date__gte= period["start"], timeline__date__lte= period["end"]).order_by("-timeline__date")
-        
+        vtdatos  = {}
         for task in tasks:
             for event in task.timeline:
                 
                 if((event.date.date()>= period["start"]) & (event.owner.id == tmpuser.id)):
-                    print("=============================")
-                    print(event.to_json())
-                    print(event.date)
-                    print("==============================")
+                    
                     target = Target.objects(tasks__in=[task]).get()
                    
                     if(target.project.title not in vtdatos):
@@ -205,15 +205,18 @@ def generateWeeklyReport(request):
                 
                     if(task.title not in vtdatos[target.project.title]):
                         vtdatos[target.project.title][task.title]={"description": task.description, "MON":0, "TUE": 0, "WED": 0, "THU":0, "FRI": 0, "SAT":0, "SUN":0}
-                    print("El dia de la semana es::::::::::::::::::::::::::::::")
-                    print(event.date.weekday())
                     vtdatos[target.project.title][task.title]["MON"]+=event.hoursspend
+        
+        if(len(vtdatos)>0):
+            lbExcel.generateWeekReport(vtdatos, tmpuser.name + ".xls")
                     
                     
     print("$$$$$$$$$$$$$$$$$$$$$$$$")                
     print(vtdatos)    
     return render_to_response('task/assigned.html', {}, context_instance=RequestContext(request))
         
+    
+    
         
 
     # taskObject  = BTask();

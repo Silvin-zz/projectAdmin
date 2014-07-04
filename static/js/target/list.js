@@ -2,6 +2,23 @@ $(document).ready(function(){
 
 loadTargets();
 
+$('#datestart').datepicker({
+    
+    format: "yyyy/mm/dd"
+}).on("changeDate",function(){
+    $(this).datepicker("hide");
+    
+});
+
+
+$('#dateend').datepicker({
+    
+    format: "yyyy/mm/dd"
+}).on("changeDate",function(){
+    $(this).datepicker("hide");
+    
+});
+
 $("#projectId").change(function(event) {
     $(".type").removeClass("active");
     $(".period").removeClass("active");
