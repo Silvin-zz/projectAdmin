@@ -3,7 +3,7 @@
 
 
 <!DOCTYPE html>
-<html>
+<html lang="en" ng-app="singleProjects">
     <head>
         <meta charset="UTF-8">
         <title>Single Projects</title>
@@ -18,7 +18,26 @@
         <link href="{%  static "theme/css/AdminLTE.css" %}" rel="stylesheet" type="text/css" />
         <!-- CSS generado por mi :D -->
         <link href="{% static "css/base.css" %}" rel="stylesheet">
+        <!-- Pnotify -->
+        <link href="{% static "js/plugins/pnotify/jquery.pnotify.default.css" %}" media="all" rel="stylesheet" type="text/css" />
+        <!-- bootstrap datapicker -->
+        <link href="{%  static "plugins/datepicker/css/datepicker.css" %}" rel="stylesheet" type="text/css" />
+        <!-- Angular JS :D -->
+        <script src="{% static "plugins/angular.min.js" %}"></script>
+        <!-- jQuery 2.0.2 -->
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+        <!-- Bootstrap -->
+        <script src="{%  static "theme/js/bootstrap.min.js" %}" type="text/javascript"></script>
+        <!-- pnotify -->
+        <script src="{% static "js/plugins/pnotify/jquery.pnotify.min.js" %}"></script>
+        <!-- datapicker -->
+        <script src="{% static "plugins/datepicker/js/bootstrap-datepicker.js" %}"></script>
+        <!--  script base -->
+        <script src="{% static "js/base.js" %}"></script>
+        
+        
 
+        
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
@@ -49,6 +68,7 @@
                                 <li class="user-header bg-light-blue">
                                     <img src="{% static "images/users/" %}{{request.session.userimage}}" class="img-circle" alt="User Image" />
                                     <p>
+
                                         {{ request.session.name }}
                                         <small>{{ request.session.profilename }}</small>
                                     </p>
@@ -132,7 +152,7 @@
 
 
 
-<section class="content-header">
+            <section class="content-header">
                     <h1>
                        {% block title %}  {% endblock title %}
                         <small>{% block subtitle %} {% endblock subtitle %}</small>
@@ -142,14 +162,14 @@
                         
                         {% endblock breadcrumb %}
                     </ol>
-                </section>
+            </section>
 
 
 
 
 
                 <!-- Main content -->
-                <section class="content" id="pagecontent">
+                <section class="content" id="pagecontent" >
                     {% block content %}
                     {% endblock content %}
 
@@ -158,29 +178,53 @@
         </div><!-- ./wrapper -->
 
 
-        <!-- jQuery 2.0.2 -->
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
-        <!-- Bootstrap -->
-        <script src="{%  static "theme/js/bootstrap.min.js" %}" type="text/javascript"></script>
-        <!-- AdminLTE App -->
+        <!--  Loading Modal -->
+
+        <div class="modal fade bs-example-modal-sm" id="loadingModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-sm">
+            <div class="modal-content text-center">
+              <h2 id="loadingTitle">{% block loadingTitle %} Please Wait ... {% endblock loadingTitle %}</h2>
+              <img width="50" src="{% static "theme/img/ajax-loader2.gif" %}" /><p id="loadingBody">{% block loadingBody %} we are solving your request ... {% endblock loadingBody %} </p>
+            </div>
+          </div>
+        </div>
+
+
+
+        <!-- Modal for all Confirmation this must be used instead javascript confirm :D  -->
+
+        <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" id="closeConfirmModal" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="confirmTitle">Modal title</h4>
+              </div>
+              <div class="modal-body" id="confirmBody">
+                ...
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-info btn-flat" id="confirmSave" data-dismiss="modal">Ok</button>
+                <button type="button" class="btn btn-default btn-flat" id="confirmClose" data-dismiss="modal">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
         
-        <script src="{% static "js/plugins/pnotify/jquery.pnotify.min.js" %}"></script>
+        
 
         <!--<script src="../../assets/js/docs.min.js"></script>-->
-        {% if WNotify and WNotify.message != "" %}
+        {% if "WNotify" in  request.session and "message" in request.session.WNotify and "type" in request.session.WNotify and "title" in request.session.WNotify and request.session.WNotify.message != "" %}
             <script type="application/javascript">
                 $(document).ready(function(){
-                    $.pnotify({
-                    title: '{{   WNotify.title }}',
-                    text: '{{   WNotify.message }}',
-                    type: 'success',
-                    shadow: false
-                });
-
+                    SPNotification( '{{   request.session.WNotify.type }}', '{{   request.session.WNotify.title }}', '{{   request.session.WNotify.message }}');
                 });
 
             </script>
         {% endif %}
+        {% with "" as request.session.WNotify %}  
+        {% endwith %}
+
         {% block scripts %}
         {% endblock scripts %}
     </body>

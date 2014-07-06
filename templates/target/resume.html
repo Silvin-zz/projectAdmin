@@ -16,7 +16,8 @@
         </div>  
     </td>
     <td class="text-right">
-    	<button class="btn btn-xs btn-default btn-flat targetdetail" title="Show" lang="{{ target.id }}"><i class="glyphicon glyphicon-search white"></i></button>
+    	<button class="btn btn-xs btn-default btn-flat targetdetail" title="Show" lang="{{ target.id }}"><a href="#" class="targetdetail"><i class="glyphicon glyphicon-search white"></i></a></button>
+        <button ng-click="getTargetData"class="btn btn-xs btn-default btn-flat targetedit" title="Edit" lang="{{ target.id }}"><a href="#" class="targetedir"><i class="glyphicon glyphicon-pencil white"></i></a></button>
     	<button class="btn btn-xs btn-default btn-flat" title="Remove" lang="{{ target.id }}"><a href="#" class="targetremove"><i class="glyphicon glyphicon-remove"></i></a></button>
     </td>
 

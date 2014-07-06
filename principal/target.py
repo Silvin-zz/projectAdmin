@@ -18,7 +18,9 @@ from principal.models  		import Project
 from business.project       import BProject
 from principal.models	 	import PriorityTask
 from business.GApi	        import *
-from principal.library  import Library
+from principal.library      import Library
+from business.targetMapping import ModelMapping
+
 
 
 def targetList(request):
@@ -50,20 +52,17 @@ def getTargetByProjectId(request):
     lb                      = Library()
     period                  = {"start": datetime.datetime.now().date(), "end": datetime.datetime.now().date()}
     finished                = False
-    if("finished" in request.POST["finished"]):
-        finished=True
-    if("week" in request.POST["type"]):
-        period  = lb.getPeriodWeek()
-    if("month" in request.POST["type"]):
-        period  = lb.getPeriodMonth()
-    
-    
-    print(period)
+
+    if("finished"   in request.POST["finished"]):
+        finished            = True
+    if("week"       in request.POST["type"]):
+        period              = lb.getPeriodWeek()
+    if("month"      in request.POST["type"]):
+        period              = lb.getPeriodMonth()
+
     targets 				= Target.objects(project=project, finished=finished, datestart__gte= period["start"], datestart__lte= period["end"])
-    
-    return render_to_response('target/listByProject.html', {
-        "targets"      :   targets,
-    },context_instance 		= RequestContext(request))
+    mapping                 = ModelMapping()
+    return HttpResponse(json.dumps((mapping.targetMapping(targets))), content_type="application/json")
 
 
 
@@ -72,34 +71,25 @@ def getTargetByProjectId(request):
 
 
 def targetSave(request):
+    mapping                 = ModelMapping()
+    target   				= Target()
+    owner 					= User.objects(pk=request.POST["owner"])
+    project 				= Project.objects(pk=request.POST["project"])
+    targettype 				= TargetType.objects(pk=request.POST["targettype"])
+    target.title 			= request.POST["title"]
+    target.description 		= request.POST["description"]
+    target.targettype 		= targettype[0]
+    target.owner 			= owner[0]
+    target.project 			= project[0]
+    target.datestart 		= request.POST["datestart"]
+    target.dateend 			= request.POST["dateend"]
+    gapi                    = GApi()
+    targetFolder            = gapi.createFolder("TG_" + request.POST["code"], project[0].folderreference)
+    target.folderreference  = targetFolder["id"]
+    target.code             = request.POST["code"]
+    target.save()
 
-
-	target   				= Target()
-	owner 					= User.objects(pk=request.POST["owner"])
-	project 				= Project.objects(pk=request.POST["project"])
-	targettype 				= TargetType.objects(pk=request.POST["targettype"])
-	target.title 			= request.POST["title"]
-	target.description 		= request.POST["description"]
-	target.targettype 		= targettype[0]
-	target.owner 			= owner[0]
-	target.project 			= project[0]
-	target.datestart 		= request.POST["datestart"]
-	target.dateend 			= request.POST["dateend"]
-	gapi                    = GApi()
-	targetFolder            = gapi.createFolder("TG_" + request.POST["code"], project[0].folderreference)
-	target.folderreference  = targetFolder["id"]
-	target.code             = request.POST["code"]
-    
-	
-	
-
-	target.save()
-
-
-	return render_to_response('target/resume.html', {
-        "target"      :   target,
-    },context_instance = RequestContext(request))
-
+    return HttpResponse(json.dumps((mapping.targetMapping([target]))), content_type="application/json")
 
 
 
@@ -121,5 +111,23 @@ def targetDetail(request):
 
 def targetPrueba(request):
 	return render_to_response('target/detail.html', {},context_instance = RequestContext(request))
+
+
+def targetRemove(request):
+
+    if(request.method =="POST"):
+        print("Este es el target IDD")
+        print(request.POST["targetid"])
+        target=Target.objects(pk=request.POST["targetid"]).get()
+        target.delete()
+    return HttpResponse()
+
+
+def targetGetData(request):
+    if(request.method=="POST"):
+        target     =Target.objects(pk=request.POST["targetid"]).get()
+        mapping    = ModelMapping()
+        return HttpResponse(json.dumps((mapping.targetMapping([target]))), content_type="application/json")
+
 
 

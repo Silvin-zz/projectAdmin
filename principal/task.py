@@ -159,8 +159,6 @@ def taskSave(request):
     gapi                        = GApi()
     taskFolder                  = gapi.createFolder("TK_" +request.POST["code"], target.folderreference)
     taskObject.folderreference  = taskFolder["id"]
-    print("Nueva task")
-    print(taskObject.to_json())
     taskObject.save()
     
     Target.objects(pk=request.POST["targetId"]).update_one(push__tasks=taskObject)

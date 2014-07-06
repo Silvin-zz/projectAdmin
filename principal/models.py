@@ -178,15 +178,17 @@ class Project(Document):
     owner           = ReferenceField(User)
     inuse           = BooleanField(default=True)
     active          = BooleanField(default=True)
-    totaltasks      = IntField(default=0)
-    totalendtask    = IntField(default=0)
+    totaltargets    = IntField(default=0)
+    totalendtargets = IntField(default=0)
     advancepercent  = DecimalField(default=0)
     priority        = IntField(default=1)
     meta            = {'allow_inheritance': True}
     key             = StringField(default="")
     folderreference = StringField(default="")
 
-    
+    def getShortDescription(self):
+        return (self.description[:130] + " ...") if(len(self.description)>130) else self.description
+        
     def dateDiff(self):
         difference = self.dateend - self.datestart
         return difference.days
@@ -195,17 +197,27 @@ class Project(Document):
         difference      = self.dateend - self.datestart
         realdifference  = datetime.datetime.now() - self.datestart
         if(self.datestart.date() > datetime.datetime.now().date() ):
-            print("Entramos 1")
             return 0
         if(datetime.datetime.now().date() >= self.dateend.date()):
-            print("Entramos 2")
             return 100
-        print("Entramos 3")
         return round(float(float(100) / float(difference.days)) * float(realdifference.days))
 
+    def getTotalEndTargets(self):
+        targets             = Target.objects(project=self, finished= True)
+        self.totalendtargets= len(targets)
+        return self.totalendtargets
+
+    def getTotalTargets(self):
+        targets             = Target.objects(project=self)
+        self.totaltargets   = len(targets)
+        return self.totaltargets
+
+
+
+
     def endPercent(self):
-        if(self.totaltasks >0):
-            return  round((Decimal(100) / Decimal(self.totaltasks)) * self.totalendtask,2)
+        if(self.totaltargets >0):
+            return  round((Decimal(100) / Decimal(self.totaltargets)) * self.totalendtargets,2)
         return 0
 
 

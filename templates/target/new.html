@@ -1,36 +1,36 @@
-    <div class="form-group">
-        <label class="col-sm-4 control-label">Title</label>
+    <div class="form-group"  ng-class="{ 'has-error': form.title.$invalid && form.title.$dirty }">
+        <label class="col-sm-4 control-label">* Title</label>
         <div class="row">
             <div class="col-xs-7">
-                <input type="text" name="title" id="title" class="form-control" />
+                <input type="text" name="title" id="title" ng-model="title" class="form-control" required />
             </div>
         </div>
     </div>
     
-    <div class="form-group">
-        <label class="col-sm-4 control-label">Target Code</label>
+    <div class="form-group" ng-class="{ 'has-error': form.code.$invalid && form.code.$dirty }">
+        <label class="col-sm-4 control-label">* Target Code</label>
         <div class="row">
             <div class="col-xs-4">
-                <input type="text" name="code" id="code" class="form-control" />
+                <input type="text" name="code" id="code" ng-model="code" required class="form-control" />
             </div>
         </div>
     </div>
 
-    <div class="form-group">
-        <label class="col-sm-4 control-label">Description</label>
+    <div class="form-group"  ng-class="{ 'has-error': form.description.$invalid && form.description.$dirty }">
+        <label class="col-sm-4 control-label">* Description</label>
         <div class="row">
             <div class="col-xs-7">
-                <textarea name="description" rows="5" style="width:100%;"></textarea>
+                <textarea name="description" id="description" ng-model="description" required rows="5" style="width:100%;"></textarea>
             </div>
         </div>
     </div>
 
 
-    <div class="form-group">
-        <label class="col-sm-4 control-label">Target Type</label>
+    <div class="form-group"  ng-class="{ 'has-error': form.targettype.$invalid && form.targettype.$dirty }">
+        <label class="col-sm-4 control-label">* Target Type</label>
         <div class="row">
             <div class="col-xs-7">
-                <select name="targettype">
+                <select name="targettype" id="targettype" ng-model="targettype" required>
                 {% for type in targettypes %}
                 <option value="{{ type.id }}">{{ type.name }}</option>
                 {% endfor %}
@@ -41,11 +41,11 @@
     </div>    
 
 
-    <div class="form-group">
-        <label class="col-sm-4 control-label">Owner</label>
+    <div class="form-group"  ng-class="{ 'has-error': form.owner.$invalid && form.owner.$dirty }">
+        <label class="col-sm-4 control-label">* Owner</label>
         <div class="row">
             <div class="col-xs-7">
-                <select name="owner">
+                <select name="owner" id="owner" ng-model="owner" required>
                 {% for user in users %}
                 <option value="{{ user.id }}">{{ user.name }}</option>
                 {% endfor %}
@@ -56,21 +56,24 @@
     </div>
 
 
-    <div class="form-group">
-        <label class="col-sm-4 control-label">Date Start</label>
+    <div class="form-group" ng-class="{ 'has-error': form.datestart.$invalid && form.datestart.$dirty }">
+        <label class="col-sm-4 control-label">* Date Start</label>
         <div class="row">
             <div class="col-xs-4">
-                <input type="text" readonly="readonly" name="datestart" id="datestart" value="{{datestart}}" class="form-control" />
+                <input type="text" ng-readonly="true"  name="datestart" id="datestart" required ng-model="datestart"  data="{{datestart}}" class="form-control" />
             </div>
         </div>
     </div>
 
 
-    <div class="form-group">
-        <label class="col-sm-4 control-label">Date End</label>
+    <div class="form-group" ng-class="{ 'has-error': form.dateend.$invalid && form.dateend.$dirty }">
+        <label class="col-sm-4 control-label">* Date End</label>
         <div class="row">
             <div class="col-xs-4">
-                <input type="text" readonly="readonly"  name="dateend" id="dateend" value="{{dateend}}" class="form-control" />
+                <input type="text" required  name="dateend" id="dateend" ng-readonly="true" ng-model="dateend"  data="{{dateend}}" class="form-control" />
             </div>
         </div>
     </div>
+
+    <input type="hidden" value="" id="id" name="id" ng-model="id" />
+

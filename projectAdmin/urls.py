@@ -5,6 +5,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 admin.autodiscover()
 
+
 urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'projectAdmin.views.home', name='home'),
@@ -18,7 +19,7 @@ urlpatterns = patterns('',
 
     ###############LOGIN #########################
     url(r'^login/validate/'             ,'login.views.loginValidate'),
-    url(r'^login/validateFromGoogle'   ,'login.views.validateFromGoogle'),
+    url(r'^login/validateFromGoogle'    ,'login.views.validateFromGoogle'),
     url(r'^login/logout/'               ,'login.views.logout'),
     
     
@@ -76,7 +77,9 @@ urlpatterns = patterns('',
     ##############TARGETS #########################
 
     url(r'^target/list'             ,'principal.target.targetList'),
+    url(r'^target/remove'           ,'principal.target.targetRemove'),
     url(r'^target/getbyproject'     ,'principal.target.getTargetByProjectId'),
+    url(r'^target/get'              ,'principal.target.targetGetData'),
     url(r'^target/save'             ,'principal.target.targetSave'),
     url(r'^target/detail'           ,'principal.target.targetDetail'),
     url(r'^target/prueba'           ,'principal.target.targetPrueba'),

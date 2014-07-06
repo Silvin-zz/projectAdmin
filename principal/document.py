@@ -56,7 +56,7 @@ def shareItem(request):
     gapi.generateService()
     email   = request.session["email"]
     if("email" in request.POST and "" not in request.POST["email"]):
-        email=request.POST["email"]
-    result  =gapi.shareItem(request.POST["itemId"], email, request.POST["role"])
+        email   =request.POST["email"]
+    result      =gapi.shareItem(request.POST["itemId"], email, request.POST["role"])
     return HttpResponse(result, content_type="application/json")
     

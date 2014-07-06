@@ -6,19 +6,19 @@
     
 {% endblock title %}
 {% block content %}
-    
+  <div class="row" ng-controller="listController" ng-init="init()">  
     <div class="row text-left">
      <div class="col-xs-4">
-        <form action="#" class="form-horizontal" role="form" id="frmGetTargets">
+        <form action="#" class="form-horizontal" role="form" id="frmGetTargets" name="frmGetTargets" >
             <input type="hidden" id="token" name="csrfmiddlewaretoken" value="{{ csrf_token }}" />
             <label> Project:</label>&nbsp;&nbsp;
-            <select class="" name="projectId" id="projectId">
+            <select class="" name="projectId" id="projectId" ng-model="projectId" ng-change="changetargetsProject()">
                 {% for project in projects %}
                     <option value="{{ project.id }}">{{project.title}}</option>
                 {% endfor %}
             </select>
             &nbsp;&nbsp;&nbsp;&nbsp;
-            <button type="button" class="btn btn-primary btn-flat" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-plus"></i> Target</button>
+            <button type="button" ng-click="showModal()"  ng-disabled="frmGetTargets.projectId==0" class="btn btn-primary btn-flat" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-plus"></i> Target</button>
             <input type="hidden" id="taskFinished"  name="finished"  value="active"  />
         <input type="hidden" id="taskType"          name="type"     value="week"  />
         </form>
@@ -45,17 +45,68 @@
     
     <div id="listcontent">
 
-    </div>
 
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <table class="table table-striped">
+        <thead>
+            <tr>
+                <th width="40%">Target</th>
+                  <th width="20%">Owner</th>
+                  <th>Tasks</th>
+                  <th>Advance Percent</th>
+                  <th width="100">Options</th>
+              </tr>
+          </thead>
+          <tbody id="targetList">
+          {% verbatim %}
+            <!-- aqui ocurre la magia de Angular :D   -->
+            <tr ng-repeat="target in targets">
+              <td>
+                <b>{{target.title}}</b><br />
+                    <em style="color:#747474; font-size:10px;">{{ target.description }}</em>
+                </td>
+                <td style="text-align:center">
+                    <img src="{{ target.owner.img }}" width="40" class="img-circle" /><br />
+                    {{target.owner.name}}
+                    <div class="color-swatch brand-primary"></div>
+                </td>
+                <td><span class="badge bg-yellow">{{ target.tasksNumber }}</span></td>
+                <td>
+                    <div class="col-xs-10">
+                        <div class="progress xs progress-striped active">
+                            <div class="progress-bar progress-bar-info" style="width: {{ target.endPercent }}%"></div>
+                        </div>
+                    </div>
+                    <div class="col-xs-2">
+                        <span class="badge bg-green">{{target.endPercent}} %</span>
+                    </div>  
+                </td>
+                <td class="text-right">
+                  <button class="btn btn-xs btn-default btn-flat targetdetail" title="Show" lang="{{ target.id }}"><a href="#" class="targetdetail"><i class="glyphicon glyphicon-search white"></i></a></button>
+                    <button ng-click="getTargetData(target.id)"  class="btn btn-xs btn-default btn-flat targetedit" title="Edit" data="{{ target.id }}"><i class="glyphicon glyphicon-pencil white"></i></button>
+                  <!-- Si  tiene tasks NO se puede eliminar  -->
+                  <button  ng-if="target.tasksNumber >0" disabled="disabled" class="btn btn-xs btn-default btn-flat"><i class="glyphicon glyphicon-remove"></i></a></button>
+                  <!-- Si no tiene tasks se puede eliminar  -->
+                  <button  ng-if="target.tasksNumber ==0"  ng-click="removetarget(target.id, $index)" id="remove_{{target.id}}" class="btn btn-xs btn-default btn-flat" title="Remove" data="{{ target.id }}"><i class="glyphicon glyphicon-remove"></i></button>
+                </td>
+            </tr>
+          {% endverbatim %}
+
+        </tbody>
+      </table>
+
+
+    </div>
+  
+
+    <div  class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             <h4 class="modal-title" id="myModalLabel">New Target</h4>
           </div>
-          <div class="modal-body">
-                <form action="#" class="form-horizontal" role="form" id="frmNewtarget">
+          <div class="modal-body" >
+                <form action="#" class="form-horizontal" novalidate role="form" name="form" id="frmNewtarget" ng-submit="submit()">
                   <input type="hidden" id="token" name="csrfmiddlewaretoken" value="{{ csrf_token }}" />
                   <input type="hidden" id="project" name="project" value="" />
                   {% include "target/new.html" %}
@@ -63,12 +114,12 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-flat btn-default" id="modalclose" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-flat btn-primary" id="btnSaveTarget">Save changes</button>
+            <button type="button" class="btn btn-flat btn-primary" id="btnSaveTarget" ng-click="submit()"  ng-disabled="form.$invalid">Save changes</button>
           </div>
         </div>
       </div>
     </div>
-
+  </div>
     <form  class="form-horizontal" method="POST" role="form" id="frmTargetDetail" action="{% url "principal.target.targetDetail" %}">
       <input type="hidden" id="token" name="csrfmiddlewaretoken" value="{{ csrf_token }}" />
       <input type="hidden" id="targetid" name="targetid" value="" />
@@ -79,9 +130,5 @@
 {% endblock %}
 {% block scripts %}
   <script src="{% static "js/target/list.js" %}"></script>
-  <!-- DatePicker -->
-  
-  <script src="{% static "plugins/datepicker/js/bootstrap-datepicker.js" %}"></script>
-  <link href="{%  static "plugins/datepicker/css/datepicker.css" %}" rel="stylesheet" type="text/css" />
-  
+  <!-- DatePicker -->  
 {% endblock scripts %}

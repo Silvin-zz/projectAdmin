@@ -1,36 +1,36 @@
 
-    <div class="form-group">
+    <div class="form-group" ng-class="{ 'has-error': formUser.name.$invalid && formUser.name.$dirty }">
         <label class="col-sm-4 control-label">Name</label>
         <div class="row">
             <div class="col-xs-7">
-                <input type="text" id="clientName" name="name" class="form-control" />
+                <input type="text" id="clientName" name="name" ng-model="name" required class="form-control" />
             </div>
         </div>
     </div>
 
-    <div class="form-group">
+    <div class="form-group"  ng-class="{ 'has-error': formUser.address.$invalid && formUser.address.$dirty }">
         <label class="col-sm-4 control-label">Address</label>
         <div class="row">
             <div class="col-xs-7">
-                <input type="text" name="address" id="clientAddress" class="form-control" />
+                <input type="text" name="address" ng-model="address" required id="clientAddress" class="form-control" />
             </div>
         </div>
     </div>
 
-    <div class="form-group">
+    <div class="form-group"  ng-class="{ 'has-error': formUser.contactname.$invalid && formUser.contactname.$dirty }">
         <label class="col-sm-4 control-label">Contact Name</label>
         <div class="row">
             <div class="col-xs-7">
-                <input type="text" name="contactname" id="clientContactname" class="form-control" />
+                <input type="text" name="contactname" ng-model="contactname" required id="clientContactname" class="form-control" />
             </div>
         </div>
     </div>
 
-    <div class="form-group">
+    <div class="form-group"  ng-class="{ 'has-error': formUser.email.$invalid && formUser.email.$dirty }">
         <label class="col-sm-4 control-label">Email</label>
         <div class="row">
             <div class="col-xs-7">
-                <input type="text" name="email" id="clientEmail" class="form-control" />
+                <input type="email" name="email" ng-model="email" id="clientEmail" class="form-control" required />
             </div>
         </div>
     </div>
