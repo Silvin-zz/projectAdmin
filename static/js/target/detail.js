@@ -9,7 +9,7 @@ function detailController($scope, $http){
 
     $scope.init = function(){
 
-        $("#loadingModal").modal("show");
+        
         $http({
             method                  : 'POST',
             url                     : '/tasks/getByTarget',
@@ -18,7 +18,7 @@ function detailController($scope, $http){
         }).success(function(data){
             $scope.tasks            = data;
             $scope.calculateTargetPercent();
-            $("#loadingModal").modal("hide");
+            
         }).error(function(){
                 SPNotification("danger", "Target Request", "We have an error in you request, please try again");
 
@@ -65,6 +65,7 @@ function detailController($scope, $http){
     $scope.saveTask = function(){
         $("#myModal").modal("hide");
         $("#loadingModal").modal("show");
+        var id  = $("#tmpTaskId").val(); 
         $http({
             method                  : 'POST',
             url                     : '/tasks/save',
@@ -72,7 +73,20 @@ function detailController($scope, $http){
             headers                 : {'Content-Type': 'application/x-www-form-urlencoded'}
         }).success(function(data){
             $("#loadingModal").modal("hide");
-            $scope.tasks.unshift(data[0]);
+            if(id==""){
+                $scope.tasks.unshift(data[0]);
+                SPNotification("success", "New Task", "You Task was created");
+            }
+            else{
+                SPNotification("info", "New Task", "You Task was modified");
+                for(var n=0; n < $scope.tasks.length; n++){
+                    if($scope.tasks[n].id==id){
+                        $scope.tasks[n]=data[0];
+                        break;           
+                    }
+                }
+                
+            }
             $scope.calculateTargetPercent();
         }).error(function(){
                 SPNotification("danger", "Target Request", "We have an error in you request, please try again");
@@ -90,11 +104,35 @@ function detailController($scope, $http){
             .val($scope.targetpercent)
             .trigger('change');
     }
+    
+    
+    
+    
+    $scope.openNewTaskModal=function(){
+        
+        $("#tmpTaskId").val("");
+        
+    }
 
-    // $cope.taskEdit = function(taskId, index){
-
-    //     alert(taskId);
-    // }
+     $scope.taskEdit = function(taskId, index){
+         
+         
+         var taskObject         = $scope.tasks[index];
+         $scope.datestart       = taskObject.datestart;
+         $scope.dateend         = taskObject.dateend;
+         $scope.title           = taskObject.title;
+         $scope.code            = taskObject.code;
+         $scope.description     = taskObject.description;
+         $scope.tasktype        = taskObject.tasktype;
+         $scope.owner           = taskObject.owner.id;
+         $scope.priorityId      = taskObject.priority;
+         $scope.estimatedhours  = taskObject.estimatedhours;
+         
+         $("#tmpTaskId").val(taskObject.id);
+         $("#myModal").modal("show");
+         
+         
+     }
 
 }
 
@@ -107,12 +145,14 @@ function detailController($scope, $http){
 $(document).ready(function(){
 
 
-    $(".dial").knob({ readOnly:true });
-    $("#taskList ").on("click", ".taskdetail",function(){
-        loadTaskDetail($(this));
-    });
-    
 
+    
+    $(".dial").knob({ readOnly:true });
+    //$("#taskList ").on("click", ".taskdetail",function(){
+    //    loadTaskDetail($(this));
+    //});
+    
+    
 
     $("#btnNewTask").on("click",function(){
         $("#title").val("");

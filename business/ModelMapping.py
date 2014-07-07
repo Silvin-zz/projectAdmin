@@ -32,7 +32,7 @@ class ModelMapping:
                 "description"   : task.description, 
                 "shortdesc"     : task.getShortDescription(), 
                 "code"          : task.code,
-                "taskstype"     : str(task.tasktype.id), 
+                "tasktype"      : str(task.tasktype.id), 
                 "priority"      : str(task.priority.id), 
                 "iscritical"    : str(task.iscritical),
                 "dateend"       : str(task.dateend.date()), 
@@ -47,3 +47,14 @@ class ModelMapping:
                                 }
                 })
         return result
+        
+    def catalogMapping(self, data):
+        result= []
+        for objectCatalog in data:
+            result.append({
+                "id"            : str(objectCatalog.id), 
+                "name"          : objectCatalog.name
+                
+                })
+        return result
+            

@@ -26,7 +26,7 @@
 	            <i class="glyphicon glyphicon-screenshot"></i>&nbsp;&nbsp;{{target.title}}
                 {% if target.finished == False %}
 	            <small class="pull-right">
-	            	<button class="btn btn-primary btn-sm btn-flat" id="btnNewTask" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-plus"></i>&nbsp;Add New Task</button>
+	            	<button class="btn btn-primary btn-sm btn-flat" id="btnNewTask" ng-click="openNewTaskModal()" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-plus"></i>&nbsp;Add New Task</button>
 	            </small>
                 {% endif %}
             </h2>                            

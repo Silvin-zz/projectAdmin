@@ -91,9 +91,14 @@ def Tasksfilter(request):
 
 
 def showDetail(request):
-    taskObject  = Task.objects(pk=request.POST["taskId"]).order_by('-timeline').get()
-    timelines   = list(reversed(taskObject.timeline))
-    return render_to_response('tasks/show.html', {"timelines": timelines, "task":taskObject}, context_instance=RequestContext(request))
+    
+    
+    taskObject   = Task.objects(pk=request.POST["taskId"]).order_by('-timeline').get()
+    targetObject = Target.objects(tasks=taskObject).get()
+    print("Este es el tag //////////////////////////////////////////////////////////////////")
+    print(targetObject.to_json())
+    timelines    = list(reversed(taskObject.timeline))
+    return render_to_response('tasks/show.html', {"timelines": timelines, "task":taskObject, "targetowner" : targetObject}, context_instance=RequestContext(request))
 
 
 
@@ -134,18 +139,28 @@ def taskSave(request):
     tasktypeObject              = TaskType.objects(pk=request.POST["tasktype"]).get()
     userObject                  = User.objects(pk=request.POST["owner"]).get()
     priorityObject              = PriorityTask.objects(pk=request.POST["priorityId"]).get()
-    taskObject                  = Task()
-
-    print("Prioridad")
-    print(priorityObject.name)
-    print(priorityObject.id)
     iscritical                  = False
+    target                      = Target.objects(pk=request.POST["targetId"]).get()
+    
+    
+    
+    if (len(request.POST["id"])==0):
+        taskObject                  = Task()
+        gapi                        = GApi()
+        taskFolder                  = gapi.createFolder("TK_" +request.POST["code"], target.folderreference)
+        taskObject.folderreference  = taskFolder["id"]
+    else:
+        taskObject                  = Task.objects(pk=request.POST["id"]).get()
+
+    
+    
     if("iscritical" in request.POST):
         iscritical = True
     
     
+    
     mapping                     = ModelMapping()
-    target                      = Target.objects(pk=request.POST["targetId"]).get()
+    
     taskObject.title            = request.POST["title"]
     taskObject.description      = request.POST["description"]
     taskObject.datestart        = request.POST["datestart"]
@@ -157,14 +172,14 @@ def taskSave(request):
     taskObject.tasktype         = tasktypeObject
     taskObject.owner            = userObject
     taskObject.priority         = priorityObject
-    gapi                        = GApi()
-    taskFolder                  = gapi.createFolder("TK_" +request.POST["code"], target.folderreference)
-    taskObject.folderreference  = taskFolder["id"]
     taskObject.save()
     taskid                      = taskObject.id
     taskObject                  = Task.objects(pk=taskid).get()
     
-    Target.objects(pk=request.POST["targetId"]).update_one(push__tasks=taskObject)
+    
+    if (len(request.POST["id"])==0):
+        Target.objects(pk=request.POST["targetId"]).update_one(push__tasks=taskObject)
+    
     return HttpResponse(json.dumps((mapping.taskMapping([taskObject]))), content_type="application/json")
 
 

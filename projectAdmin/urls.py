@@ -135,7 +135,9 @@ urlpatterns = patterns('',
     url(r'^admin/menu/new'          ,'principal.admin.menuNew'),
     url(r'^admin/menu'              ,'principal.admin.menuList'),
     
+    ######CATALOGS
     
+    url(r'^catalogs/list'           ,'principal.catalog.catalogList'),
     
     
 

@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load staticfiles %}
-{% block title %} Task Detail {% endblock title %}
+{% block title %}<i class="glyphicon glyphicon-flag"></i>&nbsp; &nbsp; {{ targetowner.project.title }} {% endblock title %}
+{% block subtitle %} {{ targetowner.project.client.name }} {% endblock subtitle %}
 {% block content %}
     {% include "tasks/detail.html" %}
    
