@@ -37,6 +37,8 @@ urlpatterns = patterns('',
     ##############TASKS#########################
     
     url(r'^tasks/list'          ,'principal.task.taskList'),
+    url(r'^tasks/getByTarget'   ,'principal.task.getTaskByTarget'),
+    url(r'^tasks/delete'        ,'principal.task.removeTask'),
     url(r'^tasks/new'           ,'principal.task.taskAdd'),
     url(r'^tasks/show'          ,'principal.task.showDetail'),
     url(r'^tasks/admin'         ,'principal.task.taskAdmin'),

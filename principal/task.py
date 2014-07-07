@@ -21,13 +21,14 @@ from principal.libExcel import libExcel
 
 
 
-from principal.models import Task
-from principal.models import Target
-from principal.models import User
-from principal.models import TaskType
-from principal.models import PriorityTask
-from principal.models import TimeLine
-from business.GApi	  import *
+from principal.models       import Task
+from principal.models       import Target
+from principal.models       import User
+from principal.models       import TaskType
+from principal.models       import PriorityTask
+from principal.models       import TimeLine
+from business.ModelMapping  import ModelMapping
+from business.GApi          import *
 
 
 
@@ -142,8 +143,8 @@ def taskSave(request):
     if("iscritical" in request.POST):
         iscritical = True
     
-    print(request.POST)
     
+    mapping                     = ModelMapping()
     target                      = Target.objects(pk=request.POST["targetId"]).get()
     taskObject.title            = request.POST["title"]
     taskObject.description      = request.POST["description"]
@@ -160,9 +161,11 @@ def taskSave(request):
     taskFolder                  = gapi.createFolder("TK_" +request.POST["code"], target.folderreference)
     taskObject.folderreference  = taskFolder["id"]
     taskObject.save()
+    taskid                      = taskObject.id
+    taskObject                  = Task.objects(pk=taskid).get()
     
     Target.objects(pk=request.POST["targetId"]).update_one(push__tasks=taskObject)
-    return render_to_response('task/intable.html', {"task": taskObject}, context_instance=RequestContext(request))
+    return HttpResponse(json.dumps((mapping.taskMapping([taskObject]))), content_type="application/json")
 
 
 
@@ -173,7 +176,32 @@ def dashboard(request):
     return render_to_response('task/dashboard.html', {"tasks":tasks}, context_instance=RequestContext(request))
     
     
+ 
+"""
+    angularJS services response :D
+"""
+
+
+def getTaskByTarget(request):
+    target                      = Target.objects(pk=request.POST["targetId"]).get()
+    mapping                     = ModelMapping()
+    return HttpResponse(json.dumps((mapping.taskMapping(target.tasks))), content_type="application/json")
+
+
+def removeTask(request):
     
+    task                        = Task.objects(pk=request.POST["taskId"]).get() 
+    Target.objects(pk=request.POST["targetId"]).update_one(pull__tasks=task)
+    task.delete()
+    return HttpResponse()
+    
+
+
+"""
+    END to angularJS services response :D
+"""
+
+
     
 def generateWeeklyReport(request):
     
@@ -183,8 +211,7 @@ def generateWeeklyReport(request):
     vt      = []
     vtdatos = {}
     lbExcel = libExcel()
-    print("Estos  son mis uisuarios::::::::::")
-    print(period)
+   
     
     for tmpuser in users:
         #tasks   = Task.objects(owner=request.session["userid"], finished=finished, datestart__gte= period["start"], datestart__lte= period["end"]).order_by("-datestart", "priority__number")
@@ -207,10 +234,7 @@ def generateWeeklyReport(request):
         
         if(len(vtdatos)>0):
             lbExcel.generateWeekReport(vtdatos, tmpuser.name + ".xls")
-                    
-                    
-    print("$$$$$$$$$$$$$$$$$$$$$$$$")                
-    print(vtdatos)    
+
     return render_to_response('task/assigned.html', {}, context_instance=RequestContext(request))
         
     

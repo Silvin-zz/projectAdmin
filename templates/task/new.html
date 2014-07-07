@@ -1,37 +1,37 @@
-    <div class="form-group">
-        <label class="col-sm-3 control-label">Title</label>
+    <div class="form-group" ng-class="{ 'has-error': form.title.$invalid && form.title.$dirty }">
+        <label class="col-sm-3 control-label">* Title</label>
         <div class="row">
             <div class="col-xs-7">
-                <input type="text" name="title" id="title" class="form-control" />
+                <input type="text" name="title" id="title" ng-model="title" class="form-control" required />
             </div>
         </div>
     </div>
     
     
-    <div class="form-group">
-        <label class="col-sm-3 control-label">Task Code</label>
+    <div class="form-group"  ng-class="{ 'has-error': form.code.$invalid && form.code.$dirty }">
+        <label class="col-sm-3 control-label">* Task Code</label>
         <div class="row">
             <div class="col-xs-4">
-                <input type="text" name="code" id="code" class="form-control" />
+                <input type="text" name="code" id="code" class="form-control" ng-model="code" required />
             </div>
         </div>
     </div>
 
-    <div class="form-group">
-        <label class="col-sm-3 control-label">Description</label>
+    <div class="form-group"  ng-class="{ 'has-error': form.description.$invalid && form.description.$dirty }">
+        <label class="col-sm-3 control-label">* Description</label>
         <div class="row">
             <div class="col-xs-7">
-                <textarea name="description" id="descrtiption" rows="3" style="width:100%;"></textarea>
+                <textarea name="description" id="descrtiption" ng-model="description" required rows="3" style="width:100%;"></textarea>
             </div>
         </div>
     </div>
 
 
-    <div class="form-group">
-        <label class="col-sm-3 control-label">Task Type</label>
+    <div class="form-group" ng-class="{ 'has-error': form.tasktype.$invalid && form.tasktype.$dirty }">
+        <label class="col-sm-3 control-label">* Task Type</label>
         <div class="row">
             <div class="col-xs-7">
-                <select name="tasktype">
+                <select name="tasktype" ng-model="tasktype" required>
                 {% for type in tasktypes %}
                 <option value="{{ type.id }}">{{ type.name }}</option>
                 {% endfor %}
@@ -42,11 +42,11 @@
     </div>    
 
 
-    <div class="form-group">
-        <label class="col-sm-3 control-label">Owner</label>
+    <div class="form-group"  ng-class="{ 'has-error': form.owner.$invalid && form.owner.$dirty }">
+        <label class="col-sm-3 control-label">* Owner</label>
         <div class="row">
             <div class="col-xs-7">
-                <select name="owner">
+                <select name="owner" ng-model="owner" required>
                 {% for user in users %}
                 <option value="{{ user.id }}">{{ user.name }}</option>
                 {% endfor %}
@@ -56,11 +56,11 @@
         </div>
     </div>
 
-    <div class="form-group">
-        <label class="col-sm-3 control-label">Priorityyyy</label>
+    <div class="form-group"  ng-class="{ 'has-error': form.priority.$invalid && form.priority.$dirty }">
+        <label class="col-sm-3 control-label">* Priority</label>
         <div class="row">
             <div class="col-xs-4">
-                <select name="priorityId" id="priorityId">
+                <select name="priorityId" id="priorityId" ng-model="priorityId" required>
                 {% for priority in priorities %}
                 <option value="{{ priority.id }}">{{ priority.name }}</option>
                 {% endfor %}
@@ -80,13 +80,13 @@
     <div class="form-group">
         <label class="col-sm-3 control-label">Period</label>
         <div class="row">
-            <div class="col-xs-4">
-                <label class="control-label">Date Start</label>
-                <input type="text" name="datestart" id="datestart" value="{{datestart}}" class="form-control" />
+            <div class="col-xs-4"  ng-class="{ 'has-error': form.datestart.$invalid && form.datestart.$dirty }">
+                <label class="control-label">* Date Start</label>
+                <input type="date" name="datestart" id="datestart" ng-model="datestart"  required value="{{datestart}}" class="form-control" />
             </div>
-            <div class="col-xs-4">
-                <label class="control-label">Date End</label>
-                <input type="text" name="dateend" id="dateend" value="{{dateend}}" class="form-control" />
+            <div class="col-xs-4" ng-class="{ 'has-error': form.dateend.$invalid && form.dateend.$dirty }">
+                <label class="control-label">* Date End</label>
+                <input type="date" name="dateend" id="dateend" value="{{dateend}}" ng-model="dateend" required class="form-control" />
             </div>
         </div>
     </div>
@@ -94,11 +94,11 @@
 
     
 
-    <div class="form-group">
+    <div class="form-group"  ng-class="{ 'has-error': form.estimatedhours.$invalid && form.estimatedhours.$dirty }">
         <label class="col-sm-3 control-label">Estimated Hours</label>
         <div class="row">
             <div class="col-xs-2">
-                <input type="text" name="estimatedhours" id="estimatedhours" value="{{estimatedhours}}" class="form-control" />
+                <input type="number" min="1" name="estimatedhours" id="estimatedhours"  ng-model="estimatedhours" required value="{{estimatedhours}}" class="form-control" />
             </div>
         </div>
     </div>

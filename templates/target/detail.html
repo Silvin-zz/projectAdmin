@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% load staticfiles %}
-{% block title %} 
-{{ target.project.title }}
+{% block title %} <i class="glyphicon glyphicon-flag"></i>&nbsp;&nbsp;{{ target.project.title }}{% endblock title %}
 <!--
 <div class="box-body">
 	<blockquote>
@@ -11,13 +10,13 @@
 	
 </div>
 -->
-{% endblock title %}
+
 
 {% block content %}
 
 
 <!-- Main content -->
-<section class="content invoice">
+<section class="content invoice" ng-controller="detailController" ng-init="init()">
 
 
 <!-- title row -->
@@ -45,7 +44,7 @@
                 <span class="label label-success">{{target.targettype.name }}</span><br>
                 <strong>Start: </strong> {{ target.datestart |date:"M d Y"}}<br>
                 <strong>Finish: </strong> {{ target.dateend |date:"M d Y"}}<br>
-                <strong>{{ 2 }} </strong>days left <br/>                
+                {{ target.daysLeft }} </strong>days left <br/>
             </address>
         </div><!-- /.col -->
 
@@ -54,12 +53,14 @@
             <address>{{ target.description }}</address>
         </div><!-- /.col -->
 
-
-        <div class="col-sm-2 invoice-col text-center">
-        	<input type="text" class="dial" value="{{ target.getEndPercent }}" data-linecap=round data-width="70" data-height="70" data-fgColor="#00a65a"/>
+        {% verbatim %}
+        <div class="col-sm-2 invoice-col text-center" >
+        	<input type="text" class="dial" value="{{ targetpercent }}" data-linecap=round data-width="70" data-height="70" data-fgColor="#00a65a"/>
             
-            <br /><span class="badge badge-primary">{{target.taskCount}}</span> <strong>Tasks</strong>
+            <br /><span class="badge badge-primary">{{tasks.length}}</span> <strong>Tasks</strong>
+            
         </div><!-- /.col -->
+        {% endverbatim %}
 
     </div><!-- /.row -->
 
@@ -78,16 +79,28 @@
         			</tr>
         		</thead>
         		<tbody id="taskList">
-        			{%  for task in  target.tasks %}
-        			 {% include "task/intable.html" %}
-        			{% endfor %}
+                    {% verbatim %}
+                        <tr ng-repeat="task in tasks">
+                            <td><strong>{{ task.title }}</strong><br /> {{ task.shortdesc }}</td>
+                            <td>
+                                <img src="{{task.owner.img}}" width="40" class="img-circle" /><br />
+                                <strong>{{ task.owner.name }}</strong><br>
+                            </td>
+                            <td>{{ task.datestart }} <br /> {{ task.dateend }}</td>
+                            <td><span class="badge bg-green">{{ task.endpercent }} %</span></td>
+                            <td>
+                                <button class="btn btn-xs btn-default btn-flat taskdetail" title="Show" ng-click="detail(task.id)" lang="{{ task.id }}"><i class="glyphicon glyphicon-search white"></i></button>
+                                <button class="btn btn-xs btn-default btn-flat taskremove" title="Remove" ng-click="taskDelete(task.id,$index)" lang="{{ task.id }}"><a href="#" class="taskremove"><i class="glyphicon glyphicon-remove"></i></a></button>
 
+                            </td>
+                        </tr>
+                    {% endverbatim %}
         		</tbody>
 
             </table>
         </div>
     </div>
-</section>
+
 
 
 <!-- MODAL PARA REGISTRO DE LA TAREA. -->
@@ -100,7 +113,7 @@
             <h4 class="modal-title" id="myModalLabel">New Task</h4>
           </div>
           <div class="modal-body">
-                <form action="#" class="form-horizontal" role="form" id="frmNewTask">
+                <form action="#" class="form-horizontal" novalidate name="form" role="form" id="frmNewTask">
                   <input type="hidden" id="token" name="csrfmiddlewaretoken" value="{{ csrf_token }}" />
                   <input type="hidden" id="targetId" name="targetId" value="{{ target.id }}" />
                   {% include "task/new.html" %}
@@ -108,16 +121,27 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-flat btn-default" id="modalclose" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-flat btn-primary" id="btnSaveTask">Save changes</button>
+            <button type="button" class="btn btn-flat btn-primary" id="btnSaveTask" ng-click="saveTask()" ng-disabled="form.$invalid">Save changes</button>
           </div>
         </div>
       </div>
     </div>
 
+</section>
 
 <form action="{% url "principal.task.showDetail" %}" class="form-horizontal" role="form" id="frmTaskDetail" method="POST">
 	<input type="hidden" id="token" name="csrfmiddlewaretoken" value="{{ csrf_token }}" />
 	<input type="hidden" id="taskId" name="taskId" value="" />
+</form>
+
+
+
+
+<form id="frmTarget" method="POST">
+    <input type="hidden" id="token" name="csrfmiddlewaretoken" value="{{ csrf_token }}" />
+    <input type="hidden"  name="targetId"   value="{{ target.id }}" />
+    <input type="hidden"  name="taskId"   id="tmptaskId"  value="" />
+
 </form>
 
 

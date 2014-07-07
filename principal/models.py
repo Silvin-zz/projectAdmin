@@ -380,6 +380,14 @@ class Target(Document):
             realpercent = realpercent + int(task.endpercent)
         totalpercent    = len(self.tasks) * 100
         return (0) if(realpercent <= 0) else round((float(float(100)/ float(totalpercent))) * float(realpercent))
+        
+    def daysLeft(self):
+        if(self.finished == False):
+            realdifference  = self.dateend.date() -datetime.datetime.now().date()
+            return realdifference.days
+        else:
+            realdifference  = self.dateend -datetime.datetime.now()
+            return  0
 
 
     
