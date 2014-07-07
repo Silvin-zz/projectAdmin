@@ -69,11 +69,11 @@
         	<table class="table table-striped">
         		<thead>
         			<tr>
-        				<th width="50%">Task</th>
+        				<th width="45%">Task</th>
         				<th width="20%">Owner</th>
         				<th width="10%">Lapse</th>
         				<th width="10%">Advance</th>
-        				<th width="100">Options</th>
+        				<th width="150">Options</th>
 
 
         			</tr>
@@ -90,6 +90,13 @@
                             <td><span class="badge bg-green">{{ task.endpercent }} %</span></td>
                             <td>
                                 <button class="btn btn-xs btn-default btn-flat taskdetail" title="Show" ng-click="detail(task.id)" lang="{{ task.id }}"><i class="glyphicon glyphicon-search white"></i></button>
+
+
+
+                                <button class="btn btn-xs btn-default btn-flat taskdetail" title="Edit" ng-click="taskEdit(task.id, $index)" lang="{{ task.id }}"><i class="glyphicon glyphicon-pencil white"></i></button>
+
+
+
                                 <button class="btn btn-xs btn-default btn-flat taskremove" title="Remove" ng-click="taskDelete(task.id,$index)" lang="{{ task.id }}"><a href="#" class="taskremove"><i class="glyphicon glyphicon-remove"></i></a></button>
 
                             </td>

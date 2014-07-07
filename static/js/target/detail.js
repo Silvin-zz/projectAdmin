@@ -89,7 +89,12 @@ function detailController($scope, $http){
         $('.dial')
             .val($scope.targetpercent)
             .trigger('change');
-        }
+    }
+
+    // $cope.taskEdit = function(taskId, index){
+
+    //     alert(taskId);
+    // }
 
 }
 
