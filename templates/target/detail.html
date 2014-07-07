@@ -1,15 +1,16 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 {% block title %} 
-<h4>{{ target.project.title }}</h4> 
-
+{{ target.project.title }}
+<!--
 <div class="box-body">
-	<!--<blockquote>
+	<blockquote>
 		<p>{{ target.project.client.name }}</p>
 		<small>{{ target.project.description }}</small>
 	</blockquote>
-	-->
+	
 </div>
+-->
 {% endblock title %}
 
 {% block content %}
@@ -24,9 +25,11 @@
     	<div class="col-xs-12">
         	<h2 class="page-header">
 	            <i class="glyphicon glyphicon-screenshot"></i>&nbsp;&nbsp;{{target.title}}
+                {% if target.finished == False %}
 	            <small class="pull-right">
 	            	<button class="btn btn-primary btn-sm btn-flat" id="btnNewTask" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-plus"></i>&nbsp;Add New Task</button>
 	            </small>
+                {% endif %}
             </h2>                            
         </div><!-- /.col -->
     </div>

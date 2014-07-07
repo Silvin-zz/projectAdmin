@@ -361,6 +361,7 @@ class Target(Document):
     endpercent      = IntField(default=0)
     comments        = ListField(EmbeddedDocumentField(Comment), required=False)
     finished        = BooleanField(default = False)
+    finishdate      = DateTimeField()
     folderreference = StringField(default="")
     meta            = {'allow_inheritance': True}
     tasks           = ListField(ReferenceField(Task), required=False)

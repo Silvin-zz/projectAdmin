@@ -8,8 +8,8 @@ function listController($scope, $http){
     
     $scope.init=function(){
 
-        $scope.datestart        =$("#datestart").attr("data");
-        $scope.dateend          =$("#dateend").attr("data");        
+        $scope.datestart    =$("#datestart").attr("data");
+        $scope.dateend      =$("#dateend").attr("data");        
     }
 
 
@@ -98,6 +98,31 @@ function listController($scope, $http){
         });
     } 
 
+
+    $scope.finishTarget=function(targetId, index){
+        confirmModalDialog("Close Target", "¿ Are you Sure to close this Target ?", 
+            function(){
+                $("#loadingModal").modal("show");
+                $("#targetid").val(targetId);
+                $http({
+                        method              : 'POST',
+                        url                 : '/target/finish',
+                        data                : $("#frmTargetDetail").serialize(),
+                        headers             : {'Content-Type': 'application/x-www-form-urlencoded'}
+                    }).success(function(data){
+                        $("#loadingModal").modal("hide");
+                        $("#finish_" + targetId).attr("disabled","disabled");
+                        SPNotification("success", "Close Target", "The target was Closed");
+                });
+
+            },
+            function(){  //Cancel confirm
+                
+            }
+        );
+
+    }
+
     $scope.getTargetData=function(targetId){
         $("#targetid").val(targetId);
         $http({
@@ -143,6 +168,14 @@ function listController($scope, $http){
                     data            : $("#frmTargetDetail").serialize(),
                     headers         : {'Content-Type': 'application/x-www-form-urlencoded'}
                 }).success(function(data){
+
+                    for(var n=0; n < $scope.targets.length; n++){
+                        if($scope.targets[n].id==id){
+                            index=n;
+                            break;           
+                        }
+                    }
+                    alert(index);
                     $scope.targets.splice(index, 1);
                     SPNotification("success", "Remove Target", "The Target was removed");
                     $("#loadingModal").modal("hide");

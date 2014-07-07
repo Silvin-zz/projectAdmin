@@ -47,6 +47,7 @@ def targetList(request):
 
 
 def getTargetByProjectId(request):
+    print("Entramos :S:S:S:S:S")
     print(request.POST)
     project      			= Project.objects(pk=request.POST["projectId"]).get()
     lb                      = Library()
@@ -59,8 +60,16 @@ def getTargetByProjectId(request):
         period              = lb.getPeriodWeek()
     if("month"      in request.POST["type"]):
         period              = lb.getPeriodMonth()
-
-    targets 				= Target.objects(project=project, finished=finished, datestart__gte= period["start"], datestart__lte= period["end"])
+    if("pending"    in request.POST["type"]):
+        
+        finished            = False
+        period["start"]     = datetime.date(1943,3, 13)
+        targets                 = Target.objects(project=project, finished=finished, datestart__gte= period["start"], dateend__lte= period["end"])
+    else:
+        if("all"    in request.POST["type"]):
+            targets                 = Target.objects(project=project, finished=finished)
+        else:
+            targets 				= Target.objects(project=project, finished=finished, datestart__gte= period["start"], datestart__lte= period["end"])
     mapping                 = ModelMapping()
     return HttpResponse(json.dumps((mapping.targetMapping(targets))), content_type="application/json")
 
@@ -139,6 +148,13 @@ def targetGetData(request):
         target     =Target.objects(pk=request.POST["targetid"]).get()
         mapping    = ModelMapping()
         return HttpResponse(json.dumps((mapping.targetMapping([target]))), content_type="application/json")
+
+def targetFinish(request):
+    target              =Target.objects(pk=request.POST["targetid"]).get()
+    target.finished     =True
+    target.finishdate   =time.strftime("%Y-%m-%d")
+    target.save()
+    return HttpResponse()
 
 
 

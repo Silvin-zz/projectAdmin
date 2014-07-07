@@ -53,10 +53,10 @@
             <tr>
                 <th width="30%">Target</th>
                 <th width="10%">Date</th>
-                <th width="20%">Owner</th>
+                <th width="10%">Owner</th>
                 <th>Tasks</th>
                 <th>Advance Percent</th>
-                <th width="100">Options</th>
+                <th width="150">Options</th>
               </tr>
           </thead>
           <tbody id="targetList">
@@ -89,12 +89,21 @@
                     </div>  
                 </td>
                 <td class="text-right">
-                  <button class="btn btn-xs btn-default btn-flat targetdetail"  ng-click="redirect(target.id)" title="Show" lang="{{ target.id }}"><a href="#" class="targetdetail"><i class="glyphicon glyphicon-search white"></i></a></button>
+                  <button  class="btn btn-xs btn-default btn-flat targetdetail"  ng-click="redirect(target.id)" title="Show" lang="{{ target.id }}"><a href="#" class="targetdetail"><i class="glyphicon glyphicon-search white"></i></a></button>
                     <button ng-click="getTargetData(target.id)"  class="btn btn-xs btn-default btn-flat targetedit" title="Edit" data="{{ target.id }}"><i class="glyphicon glyphicon-pencil white"></i></button>
+                  
+
+                  <button  ng-if="target.endPercent <100" disabled="disabled" class="btn btn-xs btn-flat btn-default" title="Finish this Target "><i class="glyphicon glyphicon-ok"></i></button>
+
+                  <button  ng-if="target.endPercent ==100"  ng-click="finishTarget(target.id, $index)" id="finish_{{target.id}}" class="btn btn-xs btn-flat btn-default" title="Finish this Target " data="{{ target.id }}"><i class="glyphicon glyphicon-ok"></i></button>
+
                   <!-- Si  tiene tasks NO se puede eliminar  -->
                   <button  ng-if="target.tasksNumber >0" disabled="disabled" class="btn btn-xs btn-default btn-flat"><i class="glyphicon glyphicon-remove"></i></a></button>
                   <!-- Si no tiene tasks se puede eliminar  -->
                   <button  ng-if="target.tasksNumber ==0"  ng-click="removetarget(target.id, $index)" id="remove_{{target.id}}" class="btn btn-xs btn-default btn-flat" title="Remove" data="{{ target.id }}"><i class="glyphicon glyphicon-remove"></i></button>
+
+
+
                 </td>
             </tr>
           {% endverbatim %}

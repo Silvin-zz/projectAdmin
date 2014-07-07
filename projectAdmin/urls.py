@@ -78,6 +78,7 @@ urlpatterns = patterns('',
 
     url(r'^target/list'             ,'principal.target.targetList'),
     url(r'^target/remove'           ,'principal.target.targetRemove'),
+    url(r'^target/finish'           ,'principal.target.targetFinish'),
     url(r'^target/getbyproject'     ,'principal.target.getTargetByProjectId'),
     url(r'^target/get'              ,'principal.target.targetGetData'),
     url(r'^target/save'             ,'principal.target.targetSave'),

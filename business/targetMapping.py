@@ -13,6 +13,7 @@ class ModelMapping:
 				"dateend"		: str(target.dateend.date()), 
 				"code"			: target.code,
 				"targettype"	: str(target.targettype.id),
+				"finished"		: target.finished,
 				"owner"			: {
 									"name"		: target.owner.name,
 									"img"		: "/static/images/users/" + str(target.owner.getUrlImage()),
