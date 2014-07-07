@@ -27,15 +27,17 @@
     
         <div class="col-xs-4">
             <div class="btn-group">
-                <button type="button" class="btn btn-default btn-sm period "        alt="today">Today</button>
-                <button type="button" class="btn btn-default btn-sm period active" id="periodweek" alt="week">This Week</button>
-                <button type="button" class="btn btn-default btn-sm period"         alt="month">this Month</button>
+                <button type="button" class="btn btn-default btn-sm period "        alt="today" ng-click="loadTargets('today')">Today</button>
+                <button type="button" class="btn btn-default btn-sm period active" id="periodweek" alt="week"  ng-click="loadTargets('week')">This Week</button>
+                <button type="button" class="btn btn-default btn-sm period"         alt="month"  ng-click="loadTargets('month')">this Month</button>
+                <button type="button" class="btn btn-default btn-sm period"         alt="pending"  ng-click="loadTargets('pending')">Pending</button>
+                <button type="button" class="btn btn-default btn-sm period"         alt="all"  ng-click="loadTargets('all')">All</button>
             </div>
         </div>
         <div class="col-xs-4 pull-right right-text">
             <div class="btn-group pull-right">
-                <button type="button" class="btn  btn-default btn-sm type active" id="typeactive" alt="active">Active</button>
-                <button type="button" class="btn  btn-default btn-sm type" alt="finished">Finished</button>
+                <button type="button" class="btn  btn-default btn-sm type active" id="typeactive" alt="active" ng-click="loadTargetsbyStatus('active')">Active</button>
+                <button type="button" class="btn  btn-default btn-sm type" alt="finished" ng-click="loadTargetsbyStatus('finished')">Finished</button>
             </div>
         </div>
         
@@ -49,11 +51,12 @@
       <table class="table table-striped">
         <thead>
             <tr>
-                <th width="40%">Target</th>
-                  <th width="20%">Owner</th>
-                  <th>Tasks</th>
-                  <th>Advance Percent</th>
-                  <th width="100">Options</th>
+                <th width="30%">Target</th>
+                <th width="10%">Date</th>
+                <th width="20%">Owner</th>
+                <th>Tasks</th>
+                <th>Advance Percent</th>
+                <th width="100">Options</th>
               </tr>
           </thead>
           <tbody id="targetList">
@@ -62,7 +65,12 @@
             <tr ng-repeat="target in targets">
               <td>
                 <b>{{target.title}}</b><br />
-                    <em style="color:#747474; font-size:10px;">{{ target.description }}</em>
+                    <em style="color:#747474; font-size:10px;">{{ target.shortdesc }}</em>
+                </td>
+                <td>
+                    {{target.datestart | date: "yyyy-MM-dd"}} <br />
+                    {{target.dateend  | date: "yyyy-MM-dd"}}
+
                 </td>
                 <td style="text-align:center">
                     <img src="{{ target.owner.img }}" width="40" class="img-circle" /><br />
@@ -81,7 +89,7 @@
                     </div>  
                 </td>
                 <td class="text-right">
-                  <button class="btn btn-xs btn-default btn-flat targetdetail" title="Show" lang="{{ target.id }}"><a href="#" class="targetdetail"><i class="glyphicon glyphicon-search white"></i></a></button>
+                  <button class="btn btn-xs btn-default btn-flat targetdetail"  ng-click="redirect(target.id)" title="Show" lang="{{ target.id }}"><a href="#" class="targetdetail"><i class="glyphicon glyphicon-search white"></i></a></button>
                     <button ng-click="getTargetData(target.id)"  class="btn btn-xs btn-default btn-flat targetedit" title="Edit" data="{{ target.id }}"><i class="glyphicon glyphicon-pencil white"></i></button>
                   <!-- Si  tiene tasks NO se puede eliminar  -->
                   <button  ng-if="target.tasksNumber >0" disabled="disabled" class="btn btn-xs btn-default btn-flat"><i class="glyphicon glyphicon-remove"></i></a></button>

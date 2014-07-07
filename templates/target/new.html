@@ -60,7 +60,7 @@
         <label class="col-sm-4 control-label">* Date Start</label>
         <div class="row">
             <div class="col-xs-4">
-                <input type="text" ng-readonly="true"  name="datestart" id="datestart" required ng-model="datestart"  data="{{datestart}}" class="form-control" />
+                <input type="date" name="datestart" id="datestart" ng-model="datestart" required class="form-control" />
             </div>
         </div>
     </div>
@@ -70,10 +70,10 @@
         <label class="col-sm-4 control-label">* Date End</label>
         <div class="row">
             <div class="col-xs-4">
-                <input type="text" required  name="dateend" id="dateend" ng-readonly="true" ng-model="dateend"  data="{{dateend}}" class="form-control" />
+                <input type="date" name="dateend" id="dateend" ng-model="dateend" required class="form-control" />
             </div>
         </div>
     </div>
 
-    <input type="hidden" value="" id="id" name="id" ng-model="id" />
+    <input type="hidden"  ng-update-hidden value="" id="id" name="id" ng-model="id" />
 

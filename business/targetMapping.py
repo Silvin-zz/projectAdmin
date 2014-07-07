@@ -5,12 +5,20 @@ class ModelMapping:
 			result.append({
 				"id"			: str(target.id), 
 				"title"			: target.title, 
-				"description"	: target.getShortDescription(), 
+				"description"	: target.description, 
+				"shortdesc"		: target.getShortDescription(), 
 				"tasksNumber"	: target.taskCount(), 
-				"endPercent"	: target.getEndPercent(), 
+				"endPercent"	: target.getEndPercent(),
+				"datestart"		: str(target.datestart.date()),
+				"dateend"		: str(target.dateend.date()), 
+				"code"			: target.code,
+				"targettype"	: str(target.targettype.id),
 				"owner"			: {
 									"name"		: target.owner.name,
-									"img"		: "/static/images/users/" + str(target.owner.getUrlImage())
+									"img"		: "/static/images/users/" + str(target.owner.getUrlImage()),
+									"id"		: str(target.owner.id)
 								}
 				})
+		print("El resultado es:::::D")
+		print("saludos")
 		return result

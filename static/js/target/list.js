@@ -17,6 +17,15 @@ function listController($scope, $http){
     $scope.showModal        =function(){
 
         $scope.datestart=$("#datestart").attr("data");
+        $scope.title        ="";
+        $scope.code         ="";
+        $scope.description  ="";
+        $scope.datestart    ="";
+        $scope.owner        ="";
+        $scope.dateend      ="";
+        $scope.targettype   ="";
+        $scope.id           ="";
+        $("#id").val($scope.id);
         
         
 
@@ -28,24 +37,41 @@ function listController($scope, $http){
         var title           =$("#title").val();
         var datestart       =$scope.datestart;
         var dateend         =$scope.dateend;
+        var id              =$scope.id;
 
         $("#project").prop("value",projectid);
         $('#modalclose').trigger("click");
         $("#loadingModal").modal("show");
 
         $http({
-            method      : 'POST',
-            url         : '/target/save',
-            data        : $("#frmNewtarget").serialize(),
-            headers     : {'Content-Type': 'application/x-www-form-urlencoded'}
+            method              : 'POST',
+            url                 : '/target/save',
+            data                : $("#frmNewtarget").serialize(),
+            headers             : {'Content-Type': 'application/x-www-form-urlencoded'}
         }).success(function(data){
             $("#loadingModal").modal("hide");
             $scope.title        ="";
             $scope.code         ="";
             $scope.description  ="";
-            $scope.targets.unshift(data[0]); //Con solo esta linea agrego un nuevo registro a la lista :D de pelos :D
-            $('#frmNewtarget')[0].reset();
-            SPNotification("success", "New Target", "The " + title + " Target has been created");
+
+            if(id==""){
+                SPNotification("success", "New Target", "The " + title + " Target has been created");
+                $scope.targets.unshift(data[0]); //Con solo esta linea agrego un nuevo registro a la lista :D de pelos :D
+                $("#listcontent").on("click", ".targetdetail",function(){
+                    redirectToDetail($(this));                  
+                });
+            }
+            else{  //Buscamos por id
+                for(var n=0; n < $scope.targets.length; n++){
+                    if($scope.targets[n].id==id){
+                        $scope.targets[n]=data[0];
+                        break;           
+                    }
+                }
+                SPNotification("info", "Update Target", "The " + title + " Target has been Modified");
+
+            }
+            
 
             //$scope.targets.push (data[0]);
         });
@@ -60,31 +86,39 @@ function listController($scope, $http){
 
     $scope.changetargetsProject =function(){
         $http({
-            method      : 'POST',
-            url         : '/target/getbyproject',
-            data        : $("#frmGetTargets").serialize(),
-            headers     : {'Content-Type': 'application/x-www-form-urlencoded'}
+            method                  : 'POST',
+            url                     : '/target/getbyproject',
+            data                    : $("#frmGetTargets").serialize(),
+            headers                 : {'Content-Type': 'application/x-www-form-urlencoded'}
         }).success(function(data){
-            $scope.targets = data;
+            $scope.targets      = data;
+        }).error(function(){
+                SPNotification("danger", "Target Request", "You have an error in your request, please select your project first and try again.");
+
         });
     } 
 
     $scope.getTargetData=function(targetId){
         $("#targetid").val(targetId);
         $http({
-                method      : 'POST',
-                url         : '/target/get',
-                data        : $("#frmTargetDetail").serialize(),
-                headers     : {'Content-Type': 'application/x-www-form-urlencoded'}
+                method              : 'POST',
+                url                 : '/target/get',
+                data                : $("#frmTargetDetail").serialize(),
+                headers             : {'Content-Type': 'application/x-www-form-urlencoded'}
             }).success(function(data){
-                var target      = data[0];
+                var target          = data[0];
                 $("#myModal").modal("show");
                 $scope.title        =target.title;
                 $scope.code         =target.code;
                 $scope.description  =target.description;
                 $scope.datestart    =target.datestart;
+                $scope.owner        =target.owner.id;
                 $scope.dateend      =target.dateend;
-                debugger;
+                $scope.targettype   =target.targettype;
+                $scope.id           =target.id;
+                $("#id").val($scope.id);
+                $("#project").val($("#projectId").val());
+                
 
         });
     }
@@ -93,21 +127,21 @@ function listController($scope, $http){
 
     $scope.removetarget=function(targetId, indexelement){
         
-        var rowContent  =$("#remove_" + targetId).parent().parent();
+        var rowContent              =$("#remove_" + targetId).parent().parent();
         rowContent.parent().parent().removeClass('table-striped');
         $(rowContent).addClass("danger");
 
         $("#targetid").val(targetId);
-        var index       = indexelement;
+        var index                   = indexelement;
 
         confirmModalDialog("Remove Target", "¿ Are you Sure to remove this Target ?", 
             function(){
                 $("#loadingModal").modal("show");
                 $http({
-                    method      : 'POST',
-                    url         : '/target/remove',
-                    data        : $("#frmTargetDetail").serialize(),
-                    headers     : {'Content-Type': 'application/x-www-form-urlencoded'}
+                    method          : 'POST',
+                    url             : '/target/remove',
+                    data            : $("#frmTargetDetail").serialize(),
+                    headers         : {'Content-Type': 'application/x-www-form-urlencoded'}
                 }).success(function(data){
                     $scope.targets.splice(index, 1);
                     SPNotification("success", "Remove Target", "The Target was removed");
@@ -122,7 +156,27 @@ function listController($scope, $http){
 
     }
 
+    $scope.redirect=function(targetId){
 
+        $("#targetid").prop("value",targetId);
+        $("#frmTargetDetail").submit();
+        return false;
+
+    }
+
+
+
+    $scope.loadTargets=function(type){
+        $("#taskType").val(type);
+        $scope.changetargetsProject();
+
+    }
+
+    $scope.loadTargetsbyStatus=function(type){
+        $("#taskFinished").val(type);
+        $scope.changetargetsProject();
+
+    }
 
 
 } //FIn de angular 
@@ -132,42 +186,25 @@ $(document).ready(function(){
 
 //loadTargets();
 
-$('#datestart').datepicker({
     
-    format: "yyyy-mm-dd"
-}).on("changeDate",function(){
-    $(this).datepicker("hide");
-    
-});
 
-
-$('#dateend').datepicker({
-    
-    format: "yyyy-mm-dd"
-}).on("changeDate",function(){
-    $(this).datepicker("hide");
-    
-});
 
 $("#projectId").change(function(event) {
-    $(".type").removeClass("active");
+    /*$(".type").removeClass("active");
     $(".period").removeClass("active");
     $("#periodweek").addClass("active");
     $("#typeactive").addClass("active");
     $("#taskFinished").val("active");
     $("#taskType").val("week");
+    */
     //loadTargets();
 });
 
 
 
-$(".period").click(function(){
+    $(".period").click(function(){
         $(".period").removeClass("active");
         $(this).addClass("active");
-        var period=$(this).attr("alt");
-        $("#taskType").val(period);
-        loadTargets();
-        
     });
     
     
@@ -175,68 +212,22 @@ $(".period").click(function(){
         
         $(".type").removeClass("active");
         $(this).addClass("active");
-        
-        var finished=$(this).attr("alt");
-        $("#taskFinished").val(finished);
-        loadTargets();
-        
     });
 
 
-$("#btnSaveTarget").click(function(event) {
-   // saveTarget();
-});
 
 
-function saveTarget(){
-    var projectid=$("#projectId option:selected").first().prop("value");
-    
-    $("#project").prop("value",projectid);
-    $('#modalclose').trigger("click");
-    $("#loadingModal").modal("show");
-    var title           =$("#title").val();
-    $.ajax({  
-        url         : "/target/save",
-        type        : "POST",
-        data        : $("#frmNewtarget").serialize(),
-        success : function(result){
-            $("#loadingModal").modal("hide");
-            $('#frmNewtarget')[0].reset();
-            $("#targetList").prepend(result);
-            SPNotification("success", "New Target", "The " + title + " Target has been created");
-            
-            $("#listcontent .targetdetail").on("click",function(){
-                redirectToDetail($(this));                  
-            });
-        }
-    });
+    // $("#listcontent").on("click", ".targetdetail",function(){
+    //     redirectToDetail($(this));                  
+    // });
 
 
-}
+    function redirectToDetail(button){
+        var id  =button.attr("lang");
+        $("#targetid").prop("value",id);
+        $("#frmTargetDetail").submit();
+        return false;
 
-function loadTargets(){
-    
-    $.ajax({  
-        url         : "/target/getbyproject",
-        type        : "POST",
-        data        : $("#frmGetTargets").serialize(),
-        success : function(result){
-            $("#listcontent").html(result);
-        }
-    });
-}
-
-
-function redirectToDetail(button){
-    var id  =button.attr("lang");
-    $("#targetid").prop("value",id);
-    $("#frmTargetDetail").submit();
-    return false;
-
-}
-
-    $("#listcontent").on("click", ".targetdetail",function(){
-        redirectToDetail($(this));                  
-    });
+    }
 
 });
