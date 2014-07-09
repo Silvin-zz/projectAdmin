@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %} Team Performance
+{% endblock title %}
+{% block content %}
+
+
+<div ng-controller="teamController" ng-init="init()">
+
+    <form action="#" class="form-horizontal"    role="form" id="frmmyTasks">
+        <input type="hidden" id="token"         name="csrfmiddlewaretoken" value="{{ csrf_token }}" />
+        <input type="hidden" id="taskFinished"  name="finished"  value="True"  />
+        <input type="hidden" id="taskType"      name="type"     value="week"  />
+    </form>
+
+    <div class="row text-left">
+        <div class="col-xs-6">
+            <div class="btn-group">
+               
+                <button type="button" class="btn btn-default btn-sm period active"          alt="week"  ng-click="getData('week')">This Week</button>
+                <button type="button" class="btn btn-default btn-sm period"                 alt="month" ng-click="getData('month')">this Month</button>
+                
+                
+                
+            </div>
+        </div>
+        <div class="col-xs-6 pull-right right-text">
+            <table class="table">
+                <tr>
+                    <td>
+                        <div class  ="input-group col-xs-12">
+                            From :
+                            <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
+                            <input type="datestart" style="width:150px" name="datestart"  class="form-control" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class  ="input-group col-xs-10">
+                            To :
+                            <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
+                            <input type="datestart" name="datestart"  style="width:150px"  class="form-control" />
+                        </div>
+                    </td>
+                    
+                    <td>
+                        
+                        <button type="button" class="btn  btn-primary btn-flat btn-sm"><i class="glyphicon glyphicon-search"></i></button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        
+        
+    </div>
+	<div class="row col-xs-12">
+	
+	    <!-- IMPLEMENTAMOS ANGULAR JS  -->
+	 {% verbatim %}
+	    <div class="col-md-4" ng-repeat="user in team">
+    	    <div class="box box-primary">
+                <div class="box-header"><h5 class="box-title">{{ user.owner.name }}</h5>
+                    <div class="box-tools pull-right"><img src="{{ user.owner.img }}" width="40" class="img-circle"/></div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-sm-7 text-center">
+                            <strong>Tasks Resume</strong>
+                            <div class="pad">
+                            <!-- Progress bars -->
+                            <div class="clearfix">
+                                <span class="pull-left">Finished</span>
+                                <small class="pull-right">{{ user.finished }}</small>
+                            </div>
+                            <div class="progress xs">
+                                <div class="progress-bar progress-bar-green" style="width: {{ user.finishedpercent }}%;"></div>
+                            </div>
+
+                            <div class="clearfix">
+                                <span class="pull-left">Delayed</span>
+                                <small class="pull-right">{{ user.delayed }}</small>
+                            </div>
+                            <div class="progress xs">
+                                <div class="progress-bar progress-bar-red" style="width: {{ user.delayedpercent }}%;"></div>
+                            </div>
+
+                            <div class="clearfix">
+                                <span class="pull-left">In Time</span>
+                                <small class="pull-right">{{ user.intime }}</small>
+                            </div>
+                            <div class="progress xs">
+                                <div class="progress-bar progress-bar-aqua" style="width: {{ user.intimepercent }}%;"></div>
+                            </div>
+                            <!-- Buttons -->
+                                                
+                        </div><!-- /.pad -->
+                    </div><!-- /.col -->
+                    <div class="col-sm-5 text-center">
+                            <br />
+                            <small class="col-sm-12  label label-info" style="font-size: 16px;"><i class="glyphicon glyphicon-flag"></i> {{ user.projects }}</small><br /><br />
+                            <small class="col-sm-12 label label-primary" style="font-size: 16px;"><i class="glyphicon glyphicon-bookmark"></i> {{ user.tasks }}</small><br /><br />
+                            <small class="col-sm-12 label label-success" style="font-size: 16px;"><i class="fa fa-clock-o"></i> {{ user.assignedtime }} Hrs</small><br />
+                            <small class="col-sm-12 label label-warning" style="font-size: 16px;"><i class="fa fa-clock-o"></i> {{ user.usedtime }} Hrs</small>
+                    </div>
+                    
+                </div><!-- /.box-body -->
+                
+            </div><!-- /.box -->
+            
+	    </div>
+	  {% endverbatim %}  
+	    
+	    
+	    <!-- FINALIZA IMPLEMENTACION DE ANGULAR. -->
+	    
+	</div>
+	<form action="#" method="POST" class="form-horizontal" role="form" id="frmTeam">
+        <input type="hidden" id="token" name="csrfmiddlewaretoken"  value="{{ csrf_token }}" />
+        <input type="hidden" id="type"  name="type"                 value="week" />              
+    </form>
+</div>
+{% endblock content %}
+
+{% block scripts %}
+<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+<script src="{% static "js/plugins/morris/morris.min.js" %}"></script>
+<link href="{% static "js/plugins/morris/morris.css" %}" rel="stylesheet" type="text/css" />
+<script src="{% static "theme/js/plugins/jqueryKnob/jquery.knob.js" %}" type="text/javascript"></script>
+<script src="{% static "js/team/list.js" %}"></script>
+{% endblock scripts %}
