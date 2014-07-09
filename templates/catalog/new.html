@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}Catalogs
+
+    
+    
+{% endblock title %}
+{% block content %}
+  <div class="row" ng-controller="catalogController" ng-init="init()">  
+    <div class="row text-left">
+        <div class="col-xs-4">
+            <div class="btn-group">
+                <button type="button" class="btn btn-default btn-sm period active"          alt="today" ng-click="loadTargets('today')">Target Type</button>
+                <button type="button" class="btn btn-default btn-sm period "                id="periodweek" alt="week"  ng-click="loadTargets('week')"></button>
+                <button type="button" class="btn btn-default btn-sm period"                 alt="month"  ng-click="loadTargets('month')">this Month</button>
+                <button type="button" class="btn btn-default btn-sm period"                 alt="pending"  ng-click="loadTargets('pending')">Pending</button>
+                <button type="button" class="btn btn-default btn-sm period"                 alt="all"  ng-click="loadTargets('all')">All</button>
+            </div>
+        </div>
+    </div>
+    
+    
+    <div id="listcontent">
+    <br />
+        <div class="row">
+            <form action="#" class="form-horizontal" role="form" id="frmGetTargets" name="frmGetTargets" >
+            <input type="hidden" id="token" name="csrfmiddlewaretoken" value="{{ csrf_token }}" />
+                <div class="form-group col-xs-5"  ng-class="{ 'has-error': form.title.$invalid && form.title.$dirty }">
+                    <label class="col-sm-4 control-label">* Name</label>
+                    <div class="row">
+                        <div class="col-xs-7">
+                            <input type="text" name="name" id="name" ng-model="name" class="form-control" required />
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group col-xs-5" >
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <button class="btn btn-primary" type="button">Add</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+
+        <table class="table table-striped">
+            
+            <thead>
+                
+                <th>ID</th>
+                <th width="70%">Name</th>
+                <th width="10%">Options</th>
+            </thead>
+        </table>
+      
+
+
+    </div>
+  
+
+    <div  class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">New Target</h4>
+          </div>
+          <div class="modal-body" >
+                <form action="#" class="form-horizontal" novalidate role="form" name="form" id="frmNewtarget">
+                  <input type="hidden" id="token" name="csrfmiddlewaretoken" value="{{ csrf_token }}" />
+                  <input type="hidden" id="project" name="project" value="" />
+                 
+                </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-flat btn-default" id="modalclose" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-flat btn-primary" id="btnSaveTarget"   >Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    <form  class="form-horizontal" method="POST" role="form" id="frmTargetDetail" action="{% url "principal.target.targetDetail" %}">
+      <input type="hidden" id="token" name="csrfmiddlewaretoken" value="{{ csrf_token }}" />
+      <input type="hidden" id="targetid" name="targetid" value="" />
+    </form>
+
+{% endblock %}
+{% block scripts %}
+  <script src="{% static "js/catalog/new.js" %}"></script>
+  <!-- DatePicker -->  
+{% endblock scripts %}

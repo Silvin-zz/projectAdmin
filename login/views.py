@@ -110,16 +110,16 @@ def validateFromGoogle(request):
 
 
 def logout(request):
-    del request.session["name"]
-    del request.session["profile"]
-    del request.session["profilename"]
-    del request.session["userid"]
-    del request.session["userimage"]
-    del request.session["email"]
-    del request.session["menu"]
-    del request.session["session_type"]
-    if("token" in request.session):
-        del request.session["token"]
+    #del request.session["name"]
+    #del request.session["profile"]
+    #del request.session["profilename"]
+    #del request.session["userid"]
+    #del request.session["userimage"]
+    #del request.session["email"]
+    #del request.session["menu"]
+    #del request.session["session_type"]
+    #if("token" in request.session):
+        #del request.session["token"]
     
     return HttpResponseRedirect("/")
 

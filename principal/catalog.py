@@ -34,3 +34,9 @@ def catalogList(request):
     
     return HttpResponseRedirect("/")
     
+    
+    
+
+def catalogNew(request):
+    return render_to_response('catalog/new.html', {}, context_instance=RequestContext(request))
+    

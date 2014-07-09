@@ -139,6 +139,7 @@ urlpatterns = patterns('',
     ######CATALOGS
     
     url(r'^catalogs/list'           ,'principal.catalog.catalogList'),
+    url(r'^catalogs/new'            ,'principal.catalog.catalogNew'),
     
     
 
