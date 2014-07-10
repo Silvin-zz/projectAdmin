@@ -156,7 +156,7 @@ class User(Document):
     
 class Projecttype(Document):
     name            = StringField(max_length=2000)
-    active          = BooleanField()
+    active          = BooleanField(default=True)
     meta            = {'allow_inheritance': True}
 
 

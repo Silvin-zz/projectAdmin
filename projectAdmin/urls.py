@@ -140,6 +140,8 @@ urlpatterns = patterns('',
     
     url(r'^catalogs/list'           ,'principal.catalog.catalogList'),
     url(r'^catalogs/new'            ,'principal.catalog.catalogNew'),
+    url(r'^catalogs/save'           ,'principal.catalog.catalogSave'),
+    url(r'^catalogs/remove'         ,'principal.catalog.catalogRemove'),
     
     
 

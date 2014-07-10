@@ -12,6 +12,7 @@ import time
 import datetime
 from principal.models       import TargetType
 from principal.models       import TaskType
+from principal.models       import Projecttype
 from business.ModelMapping  import ModelMapping
 
 
@@ -26,6 +27,9 @@ def catalogList(request):
     
     if("tasktype" in catalogname):
         objects = TaskType.objects()
+    
+    if("projecttype" in catalogname):
+        objects = Projecttype.objects()
         
     
         
@@ -34,7 +38,35 @@ def catalogList(request):
     
     return HttpResponseRedirect("/")
     
-    
+ 
+ 
+ 
+def catalogRemove(request):
+     catalogname=request.GET["name"]
+     if("targettype" in catalogname):
+         objectCatalog = TargetType.objects(pk=request.GET["id"]).get()
+         
+     if("tasktype" in catalogname):
+         objectCatalog = TaskType.objects(pk=request.GET["id"]).get()
+     if("projecttype" in catalogname):
+         objectCatalog = Projecttype.objects(pk=request.GET["id"]).get()
+     objectCatalog.delete();
+     return HttpResponse();
+     
+     
+def catalogSave(request):
+     catalogname=request.GET["name"]
+     if("targettype" in catalogname):
+         objectCatalog = TargetType()
+         
+     if("tasktype" in catalogname):
+         objectCatalog = TaskType()
+     if("projecttype" in catalogname):
+         objectCatalog = Projecttype()
+     objectCatalog.name=request.GET["value"];
+     objectCatalog.save();
+     return HttpResponse();
+     
     
 
 def catalogNew(request):

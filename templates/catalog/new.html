@@ -10,11 +10,9 @@
     <div class="row text-left">
         <div class="col-xs-4">
             <div class="btn-group">
-                <button type="button" class="btn btn-default btn-sm period active"          alt="today" ng-click="loadTargets('today')">Target Type</button>
-                <button type="button" class="btn btn-default btn-sm period "                id="periodweek" alt="week"  ng-click="loadTargets('week')"></button>
-                <button type="button" class="btn btn-default btn-sm period"                 alt="month"  ng-click="loadTargets('month')">this Month</button>
-                <button type="button" class="btn btn-default btn-sm period"                 alt="pending"  ng-click="loadTargets('pending')">Pending</button>
-                <button type="button" class="btn btn-default btn-sm period"                 alt="all"  ng-click="loadTargets('all')">All</button>
+                <button type="button" class="btn btn-default btn-sm period active"          alt="today" ng-click="loadTypes('targettype')">Target Type</button>
+                <button type="button" class="btn btn-default btn-sm period "                id="periodweek" alt="week"  ng-click="loadTypes('tasktype')">Task Type</button>
+                <button type="button" class="btn btn-default btn-sm period"                 alt="pending"  ng-click="loadTypes('projecttype')">project Type</button>
             </div>
         </div>
     </div>
@@ -37,7 +35,7 @@
                 <div class="form-group col-xs-5" >
                     <div class="row">
                         <div class="col-xs-4">
-                            <button class="btn btn-primary" type="button">Add</button>
+                            <button class="btn btn-primary" type="button" ng-click="save()">Add</button>
                         </div>
                     </div>
                 </div>
@@ -48,11 +46,25 @@
         <table class="table table-striped">
             
             <thead>
-                
+                <th>No</th>
                 <th>ID</th>
                 <th width="70%">Name</th>
                 <th width="10%">Options</th>
             </thead>
+            
+            <tbody>
+                {% verbatim %}
+                <tr ng-repeat="catalog in catalogs">
+                    <td>{{$index}}</td>
+                    <td>{{ catalog.id }}</td>
+                    <td>{{ catalog.name }}</td>
+                    <td>
+                        <button class="btn btn-default btn-flat btn-sm"><i class="glyphicon glyphicon-pencil"></i></button>
+                        <button class="btn btn-default btn-flat btn-sm"><i class="glyphicon glyphicon-remove" ng-click="remove(catalog)"></i></button>
+                    </td>
+                </tr>
+                {% endverbatim %}
+            </tbody>
         </table>
       
 

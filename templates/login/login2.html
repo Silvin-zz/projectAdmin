@@ -88,10 +88,12 @@
                             success : function(result){
                                 if(result.ok!="true"){
                                     
-                                    //alert("Tu Usuario no ha sido registrado dentro de Single Projects");
+                                    alert("Tu Usuario no ha sido registrado dentro de Single Projects");
                                    
                                 }
-                               window.location.href=result.url;
+                                else{
+                                    window.location.href=result.url;
+                                }
                     
                               }
                           });

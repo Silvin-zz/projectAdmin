@@ -20,16 +20,29 @@ $("#confirmModal").modal({ keyboard: false, show:false, backdrop: "static" });
 $(document).ready(function(){
 
 
+
+    var confirmationOk      = null;
+    var confirmationDeby    = null;
     
 
     confirmModalDialog  =function (title, msg, okconfirm, denyconfirm){
+        confirmationOk   = okconfirm;
+        confirmationDeby = denyconfirm;
         $("#confirmTitle").html(title);
         $("#confirmBody").html(msg);
         $("#confirmModal").modal("show");
-        $("#confirmSave").click(okconfirm);
-        $("#confirmClose").click(denyconfirm);
-        $("#closeConfirmModal").click(denyconfirm);
     }
+    
+    
+    
+    
+        $("#confirmSave").click(function(){
+            $("#confirmModal").modal("hide");
+            return confirmationOk.apply(this);
+            
+        });
+        $("#confirmClose").click(confirmationDeby);
+        $("#closeConfirmModal").click(confirmationDeby);
 
 
     SPNotification= function (type, title, message){
