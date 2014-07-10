@@ -49,8 +49,10 @@
         
          function signinCallback(e){
              console.log(e);
-             if(parseInt(e.num_sessions) > 0 && activo==true){
+             debugger;
+             if(parseInt(e.num_sessions) > 0){
                  gapi.auth.setToken(e.access_token);
+                 //debugger;
                  getUserData(e);
              }else{
                  
@@ -68,35 +70,39 @@
           
           
          function getUserData(e){
-             
-             
-          gapi.auth.authorize({client_id: '952570055288-fekav9gb37bmboidioth7eq5kvqknmkq.apps.googleusercontent.com', scope: 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email', immediate: true}, function(){
+         console.log(e);  
+         debugger;
+          gapi.auth.authorize({client_id: '952570055288-e8pfjqjln698ssnbs8k7n5rmd2r9munp.apps.googleusercontent.com', scope: 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email', immediate: true}, function(){
                 gapi.client.load('oauth2', 'v2', function() {
                       gapi.client.oauth2.userinfo.get().execute(function(resp) {
                           console.log(resp);
-                         //enviamos al servidor a verificar que este usuario este registrado y que efectivamente tenga permisos para ingresar :)
-                         $("#email").attr("value"       ,resp.email);
-                         $("#username").attr("value"    ,resp.name);
-                         $("#token").attr("value"       ,e.access_token);
-                         $("#urlimage").attr("value"    ,resp.picture);
-                         $.ajax({  
-              
-                            url   : "/login/validateFromGoogle",
-                            type    : "POST",
-                            dataType: "JSON",
-                            data    : $("#frmValidate").serialize(),
-                            success : function(result){
-                                if(result.ok!="true"){
-                                    
-                                    alert("Tu Usuario no ha sido registrado dentro de Single Projects");
-                                   
-                                }
-                                else{
-                                    window.location.href=result.url;
-                                }
-                    
-                              }
-                          });
+                          if(resp.code != 401){
+                             //enviamos al servidor a verificar que este usuario este registrado y que efectivamente tenga permisos para ingresar :)
+                             $("#email").attr("value"       ,resp.email);
+                             $("#username").attr("value"    ,resp.name);
+                             $("#token").attr("value"       ,e.access_token);
+                             $("#urlimage").attr("value"    ,resp.picture);
+                            // debugger;
+                             $.ajax({  
+                  
+                                url   : "/login/validateFromGoogle",
+                                type    : "POST",
+                                dataType: "JSON",
+                                data    : $("#frmValidate").serialize(),
+                                success : function(result){
+                                    debugger;
+                                    if(result.ok!="true"){
+                                        
+                                       return false;
+                                       
+                                    }
+                                    else{
+                                        window.location.href=result.url;
+                                    }
+                        
+                                  }
+                              });
+                            }
                       });
                 });
                  
@@ -134,7 +140,7 @@
           function render() {
             gapi.signin.render('customBtn', {
               'callback': 'signinCallback',
-              'clientid': '952570055288-fekav9gb37bmboidioth7eq5kvqknmkq.apps.googleusercontent.com',
+              'clientid': '952570055288-e8pfjqjln698ssnbs8k7n5rmd2r9munp.apps.googleusercontent.com',
               'cookiepolicy': 'single_host_origin',
               'requestvisibleactions': 'http://schemas.google.com/AddActivity',
               'scope': 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email',
@@ -240,8 +246,16 @@
                             <div class="text-center">
                                 <div id="customBtn" style="cursor:pointer;" class="customGPlusSignIn"><span class="icon"></span><span class="buttonText">Google</span></div>
                             </div>
-                        </div>
                             
+                            
+                            <div class="text-center hide" id="uno">
+                                <div class="alert alert-danger" role="alert">Your default account is not registered in the system</div>
+                            </div>
+                            
+                        </div>
+                        
+                        
+                        
                     </form>
                 </div>
             </div>

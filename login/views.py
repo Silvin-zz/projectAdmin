@@ -50,8 +50,11 @@ def userList(request):
 def home (request):
     
     
+    sessiontype = 0
     
-    print("llegamos")
+    if("logout" in request.GET):
+        sessiontype = 1
+    
     if(request.method=="POST"):
         print("Entramos al post")
         
@@ -71,7 +74,7 @@ def home (request):
             request.session["session_type"] = "local"
             request.session["WNotify"]      = {"message":"", "type":"", "title":""}
             return HttpResponseRedirect("/dashboard")
-    return render_to_response('login/login2.html', {}, context_instance= RequestContext(request))
+    return render_to_response('login/login.html', {"sessiontype": sessiontype}, context_instance= RequestContext(request))
 
 
 
@@ -121,7 +124,7 @@ def logout(request):
     #if("token" in request.session):
         #del request.session["token"]
     
-    return HttpResponseRedirect("/")
+    return HttpResponseRedirect("/?logout=true")
 
 def userValidate(request):
 
