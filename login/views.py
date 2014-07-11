@@ -100,6 +100,7 @@ def validateFromGoogle(request):
             request.session["email"]        = user.email
             request.session["menu"]         = ""
             request.session["token"]        = request.POST["token"]
+            request.session["WNotify"]      = {"message":"", "type":"", "title":""}
             request.session["session_type"] = "google"
             ok                              = "true"
             url                             = "/dashboard"

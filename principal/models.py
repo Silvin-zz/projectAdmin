@@ -82,7 +82,7 @@ class Profile(Document):
         vtmenu["options"]   =[]
         vtoptions           =[]
         
-        for myoption in self.options:
+        for myoption in self.options:s
             vtoptions.append(myoption.id)
         
         
