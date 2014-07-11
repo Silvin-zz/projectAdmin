@@ -14,6 +14,7 @@ from principal.models       import TargetType
 from principal.models       import TaskType
 from principal.models       import Projecttype
 from business.ModelMapping  import ModelMapping
+from principal.models       import projectClasification
 
 
 def catalogList(request):
@@ -30,6 +31,9 @@ def catalogList(request):
     
     if("projecttype" in catalogname):
         objects = Projecttype.objects()
+    
+    if("projectclasification" in catalogname):
+        objects = projectClasification.objects()
         
     
         
@@ -48,8 +52,13 @@ def catalogRemove(request):
          
      if("tasktype" in catalogname):
          objectCatalog = TaskType.objects(pk=request.GET["id"]).get()
+
      if("projecttype" in catalogname):
          objectCatalog = Projecttype.objects(pk=request.GET["id"]).get()
+
+     if("projectclasification" in catalogname):
+         objectCatalog = projectClasification.objects(pk=request.GET["id"]).get()
+
      objectCatalog.delete();
      return HttpResponse();
      
@@ -61,8 +70,13 @@ def catalogSave(request):
          
      if("tasktype" in catalogname):
          objectCatalog = TaskType()
+
      if("projecttype" in catalogname):
          objectCatalog = Projecttype()
+
+
+     if("projectclasification" in catalogname):
+         objectCatalog = projectClasification()
      objectCatalog.name=request.GET["value"];
      objectCatalog.save();
      return HttpResponse();

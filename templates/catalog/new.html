@@ -8,11 +8,12 @@
 {% block content %}
   <div class="row" ng-controller="catalogController" ng-init="init()">  
     <div class="row text-left">
-        <div class="col-xs-4">
+        <div class="col-xs-10">
             <div class="btn-group">
                 <button type="button" class="btn btn-default btn-sm period active"          alt="today" ng-click="loadTypes('targettype')">Target Type</button>
                 <button type="button" class="btn btn-default btn-sm period "                id="periodweek" alt="week"  ng-click="loadTypes('tasktype')">Task Type</button>
                 <button type="button" class="btn btn-default btn-sm period"                 alt="pending"  ng-click="loadTypes('projecttype')">project Type</button>
+                <button type="button" class="btn btn-default btn-sm period"                 alt="pending"  ng-click="loadTypes('projectclasification')">Day by Day Project Clasification</button>
             </div>
         </div>
     </div>
@@ -46,21 +47,19 @@
         <table class="table table-striped">
             
             <thead>
-                <th>No</th>
-                <th>ID</th>
+                <th width="20">No</th>
                 <th width="70%">Name</th>
                 <th width="10%">Options</th>
             </thead>
-            
+
             <tbody>
                 {% verbatim %}
                 <tr ng-repeat="catalog in catalogs">
-                    <td>{{$index}}</td>
-                    <td>{{ catalog.id }}</td>
+                    <td>{{$index + 1}}</td>
                     <td>{{ catalog.name }}</td>
                     <td>
-                        <button class="btn btn-default btn-flat btn-sm"><i class="glyphicon glyphicon-pencil"></i></button>
-                        <button class="btn btn-default btn-flat btn-sm"><i class="glyphicon glyphicon-remove" ng-click="remove(catalog)"></i></button>
+                        <button class="btn btn-xs btn-default btn-flat btn-sm" id="edit_{{catalog.id}}"><i class="glyphicon glyphicon-pencil"></i></button>
+                        <button class="btn btn-xs btn-default btn-flat btn-sm"  id="remove_{{catalog.id}}"><i class="glyphicon glyphicon-remove" ng-click="remove(catalog)"></i></button>
                     </td>
                 </tr>
                 {% endverbatim %}

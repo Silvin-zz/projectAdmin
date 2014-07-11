@@ -41,8 +41,17 @@ $(document).ready(function(){
             return confirmationOk.apply(this);
             
         });
-        $("#confirmClose").click(confirmationDeby);
-        $("#closeConfirmModal").click(confirmationDeby);
+        $("#confirmClose").click(function(){
+            $("#confirmModal").modal("hide");
+            return confirmationDeby.apply(this);
+
+        });
+        
+        $("#closeConfirmModal").click(function(){
+            $("#confirmModal").modal("hide");
+            return confirmationDeby.apply(this);
+
+        });
 
 
     SPNotification= function (type, title, message){

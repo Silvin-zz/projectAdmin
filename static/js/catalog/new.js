@@ -8,6 +8,7 @@ function catalogController($scope, $http){
     $scope.catalogs     = [];
     $scope.type         = "";
     
+    
 
     $scope.init = function(){
         
@@ -39,9 +40,12 @@ function catalogController($scope, $http){
     
     $scope.remove = function(item){
     
-        var index = $scope.catalogs.indexOf(item);
-        var type  = $scope.type;
-        var id    = item.id;
+        var index       = $scope.catalogs.indexOf(item);
+        var type        = $scope.type;
+        var id          = item.id;
+        var rowContent  =$("#remove_" + item.id).parent().parent();
+        rowContent.parent().parent().removeClass('table-striped');
+        $(rowContent).addClass("danger");
         
          confirmModalDialog("Remove Target", "¿ Are you Sure to remove this Target ?", 
          
@@ -61,7 +65,8 @@ function catalogController($scope, $http){
                 });
                 return false;
             },function(){
-                
+                rowContent.parent().parent().addClass('table-striped');
+                rowContent.removeClass("danger");
                 return false;
             }
         );

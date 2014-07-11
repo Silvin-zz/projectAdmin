@@ -227,7 +227,16 @@ class Project(Document):
 
 
 
+class projectClasification(Document):
+    name            = StringField()
 
+
+class DayToDay(Document):
+    clasification   = ReferenceField(projectClasification)
+    dateadd         = DateTimeField(default=datetime.datetime.now)
+    referencedate   = DateTimeField(default=datetime.datetime.now)
+    usedhours       = FloatField(default=0)
+    description     = StringField()
 
 
 class Stage(Document):
