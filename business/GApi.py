@@ -14,7 +14,7 @@ import oauth2client
 
 
 CLIENTSECRETS_LOCATION = settings.BASE_DIR + "/auth/client_secrets.json"
-REDIRECT_URI = 'http://127.0.0.1:8000/auth/savecode'
+REDIRECT_URI = 'http://10.250.0.6:8000/auth/savecode'
 SCOPES = [
     'https://www.googleapis.com/auth/drive',
     #'https://www.googleapis.com/auth/drive.file',
@@ -205,7 +205,8 @@ class GApi():
     
     def getURLAuthorization(self):
         flow = flow_from_clientsecrets(CLIENTSECRETS_LOCATION, ' '.join(SCOPES))
-        flow.params['access_type']      = 'offline'
+        print("Iniciamos el flow")
+	flow.params['access_type']      = 'offline'
         flow.params['approval_prompt']  = 'force'
         flow.params['user_id']          = self.email
         return flow.step1_get_authorize_url(REDIRECT_URI)
