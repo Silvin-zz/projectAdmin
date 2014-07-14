@@ -145,9 +145,10 @@ def taskSave(request):
     
     
     if (len(request.POST["id"])==0):
+	numbertasks 		    = str(len(target.tasks))
         taskObject                  = Task()
         gapi                        = GApi()
-        taskFolder                  = gapi.createFolder("TK_" +request.POST["code"], target.folderreference)
+        taskFolder                  = gapi.createFolder("TK_"+ numbertasks +  "_" +request.POST["code"], target.folderreference)
         taskObject.folderreference  = taskFolder["id"]
     else:
         taskObject                  = Task.objects(pk=request.POST["id"]).get()

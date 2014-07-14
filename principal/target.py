@@ -84,11 +84,11 @@ def targetSave(request):
     print(request.POST);
 
     if(len(request.POST["id"]) ==0 ):
-
+	totaltargets		= str(Target.objects().count())
         gapi                    = GApi()
         target                  = Target()
         project                 = Project.objects(pk=request.POST["project"]).get()
-        targetFolder            = gapi.createFolder("TG_" + request.POST["code"], project.folderreference)
+        targetFolder            = gapi.createFolder("TG_" + totaltargets  +  "_" + request.POST["code"], project.folderreference)
         target.folderreference  = targetFolder["id"]
         target.project          = project
 

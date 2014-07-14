@@ -14,7 +14,9 @@ import oauth2client
 
 
 CLIENTSECRETS_LOCATION = settings.BASE_DIR + "/auth/client_secrets.json"
-REDIRECT_URI = 'http://10.250.0.6:8000/auth/savecode'
+#REDIRECT_URI = 'http://10.250.0.6:8000/auth/savecode'
+REDIRECT_URI = 'http://bravopikino.kd.io:8000/'   #esta  direccionada a koding porque requiere una ip publlica lo quee hago es copiar el codigo que envia
+#al momento de hacer el redirect y de ahi en el 10.250.0.6 voy a auth/savecode y le pego en la url el code que envia google. :( Muy  mala practica
 SCOPES = [
     'https://www.googleapis.com/auth/drive',
     #'https://www.googleapis.com/auth/drive.file',
