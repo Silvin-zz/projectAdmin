@@ -175,7 +175,6 @@ function listController($scope, $http){
                             break;           
                         }
                     }
-                    alert(index);
                     $scope.targets.splice(index, 1);
                     SPNotification("success", "Remove Target", "The Target was removed");
                     $("#loadingModal").modal("hide");

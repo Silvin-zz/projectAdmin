@@ -11,17 +11,19 @@
 <form action="#" class="form-horizontal" role="form" id="frmGetTargets">
             <input type="hidden" id="token" name="csrfmiddlewaretoken" value="{{ csrf_token }}" />
  </form>
-<div class="box box-danger" id="loading-example">
+<div class="box box-danger" id="loading-example" style="height: 500px;">
                                 
-                                <div class="box-body no-padding">
-                                    <div class="row">
-                                        <div class="col-sm-6">
+                                <div class="box-body no-padding" style="height: 500px;">
+                                    <div class="row" style="height: 500px;">
+                                        <div class="col-sm-6" style="height: 500px;">
                                             <!-- bar chart -->
-                                            <div class="chart" id="bar-chart" style="height: 250px;"></div>
+                                            <div class="chart" id="bar-chart" style="height: 500px;">
+						<iframe src="/team/listowner/?owner=true" width="100%" height: "500" style="width:100%; height:500px;"></iframe>
+					</div>
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="pad">
-                                            <div class="col-sm-12"  style="width:100%; height:300px; border-left: solid 1px #e4e4e4; overflow:scroll;">
+                                            <div class="col-sm-12"  style="width:100%; height:500px; border-left: solid 1px #e4e4e4; overflow:scroll;">
                                             	<table class="table table-striped" style=" width:100%;">
                                             		<tbody id="pad">
                                             		</tbody>
@@ -32,118 +34,10 @@
                                         </div><!-- /.col -->
                                     </div><!-- /.row - inside box -->
                                 </div><!-- /.box-body -->
-                                <div class="box-footer">
-                                    <div class="row">
-                                        <div class="col-xs-3 text-center" style="border-right: 1px solid #f4f4f4; color: #000">
-                                            <input type="text" class="knob" style="color: #000" data-readonly="true" value="10" data-width="60" data-height="60" data-fgColor="#f56954" style="color: #000" />
-                                            <div class="knob-label">PENDING TASKS</div>
-                                        </div><!-- ./col -->
-                                        <div class="col-xs-3 text-center" style="border-right: 1px solid #f4f4f4">
-                                            <input type="text" class="knob" data-readonly="true" value="20" data-width="60" data-height="60" data-fgColor="#00a65a"/>
-                                            <div class="knob-label">FINISHED TASKS</div>
-                                        </div><!-- ./col -->
-                                        <div class="col-xs-3 text-center">
-                                            <input type="text" class="knob" data-readonly="true" value="30" data-width="60" data-height="60" data-fgColor="#3c8dbc"/>
-                                            <div class="knob-label">ESTIMATED TIME(HRS)</div>
-                                        </div><!-- ./col -->
-
-                                        <div class="col-xs-3 text-center">
-                                            <input type="text" class="knob" data-readonly="true" value="30" data-width="60" data-height="60" data-fgColor="#3c8dbc"/>
-                                            <div class="knob-label">TIME USED (HRS)</div>
-                                        </div><!-- ./col -->
-
-
-                                    </div><!-- /.row -->
-                                </div><!-- /.box-footer -->
                             </div><!-- /.box -->  
 
 
 
-<div class="row">
-                        <div class="col-lg-3 col-xs-6">
-                            <!-- small box -->
-                            <div class="small-box bg-default">
-                                <div class="inner">
-                                    <h3>
-                                        25
-                                    </h3>
-                                    <p>
-                                        Proyects
-                                    </p>
-                                </div>
-                                <div class="icon">
-                                    <i class="glyphicon glyphicon-flag"></i>
-                                </div>
-                                <a href="#" class="small-box-footer">
-                                    More info <i class="fa fa-arrow-circle-right"></i>
-                                </a>
-                            </div>
-                        </div><!-- ./col -->
-                        <div class="col-lg-3 col-xs-6">
-                            <!-- small box -->
-                            <div class="small-box bg-default">
-                                <div class="inner">
-                                    <h3>
-                                        95<sup style="font-size: 20px">%</sup>
-                                    </h3>
-                                    <p>
-                                        Efficiency
-
-                                    </p>
-                                </div>
-                                <div class="icon">
-                                    <i class="ion ion-stats-bars"></i>
-                                </div>
-                                <a href="#" class="small-box-footer">
-                                    More info <i class="fa fa-arrow-circle-right"></i>
-                                </a>
-                            </div>
-                        </div><!-- ./col -->
-                        <div class="col-lg-3 col-xs-6">
-                            <!-- small box -->
-                            <div class="small-box bg-default">
-                                <div class="inner">
-                                    <h3>
-                                        327
-                                    </h3>
-                                    <p>
-                                       Tips Registrations
-                                    </p>
-                                </div>
-                                <div class="icon">
-                                    <i class="glyphicon glyphicon-star-empty"></i>
-                                </div>
-                                <a href="#" class="small-box-footer">
-                                    More info <i class="fa fa-arrow-circle-right"></i>
-                                </a>
-                            </div>
-                        </div><!-- ./col -->
-                        <div class="col-lg-3 col-xs-6">
-                            <!-- small box -->
-                            <div class="small-box bg-default">
-                                <div class="inner">
-                                    <h3>
-                                        538
-                                    </h3>
-                                    <p>
-                                        Tasks
-                                    </p>
-                                </div>
-                                <div class="icon">
-                                    <i class="glyphicon glyphicon-bookmark"></i>
-                                </div>
-                                <a href="#" class="small-box-footer">
-                                    More info <i class="fa fa-arrow-circle-right"></i>
-                                </a>
-                            </div>
-                        </div><!-- ./col -->
-                    </div><!-- /.row -->
-
-                    <!-- top row -->
-                    <div class="row">
-                        <div class="col-xs-12 connectedSortable">
-                            
-                        </div><!-- /.col -->
                     </div>
 {% endblock %}
 {% block scripts %}

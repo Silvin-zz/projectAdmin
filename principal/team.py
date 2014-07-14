@@ -32,8 +32,18 @@ import time
 import datetime
 
 
+def ListOwner(request):
+    extra= ""
+    if("owner" in request.GET):
+       extra="?owner=true"
+    return render_to_response('team/listowner.html', {"extra":extra}, context_instance=RequestContext(request))
+
+
 def List(request):
-    return render_to_response('team/list.html', {}, context_instance=RequestContext(request))
+    extra= ""
+    if("owner" in request.GET):
+       extra="?owner=true"
+    return render_to_response('team/list.html', {"extra":extra}, context_instance=RequestContext(request))
 
 
 
@@ -41,7 +51,10 @@ def getResume(request):
     
     lb                      = Library()
     result                  = []
-    users                   = User.objects()
+    if("owner" in request.GET):
+       users 		    = User.objects(pk=request.session["userid"])
+    else:
+       users                   = User.objects()
     period                  = lb.getPeriodMonth()
     if("week"   in request.POST["type"]):
         period              = lb.getPeriodWeek()

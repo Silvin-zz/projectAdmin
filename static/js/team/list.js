@@ -6,9 +6,10 @@ function teamController($scope, $http){
     
     
     $scope.init = function(){
+	var url="/team/resume/" + $("#extraparams").val();
         $http({
             method              : 'POST',
-            url                 : '/team/resume',
+            url                 : url,
             data                : $("#frmTeam").serialize(),
             headers             : {'Content-Type': 'application/x-www-form-urlencoded'}
         }).success(function(data){

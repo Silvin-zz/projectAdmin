@@ -96,6 +96,7 @@ urlpatterns = patterns('',
     url(r'^comment/list'            ,'principal.comment.listByTaskId'),
 
 
+    url(r'^team/listowner'          ,'principal.team.ListOwner'),
     url(r'^team/list'               ,'principal.team.List'),
     url(r'^team/resume'             ,'principal.team.getResume'),
     url(r'^documents/list'          ,'principal.views.documentList'),
