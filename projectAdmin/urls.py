@@ -145,6 +145,12 @@ urlpatterns = patterns('',
     url(r'^catalogs/remove'         ,'principal.catalog.catalogRemove'),
     
     
+    
+    ############## CALENDAR   #########################
+
+    url(r'^calendar/list'           ,'principal.calendar.List'),
+    
+    
 
 
 ) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
