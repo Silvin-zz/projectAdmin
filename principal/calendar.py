@@ -21,16 +21,75 @@ from principal.libExcel import libExcel
 
 
 
-from principal.models       import Task
-from principal.models       import Target
+from principal.models       import DayByDayActivity
+from principal.models       import DayByDay
 from principal.models       import User
-from principal.models       import TaskType
-from principal.models       import PriorityTask
-from principal.models       import TimeLine
 from business.ModelMapping  import ModelMapping
 from business.GApi          import *
+from principal.library      import Library
 
 
 def List(request):
     
-    return render_to_response('calendar/list.html', {}, context_instance=RequestContext(request))
+    activities = DayByDayActivity.objects()
+    
+    return render_to_response('calendar/list.html', { "activities": activities }, context_instance=RequestContext(request))
+    
+    
+    
+def Save(request):
+    result = []
+    
+    
+    
+    if "new" in request.POST["action"]:
+        event                   = DayByDay()
+        activity                = DayByDayActivity.objects(pk=request.POST["activity"]).get()
+        owner                   = User.objects(pk=request.session["userid"]).get()
+        event.title             = request.POST["title"]
+        event.description       = request.POST["description"]
+        event.datestart         = request.POST["datestart"]
+        event.dateend           = request.POST["dateend"]
+        event.activity          = activity
+        event.owner             = owner
+        event.save()
+        
+        
+    if("resize" in request.POST["action"]):
+        print("entramos")
+        event                   = DayByDay.objects(pk=request.POST["id"]).get()
+        event.datestart         = request.POST["datestart"]
+        event.dateend           = request.POST["dateend"]
+        event.save()
+        
+        
+    newevent                = DayByDay.objects(pk=event.id).get()
+    mapping = ModelMapping()
+    
+    return HttpResponse(json.dumps(mapping.dayByDayMapping([newevent])), content_type="application/json")
+    
+    
+
+
+def getAll(request):
+    lb                      = Library()
+    period                  = lb.getPeriodWeek()
+    mapping                 = ModelMapping()
+    owner                   = User.objects(pk=request.session["userid"]).get()
+    if("datestart" in request.GET):
+        period["start"]     = request.GET["datestart"]
+        period["end"]       = request.GET["dateend"]
+        
+    activities              = DayByDay.objects(owner = owner, datestart__gte = period["start"], dateend__lte = period["end"])
+    return HttpResponse(json.dumps(mapping.dayByDayMapping(activities)), content_type="application/json")
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+    

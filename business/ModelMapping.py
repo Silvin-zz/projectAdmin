@@ -1,3 +1,5 @@
+import datetime
+
 class ModelMapping:
     def targetMapping(self, targets):
         result=[]
@@ -55,6 +57,25 @@ class ModelMapping:
                 "id"            : str(objectCatalog.id), 
                 "name"          : objectCatalog.name
                 
+                })
+        return result
+        
+        
+    
+    def dayByDayMapping(self, data):
+        result= []
+        for dayObject in data:
+            result.append({
+                "id"                : str(dayObject.id), 
+                "title"             : dayObject.title,
+                "description"       : dayObject.description,
+                "start"             : dayObject.datestart.strftime("%Y-%m-%dT%H:%M:%S"),
+                "end"               : dayObject.dateend.strftime("%Y-%m-%dT%H:%M:%S"),
+                "activity"          : str(dayObject.activity.name),
+                "borderColor"       : "#" + str(dayObject.activity.color),
+                "backgroundColor"   : "#" + str(dayObject.activity.color),
+                "activity"          : str(dayObject.activity.id),
+                "allDay"            : False,
                 })
         return result
             

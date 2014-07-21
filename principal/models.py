@@ -231,13 +231,20 @@ class projectClasification(Document):
     name            = StringField()
 
 
-class DayToDay(Document):
-    clasification   = ReferenceField(projectClasification)
+class DayByDayActivity(Document):
+    name            = StringField()
+    color           = StringField()
+
+
+class DayByDay(Document):
+    activity        = ReferenceField(DayByDayActivity)
+    title           = StringField()
     dateadd         = DateTimeField(default=datetime.datetime.now)
-    referencedate   = DateTimeField(default=datetime.datetime.now)
+    datestart       = DateTimeField(default=datetime.datetime.now)
+    dateend         = DateTimeField(default=datetime.datetime.now)
     usedhours       = FloatField(default=0)
     description     = StringField()
-
+    owner           = ReferenceField(User)
 
 class Stage(Document):
     name            = StringField()

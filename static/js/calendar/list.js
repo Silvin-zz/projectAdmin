@@ -2,6 +2,7 @@ $(document).ready(function(){
 
 
 
+
 /* initialize the calendar
                  -----------------------------------------------------------------*/
                 //Date for the calendar events (dummy data)
@@ -25,32 +26,115 @@ $(document).ready(function(){
                         day: 'day'
                     },
                     firstDay: 1,
-                    allDaySlot: true,
+                    allDaySlot: false,
                     defaultView: 'agendaWeek',
                     minTime: "08:00:00",
                     selectable: true,
                     selectHelper: true,
-                    axisFormat: 'HH:mm',
+                   
 					select: function(start, end) {
-					
-						
-						var title = prompt('Event Title:');
-						var eventData;
-						if (title) {
-							eventData = {
-								title: title,
-								start: start,
-								end: end
-							};
-							$('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
-						}
-						$('#calendar').fullCalendar('unselect');
+					   
+					   var inicio   = start.getFullYear() + "-" + (start.getMonth() + 1) + "-" + start.getDate() + " " + start.getHours() + ":" + start.getMinutes() + ":00";
+					   var fin      = end.getFullYear() + "-" + (end.getMonth() + 1) + "-" + end.getDate() + " " + end.getHours() + ":" + end.getMinutes() + ":00";
+					   
+					    
+					   $("#datestart").val(inicio);
+					   $("#dateend").val(fin);
+					   $("#action").val("new");
+					   $("#myModal").modal("show");
+					   $("#remove").addClass("hide");
+					   
+					   
+					   $("#title").val("");
+					   $("#description").val("");
+					   
+					   
 					},
+					
+					
+					
+					eventResize:function(event, jsEvent, ui, view){
+					    
+					    var start    = event.start;
+					    var end      = event.end;
+					    var inicio   = start.getFullYear() + "-" + (start.getMonth() + 1) + "-" + start.getDate() + " " + start.getHours() + ":" + start.getMinutes() + ":00";
+					    var fin      = end.getFullYear() + "-" + (end.getMonth() + 1) + "-" + end.getDate() + " " + end.getHours() + ":" + end.getMinutes() + ":00";
+					    $("#eventId").val(event.id);
+					    $("#action").val("resize");
+					    $("#datestart").val(inicio);
+					    $("#dateend").val(fin);
+					    $.ajax({  
+                             url         : "/calendar/save",
+                             type        : "POST",
+                             data        : $("#form1").serialize(),
+                             success : function(result){
+                			
+                
+                             },
+                             error:function(){
+                                 
+                                 
+                             }
+                        });
+					    
+					},
+					
+					
+					eventDrop:function(event, jsEvent, ui, view){
+					    
+					    debugger;
+					    
+					    var start    = event.start;
+					    var end      = event.end;
+					    var inicio   = start.getFullYear() + "-" + (start.getMonth() + 1) + "-" + start.getDate() + " " + start.getHours() + ":" + start.getMinutes() + ":00";
+					    var fin      = end.getFullYear() + "-" + (end.getMonth() + 1) + "-" + end.getDate() + " " + end.getHours() + ":" + end.getMinutes() + ":00";
+					    $("#eventId").val(event.id);
+					    $("#action").val("resize");
+					    $("#datestart").val(inicio);
+					    $("#dateend").val(fin);
+					    $.ajax({  
+                             url         : "/calendar/save",
+                             type        : "POST",
+                             data        : $("#form1").serialize(),
+                             success : function(result){
+                			
+                
+                             },
+                             error:function(){
+                                 
+                                 
+                             }
+                        });
+					    
+					},
+					
+					eventClick:function( event, jsEvent, view){
+					    
+					    var start    = event.start;
+					    var end      = event.end;
+					    var inicio   = start.getFullYear() + "-" + (start.getMonth() + 1) + "-" + start.getDate() + " " + start.getHours() + ":" + start.getMinutes() + ":00";
+					    var fin      = end.getFullYear() + "-" + (end.getMonth() + 1) + "-" + end.getDate() + " " + end.getHours() + ":" + end.getMinutes() + ":00";
+					    $("#eventId").val(event.id);
+					    $("#action").val("update");
+					    $("#datestart").val(inicio);
+					    $("#dateend").val(fin);
+					    $("#title").val(event.title);
+					    $("#description").val(event.description);
+					    $("#remove").removeClass("hide");
+					    $("#myModal").modal("show");
+					},
+					
+					events: {
+        				url: '/calendar/getAll',
+        				error: function() {
+        					$('#script-warning').show();
+        				}
+        			},
 
 
 
                     editable: true,
-                    droppable: true, // this allows things to be dropped onto the calendar !!!
+                    //droppable: true, // this allows things to be dropped onto the calendar !!!
                     drop: function(date, allDay) { // this function is called when something is dropped
 
                         // retrieve the dropped element's stored Event Object
@@ -78,6 +162,46 @@ $(document).ready(function(){
                     }
                 });
 
-                
+
+    
+    
+   
+    
+    
+
+    function createEvent(event){
+        
+        
+    }
+    
+    function updateEvent(event){
+        
+        
+    }
+    
+    function deleteEvent(eventId){
+        
+        
+    }
+     
+     
+     $("#saveChanges").click(function(){
+        
+        $("#myModal").modal("hide");
+         $.ajax({  
+             url         : "/calendar/save",
+             type        : "POST",
+             data        : $("#form1").serialize(),
+             success : function(result){
+				$('#calendar').fullCalendar('renderEvent', result[0], true); // stick? = true
+
+             },
+             error:function(){
+                 
+                 
+             }
+         });
+         
+    });           
 
 });
