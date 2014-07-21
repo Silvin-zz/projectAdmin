@@ -5,7 +5,7 @@ $(document).ready(function(){
 
 /* initialize the calendar
                  -----------------------------------------------------------------*/
-                //Date for the calendar events (dummy data)
+                
                 var date = new Date();
                 var d = date.getDate(),
                         m = date.getMonth(),
@@ -114,6 +114,12 @@ $(document).ready(function(){
 					    var end      = event.end;
 					    var inicio   = start.getFullYear() + "-" + (start.getMonth() + 1) + "-" + start.getDate() + " " + start.getHours() + ":" + start.getMinutes() + ":00";
 					    var fin      = end.getFullYear() + "-" + (end.getMonth() + 1) + "-" + end.getDate() + " " + end.getHours() + ":" + end.getMinutes() + ":00";
+					    
+					    $( "#activity option:selected" ).removeAttr("selected");
+					    var option= $( '#activity option[value="' + event.activity + '"]' );
+					    option.attr("selected", "selected");
+					    
+					    
 					    $("#eventId").val(event.id);
 					    $("#action").val("update");
 					    $("#datestart").val(inicio);
@@ -163,36 +169,46 @@ $(document).ready(function(){
                 });
 
 
-    
-    
    
-    
-    
-
-    function createEvent(event){
-        
-        
-    }
-    
-    function updateEvent(event){
-        
-        
-    }
-    
-    function deleteEvent(eventId){
-        
-        
-    }
      
      
-     $("#saveChanges").click(function(){
-        
-        $("#myModal").modal("hide");
+     $("#remove").click(function(){
+         $("#myModal").modal("hide");
+         $("#action").val("remove");
+         eventId        = $("#eventId").val();
+         
          $.ajax({  
              url         : "/calendar/save",
              type        : "POST",
              data        : $("#form1").serialize(),
              success : function(result){
+                 
+                $("#calendar").fullCalendar( 'removeEvents', eventId );
+                
+             },
+             error:function(){
+                 
+                 
+             }
+         });
+     });
+     
+     $("#saveChanges").click(function(){
+        
+        $("#myModal").modal("hide");
+        eventId     = $("#eventId").val();
+        eventtype   = $("#action").val();
+       
+         $.ajax({  
+             url         : "/calendar/save",
+             type        : "POST",
+             data        : $("#form1").serialize(),
+             success : function(result){
+                if(eventtype =="update"){
+                    
+                    $("#calendar").fullCalendar( 'removeEvents', eventId );
+                    
+                }
 				$('#calendar').fullCalendar('renderEvent', result[0], true); // stick? = true
 
              },

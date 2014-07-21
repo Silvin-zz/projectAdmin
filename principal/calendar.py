@@ -41,32 +41,50 @@ def Save(request):
     result = []
     
     
-    
-    if "new" in request.POST["action"]:
-        event                   = DayByDay()
-        activity                = DayByDayActivity.objects(pk=request.POST["activity"]).get()
-        owner                   = User.objects(pk=request.session["userid"]).get()
-        event.title             = request.POST["title"]
-        event.description       = request.POST["description"]
+    if("remove" not in request.POST["action"]):
+        
+        if "new" in request.POST["action"]:
+            event                   = DayByDay()
+            activity                = DayByDayActivity.objects(pk=request.POST["activity"]).get()
+            owner                   = User.objects(pk=request.session["userid"]).get()
+            event.title             = request.POST["title"]
+            event.description       = request.POST["description"]
+            event.activity          = activity
+            event.owner             = owner
+            
+            
+            
+        if("resize" in request.POST["action"]):
+            
+            event                   = DayByDay.objects(pk=request.POST["id"]).get()
+            
+        if("update" in request.POST["action"]):
+            
+            event                   = DayByDay.objects(pk=request.POST["id"]).get()
+            activity                = DayByDayActivity.objects(pk=request.POST["activity"]).get()
+            event.title             = request.POST["title"]
+            event.description       = request.POST["description"]
+            event.activity          = activity
+            
         event.datestart         = request.POST["datestart"]
         event.dateend           = request.POST["dateend"]
-        event.activity          = activity
-        event.owner             = owner
         event.save()
+        mapping                 = ModelMapping()
+        newevent                = DayByDay.objects(pk=event.id).get()
+        result                  = mapping.dayByDayMapping([newevent])
+    
+    else:
         
-        
-    if("resize" in request.POST["action"]):
-        print("entramos")
         event                   = DayByDay.objects(pk=request.POST["id"]).get()
-        event.datestart         = request.POST["datestart"]
-        event.dateend           = request.POST["dateend"]
-        event.save()
+        event.delete()
+        result                  = []
         
-        
-    newevent                = DayByDay.objects(pk=event.id).get()
-    mapping = ModelMapping()
     
-    return HttpResponse(json.dumps(mapping.dayByDayMapping([newevent])), content_type="application/json")
+        
+        
+    
+    
+    return HttpResponse(json.dumps(result), content_type="application/json")
     
     
 
