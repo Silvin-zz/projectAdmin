@@ -237,6 +237,7 @@ class DayByDayActivity(Document):
 
 
 class DayByDay(Document):
+    
     activity        = ReferenceField(DayByDayActivity)
     title           = StringField()
     dateadd         = DateTimeField(default=datetime.datetime.now)
@@ -245,7 +246,14 @@ class DayByDay(Document):
     usedhours       = FloatField(default=0)
     description     = StringField()
     owner           = ReferenceField(User)
-
+    
+    def calculateUsedTime(self):
+        
+        time = self.dateend - self.datestart
+        self.usedhours = (time.total_seconds()/3600)
+        self.save()
+        
+        
 class Stage(Document):
     name            = StringField()
 

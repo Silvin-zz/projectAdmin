@@ -184,6 +184,7 @@ $(document).ready(function(){
              success : function(result){
                  
                 $("#calendar").fullCalendar( 'removeEvents', eventId );
+                SPNotification("success", "Event", "Your Event has been removed");
                 
              },
              error:function(){
@@ -207,9 +208,16 @@ $(document).ready(function(){
                 if(eventtype =="update"){
                     
                     $("#calendar").fullCalendar( 'removeEvents', eventId );
+                    SPNotification("success", "Event", "Your Event was Modified");
+                    
+                }
+                else{
+                    
+                    SPNotification("success", "Event", "Your Event was Created");
                     
                 }
 				$('#calendar').fullCalendar('renderEvent', result[0], true); // stick? = true
+				$('#calendar').fullCalendar('unselect');
 
              },
              error:function(){

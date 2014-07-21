@@ -27,7 +27,7 @@ from principal.models       import User
 from business.ModelMapping  import ModelMapping
 from business.GApi          import *
 from principal.library      import Library
-
+import datetime
 
 def List(request):
     
@@ -69,8 +69,10 @@ def Save(request):
         event.datestart         = request.POST["datestart"]
         event.dateend           = request.POST["dateend"]
         event.save()
+       
         mapping                 = ModelMapping()
         newevent                = DayByDay.objects(pk=event.id).get()
+        newevent.calculateUsedTime()
         result                  = mapping.dayByDayMapping([newevent])
     
     else:
@@ -94,9 +96,10 @@ def getAll(request):
     period                  = lb.getPeriodWeek()
     mapping                 = ModelMapping()
     owner                   = User.objects(pk=request.session["userid"]).get()
-    if("datestart" in request.GET):
-        period["start"]     = request.GET["datestart"]
-        period["end"]       = request.GET["dateend"]
+    if("start" in request.GET):
+        period["start"]     = datetime.datetime.fromtimestamp(int(request.GET["start"])).strftime('%Y-%m-%d %H:%M:%S')
+        period["end"]       = datetime.datetime.fromtimestamp(int(request.GET["end"])).strftime('%Y-%m-%d %H:%M:%S')
+        
         
     activities              = DayByDay.objects(owner = owner, datestart__gte = period["start"], dateend__lte = period["end"])
     return HttpResponse(json.dumps(mapping.dayByDayMapping(activities)), content_type="application/json")

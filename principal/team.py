@@ -24,6 +24,8 @@ from principal.models       import Project
 from principal.models       import TaskType
 from principal.models       import PriorityTask
 from principal.models       import TimeLine
+from principal.models       import DayByDayActivity
+from principal.models       import DayByDay
 
 
 
@@ -73,6 +75,7 @@ def getResume(request):
         intime      = Task.objects(owner=user, finished=False, dateend__gte =datetime.datetime.now().date(), datestart__gte= period["start"], datestart__lte= period["end"]).count()
         hours       = Task.objects(owner=user, datestart__gte= period["start"], datestart__lte= period["end"]).sum("estimatedhours")
         hoursused   = Task.objects(owner=user, datestart__gte= period["start"], datestart__lte= period["end"]).sum("usedhours")
+        daytoday    = DayByDay.objects(owner=user, datestart__gte= period["start"], datestart__lte= period["end"]).sum("usedhours")
         percent     = 0
         if(totaltasks >0):
             percent = 100/totaltasks
@@ -89,6 +92,7 @@ def getResume(request):
             "intime"            : intime, 
             "assignedtime"      : hours, 
             "usedtime"          : hoursused ,
+            "daytoday"          : daytoday,
             "projects"          : len(projects),
             "finishedpercent"   : "%.2f" % fpercent,
             "delayedpercent"    : "%.2f" % fdelayed,
