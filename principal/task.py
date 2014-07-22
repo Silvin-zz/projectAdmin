@@ -83,8 +83,11 @@ def Tasksfilter(request):
         period  = lb.getPeriodMonth()
      
     if("pending" in request.POST["type"]):
-        period  = lb.getPeriodMonth()
-        tasks   = Task.objects(owner=request.session["userid"], finished=finished, datestart__lte = period["start"]).order_by("-datestart", "priority__number")
+	finished = False
+        period   = lb.getPeriodWeek()
+	print("Emntramos")
+	print(period)
+        tasks    = Task.objects(owner=request.session["userid"], finished=finished, dateend__lte = period["start"]).order_by("-datestart", "priority__number")
     else:
         tasks   = Task.objects(owner=request.session["userid"], finished=finished, datestart__gte= period["start"], datestart__lte= period["end"]).order_by("-datestart", "priority__number")
     return render_to_response('task/listassigned.html', {"tasks":tasks}, context_instance=RequestContext(request))
