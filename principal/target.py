@@ -30,11 +30,11 @@ def targetList(request):
     targettypes                 = TargetType.objects()
     wNotify                     = request.session["WNotify"]
     request.session["WNotify"]  = {"message":"", "type":"", "title":""}
-
-
+    owner                       = User.objects(pk=request.session["userid"]).get()
+    
     return render_to_response('target/list.html', {
         
-        "projects"      :   bproject.getAllProjects(True),
+        "projects"      :   Project.objects.filter(active =True,owner=owner),
         "users"         :   users,
         "WNotify"       :   wNotify,
         "datestart"     :   time.strftime("%Y-%m-%d"),
