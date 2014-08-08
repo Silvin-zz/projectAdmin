@@ -41,6 +41,9 @@ class AuthUser(Document):
 #Manejo de Menus
 
 
+class Area(Document):
+    name            = StringField()
+
 class Client(Document):
     name            = StringField()
     address         = StringField()
@@ -230,6 +233,8 @@ class Project(Document):
 class projectClasification(Document):
     name            = StringField()
 
+class projectCatalog(Document):
+    name            = StringField()
 
 class DayByDayActivity(Document):
     name            = StringField()
@@ -240,6 +245,7 @@ class DayByDay(Document):
     
     activity        = ReferenceField(DayByDayActivity)
     title           = StringField()
+    project         = ReferenceField(Project)
     dateadd         = DateTimeField(default=datetime.datetime.now)
     datestart       = DateTimeField(default=datetime.datetime.now)
     dateend         = DateTimeField(default=datetime.datetime.now)

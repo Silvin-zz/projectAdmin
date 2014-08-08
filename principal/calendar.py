@@ -22,6 +22,7 @@ from principal.libExcel import libExcel
 
 
 from principal.models       import DayByDayActivity
+from principal.models       import Project
 from principal.models       import DayByDay
 from principal.models       import User
 from business.ModelMapping  import ModelMapping
@@ -30,10 +31,12 @@ from principal.library      import Library
 import datetime
 
 def List(request):
-    
+
+
     activities = DayByDayActivity.objects()
+    projects   = Project.objects()
     
-    return render_to_response('calendar/list.html', { "activities": activities }, context_instance=RequestContext(request))
+    return render_to_response('calendar/list.html', { "activities": activities, "projects": projects }, context_instance=RequestContext(request))
     
     
     

@@ -15,13 +15,20 @@ from principal.models       import TaskType
 from principal.models       import Projecttype
 from business.ModelMapping  import ModelMapping
 from principal.models       import projectClasification
+from principal.models       import Area
+from principal.models       import projectCatalog
 
 
 def catalogList(request):
     
     
     catalogname=request.GET["name"]
+
+    if("projectcalalog" in catalogname):
+        objects = projectCatalog.objects()
     
+    #projectcalalog
+
     if("targettype" in catalogname):
         objects = TargetType.objects()
     
@@ -34,6 +41,9 @@ def catalogList(request):
     
     if("projectclasification" in catalogname):
         objects = projectClasification.objects()
+
+    if("area" in catalogname):
+        objects = Area.objects()
         
     
         
@@ -47,6 +57,12 @@ def catalogList(request):
  
 def catalogRemove(request):
      catalogname=request.GET["name"]
+     if("projectcalalog" in catalogname):
+        objectCatalog = projectCatalog.objects(pk=request.GET["id"]).get()
+     if("area" in catalogname):
+        objectCatalog = Area.objects(pk=request.GET["id"]).get()
+
+
      if("targettype" in catalogname):
          objectCatalog = TargetType.objects(pk=request.GET["id"]).get()
          
@@ -59,12 +75,21 @@ def catalogRemove(request):
      if("projectclasification" in catalogname):
          objectCatalog = projectClasification.objects(pk=request.GET["id"]).get()
 
+     
+
      objectCatalog.delete();
      return HttpResponse();
      
      
 def catalogSave(request):
      catalogname=request.GET["name"]
+
+     if("projectcalalog" in catalogname):
+         objectCatalog = projectCatalog()
+
+     if("area" in catalogname):
+         objectCatalog = Area()
+
      if("targettype" in catalogname):
          objectCatalog = TargetType()
          
@@ -73,6 +98,7 @@ def catalogSave(request):
 
      if("projecttype" in catalogname):
          objectCatalog = Projecttype()
+
 
 
      if("projectclasification" in catalogname):
