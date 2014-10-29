@@ -1,4 +1,5 @@
 import datetime
+import json
 
 class ModelMapping:
     def targetMapping(self, targets):
@@ -64,7 +65,14 @@ class ModelMapping:
     
     def dayByDayMapping(self, data):
         result= []
+        projectId  = None;
+        
         for dayObject in data:
+            projectId  = None;
+            if hasattr(dayObject, 'project'):
+                if hasattr(dayObject.project, "id"):
+                    projectId = str(dayObject.project.id)
+                
             result.append({
                 "id"                : str(dayObject.id), 
                 "title"             : dayObject.title,
@@ -76,6 +84,7 @@ class ModelMapping:
                 "backgroundColor"   : "#" + str(dayObject.activity.color),
                 "activity"          : str(dayObject.activity.id),
                 "allDay"            : False,
+                "projectId"         : projectId
                 })
         return result
             

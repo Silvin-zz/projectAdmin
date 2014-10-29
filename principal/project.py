@@ -66,13 +66,13 @@ def projectSave(request):
         project                         = Project()
         if(len(request.POST["id"]) == 0):
 
-            gapi                        = GApi()
+            #gapi                        = GApi()
             totalprojects               = str(Project.objects().count())
-            projectFolder               = gapi.createFolder("PR_" + totalprojects  + "_" + request.POST["code"], "root")
+            #projectFolder               = gapi.createFolder("PR_" + totalprojects  + "_" + request.POST["code"], "root")
             message                     = "The " + request.POST["title"] + " Project has been successfully saved"
             request.session["WNotify"]  = {"message": message, "type": "success", "title": "New Project Success"}  
-            project.folderreference     = projectFolder["id"]
-            #project.folderreference     = "--"
+            #project.folderreference     = projectFolder["id"]
+            project.folderreference     = "--"
 
         else:
 

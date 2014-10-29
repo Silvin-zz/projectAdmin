@@ -10,11 +10,12 @@ from django.template import RequestContext
 from django.http import HttpResponseRedirect, HttpResponse, HttpRequest
 
 import json
-from business.task      import BTask
-from business.user      import BUser
-from principal.models   import AuthUser
-from principal.library  import Library
-from principal.libExcel import libExcel
+from business.task          import BTask
+from business.user          import BUser
+from principal.models       import AuthUser
+from principal.library      import Library
+from principal.libExcel     import libExcel
+from business.calendarAPI   import calendarAPI
 
 
 ## models necesaryes from work with a TASK, sorry for my bad english :(
@@ -31,13 +32,18 @@ from principal.library      import Library
 import datetime
 
 def List(request):
-
-
+    
+    calendar = calendarAPI()
+    calendar.getClientSecret();
+    
+    
+    lb       = Library()
+    period = lb.getPeriodWeekToBack(2);
+    
     activities = DayByDayActivity.objects()
     projects   = Project.objects()
     
-    return render_to_response('calendar/list.html', { "activities": activities, "projects": projects }, context_instance=RequestContext(request))
-    
+    return render_to_response('calendar/list.html', { "activities": activities, "projects": projects, "startdate":period["start"].strftime('%Y/%m/%d') }, context_instance=RequestContext(request))
     
     
 def Save(request):
@@ -49,6 +55,11 @@ def Save(request):
         if "new" in request.POST["action"]:
             event                   = DayByDay()
             activity                = DayByDayActivity.objects(pk=request.POST["activity"]).get()
+            
+            if(activity.name == "Proyecto"):
+                project             = Project.objects(pk = request.POST["tmpproject"]).get()
+                event.project       = project
+
             owner                   = User.objects(pk=request.session["userid"]).get()
             event.title             = request.POST["title"]
             event.description       = request.POST["description"]
@@ -68,6 +79,11 @@ def Save(request):
             event.title             = request.POST["title"]
             event.description       = request.POST["description"]
             event.activity          = activity
+            if(activity.name == "Proyecto"):
+                project             = Project.objects(pk = request.POST["tmpproject"]).get()
+                event.project       = project
+            else:
+                event.project       =  None
             
         event.datestart         = request.POST["datestart"]
         event.dateend           = request.POST["dateend"]

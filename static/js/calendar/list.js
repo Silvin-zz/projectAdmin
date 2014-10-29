@@ -1,7 +1,26 @@
 $(document).ready(function(){
 
+evaluateActivity();
 
 
+
+$("#activity").change(function(){
+   evaluateActivity();
+});
+
+
+function evaluateActivity(){
+    
+     if($("#activity :selected").text() == "Proyecto"){
+        $("#comboProject").fadeIn("slow");
+    }
+    else{
+        $("#comboProject").fadeOut();
+    }
+}
+
+
+var academicYearStartDate = new Date($("#startdate").val());
 
 /* initialize the calendar
                  -----------------------------------------------------------------*/
@@ -31,6 +50,21 @@ $(document).ready(function(){
                     minTime: "08:00:00",
                     selectable: true,
                     selectHelper: true,
+                    
+                    
+                    
+                    
+                    viewDisplay: function (view) {
+                        //========= Hide Next/ Prev Buttons based on academic year date range
+                        if (view.start <= academicYearStartDate) {
+                            $("#calendar .fc-button-prev").hide();
+                            return false;
+                        }
+                        else {
+                            $("#calendar .fc-button-prev").show();
+                        }
+        
+                    },
                    
 					select: function(start, end) {
 					   
@@ -42,6 +76,7 @@ $(document).ready(function(){
 					   $("#dateend").val(fin);
 					   $("#action").val("new");
 					   $("#myModal").modal("show");
+					   evaluateActivity();
 					   $("#remove").addClass("hide");
 					   
 					   
@@ -115,10 +150,27 @@ $(document).ready(function(){
 					    var inicio   = start.getFullYear() + "-" + (start.getMonth() + 1) + "-" + start.getDate() + " " + start.getHours() + ":" + start.getMinutes() + ":00";
 					    var fin      = end.getFullYear() + "-" + (end.getMonth() + 1) + "-" + end.getDate() + " " + end.getHours() + ":" + end.getMinutes() + ":00";
 					    
+					    
+					    
+					    
 					    $( "#activity option:selected" ).removeAttr("selected");
 					    var option= $( '#activity option[value="' + event.activity + '"]' );
 					    option.attr("selected", "selected");
 					    
+					    
+					    
+					    if(event.projectId !=null){  // ES un proyecto :D
+					    
+					        $( "#tmpproject option:selected" ).each(function(){
+					           $(this).removeAttr("selected");
+					        });
+					        $( "#tmpproject option" ).each(function(){
+					           if($(this).val() == event.projectId){
+					               $(this).attr("selected","selected");
+					           }
+					        });
+					        
+					    }
 					    
 					    $("#eventId").val(event.id);
 					    $("#action").val("update");
@@ -128,6 +180,7 @@ $(document).ready(function(){
 					    $("#description").val(event.description);
 					    $("#remove").removeClass("hide");
 					    $("#myModal").modal("show");
+					    evaluateActivity();
 					},
 					
 					events: {

@@ -127,6 +127,9 @@ class User(Document):
     token           = StringField(default="")
     imageextension  = StringField(default="png")
     meta            = {'allow_inheritance': True}
+    code            = StringField()
+    credential      = StringField()
+    
     
     def getUrlImage(self):
         
@@ -245,13 +248,17 @@ class DayByDay(Document):
     
     activity        = ReferenceField(DayByDayActivity)
     title           = StringField()
-    project         = ReferenceField(Project)
+    project         = ReferenceField(Project, required=False)
     dateadd         = DateTimeField(default=datetime.datetime.now)
     datestart       = DateTimeField(default=datetime.datetime.now)
     dateend         = DateTimeField(default=datetime.datetime.now)
     usedhours       = FloatField(default=0)
     description     = StringField()
     owner           = ReferenceField(User)
+    reference       = StringField(required = False)
+    isCalendar      = BooleanField(default=False)
+    
+    
     
     def calculateUsedTime(self):
         

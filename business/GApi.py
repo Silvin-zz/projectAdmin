@@ -208,7 +208,7 @@ class GApi():
     def getURLAuthorization(self):
         flow = flow_from_clientsecrets(CLIENTSECRETS_LOCATION, ' '.join(SCOPES))
         print("Iniciamos el flow")
-	flow.params['access_type']      = 'offline'
+	flow.params['access_type']          = 'offline'
         flow.params['approval_prompt']  = 'force'
         flow.params['user_id']          = self.email
         return flow.step1_get_authorize_url(REDIRECT_URI)

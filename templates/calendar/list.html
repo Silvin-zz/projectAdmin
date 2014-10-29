@@ -36,20 +36,21 @@
                                 <div class="col-xs-5">
                                     <select name="activity" class="form-control"  id="activity">
                                     {% for activity in activities %}
-                                    <option data="{{ activity.color }}" value="{{ activity.id }}">{{ activity.name }}</option>
+                                        
+                                            <option data="{{ activity.color }}" value="{{ activity.id }}" selected="selected">{{ activity.name }}</option>
+                                    
                                     {% endfor %}
                                     </select>
-                    
                                 </div>
                             </div>
                         </div>
 
 
-                        <div class="form-group">
+                        <div class="form-group" id="comboProject">
                             <label class="col-sm-3 control-label">* Project</label>
                             <div class="row">
                                 <div class="col-xs-5">
-                                    <select name="activity" class="form-control"  id="activity">
+                                    <select name="tmpproject" class="form-control"  id="tmpproject">
                                     {% for project in projects %}
                                     <option data="{{ project.id }}" value="{{ project.id }}">{{ project.title }}</option>
                                     {% endfor %}
@@ -113,7 +114,7 @@
 
 
 
-
+    <input type="hidden" id="startdate" value="{{ startdate }}" />
 
 {% endblock %}
 {% block scripts %}

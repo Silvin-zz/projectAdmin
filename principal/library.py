@@ -36,3 +36,19 @@ class Library:
     
     
         return {"start": startdate, "end": enddate}
+        
+        
+    def getPeriodWeekToBack(self, weekNumber):
+        
+        decrease    = datetime.datetime.today().weekday()
+        if(decrease > 0):
+            decrease= decrease * -1
+        decrease   = decrease + ((weekNumber * 7) *-1)
+        
+    
+        add         = 6-datetime.datetime.today().weekday()
+        today       = datetime.datetime.now().date()
+        enddate     = today + datetime.timedelta(days=add)
+        startdate   = today + datetime.timedelta(days=decrease)
+        return {"start": startdate, "end": enddate}
+    

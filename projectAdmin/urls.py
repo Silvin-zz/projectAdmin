@@ -18,9 +18,10 @@ urlpatterns = patterns('',
 
 
     ###############LOGIN #########################
-    url(r'^login/validate/'             ,'login.views.loginValidate'),
-    url(r'^login/validateFromGoogle'    ,'login.views.validateFromGoogle'),
-    url(r'^login/logout/'               ,'login.views.logout'),
+    url(r'^login/validate/'                 ,'login.views.loginValidate'),
+    url(r'^login/validateFromGoogle'        ,'login.views.validateFromGoogle'),
+    url(r'^login/validateByGoogleSession'   ,'login.views.validateByGoogleSession'),
+    url(r'^login/logout/'                   ,'login.views.logout'),
     
     
 

@@ -72,7 +72,7 @@
          function getUserData(e){
              
              
-          gapi.auth.authorize({client_id: '952570055288-e8pfjqjln698ssnbs8k7n5rmd2r9munp.apps.googleusercontent.com', scope: 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email', immediate: true}, function(){
+          gapi.auth.authorize({client_id: '952570055288-shjj10k9dc35n3j6lrhqu50j2p8esslm.apps.googleusercontent.com', scope: 'https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email', immediate: true}, function(){
                 gapi.client.load('oauth2', 'v2', function() {
                       gapi.client.oauth2.userinfo.get().execute(function(resp) {
                           console.log(resp);
@@ -84,7 +84,7 @@
                          $("#urlimage").attr("value"    ,resp.picture);
                          $.ajax({  
               
-                            url   : "/login/validateFromGoogle",
+                            url   : "/login/validateByGoogleSession",
                             type    : "POST",
                             dataType: "JSON",
                             data    : $("#frmValidate").serialize(),
@@ -141,10 +141,10 @@
              
             gapi.signin.render('customBtn', {
               'callback': 'signinCallback',
-              'clientid': '952570055288-e8pfjqjln698ssnbs8k7n5rmd2r9munp.apps.googleusercontent.com',
+              'clientid': '952570055288-shjj10k9dc35n3j6lrhqu50j2p8esslm.apps.googleusercontent.com',
               'cookiepolicy': 'single_host_origin',
               'requestvisibleactions': 'http://schemas.google.com/AddActivity',
-              'scope': 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email',
+              'scope': 'https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email',
               
             });
           }
@@ -267,7 +267,7 @@
         -->
         
         
-        <form class="form-signin" role="form" action="{% url "login.views.validateFromGoogle" %}" method="post" id="frmValidate">
+        <form class="form-signin" role="form" action="{% url "login.views.validateByGoogleSession" %}" method="post" id="frmValidate">
         {% csrf_token %}
         
             <input type="hidden" name="email"       value="" id="email"     />
