@@ -28,13 +28,15 @@ from principal.models       import DayByDay
 from principal.models       import User
 from business.ModelMapping  import ModelMapping
 from business.GApi          import *
+from business.calendarAPI   import *
 from principal.library      import Library
 import datetime
 
 def List(request):
     
     calendar = calendarAPI()
-    calendar.getClientSecret();
+    #calendar.getCredentialFromEmail(request.session["email"])
+    #calendar.listCalendarEvents()
     
     
     lb       = Library()
@@ -42,6 +44,9 @@ def List(request):
     
     activities = DayByDayActivity.objects()
     projects   = Project.objects()
+    
+    
+    
     
     return render_to_response('calendar/list.html', { "activities": activities, "projects": projects, "startdate":period["start"].strftime('%Y/%m/%d') }, context_instance=RequestContext(request))
     

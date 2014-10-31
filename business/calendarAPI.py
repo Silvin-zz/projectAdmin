@@ -8,7 +8,8 @@ import requests
 import httplib2
 from datetime import datetime
 import time
-
+import oauth2client
+from datetime import timedelta
 
 import json
 
@@ -28,7 +29,7 @@ class calendarAPI:
     
     def __init__(self):
         print(SCOPES)
-        self.getClientSecret()
+        
         
         
     
@@ -58,18 +59,35 @@ class calendarAPI:
         
         
     def createService(self):
+        print("1")
         http         = httplib2.Http()
+        print("2")
         http         = self.credential.authorize(http)
+        print("3")
         self.service = build('calendar', 'v3', http=http)
-        self.listCalendar()
+        print("4")
+        print(self.service)
+        print("===================")
+
+
+
+
+    '''
+        Listamos todos los eventos del calendario de este usuario.
+    '''
         
-    def listCalendar(self):
+    def listCalendarEvents(self):
         page_token = None
+        print("saludosssssssssssssssssss")
         while True:
           events = self.service.events().list(calendarId='primary', pageToken=page_token).execute()
+          print("AAAAAAAAAAAa")
           for event in events['items']:
-              time_tuple = time.strptime(event.end.dateTime, "%Y-%m-%d %H:%M:%S")
-              print repr(time_tuple)
+              print("================================================================")
+              print(event["start"])
+              print(event["end"])
+              print("================================================================")
+              return True
           page_token = events.get('nextPageToken')
           if not page_token:
             break
@@ -88,6 +106,36 @@ class calendarAPI:
     '''
     
     
+    def getCredentialFromEmail(self,email):
+        users         = User.objects(email=email)
+        print("======================")
+        print(users)
+        if len(users) > 0:
+            print("Entramos::::::::::::::::")
+            self.credential = oauth2client.client.Credentials.new_from_json(users[0].credential)
+            if  self.credential.token_expiry < datetime.utcnow():
+                self.refreshCredential(users[0])
+                self.createService()
+                return True
+            
+        return False
+            
+    
+    
+    def refreshCredential(self, user):
+        
+        http = httplib2.Http()
+        #try:
+        cred2           = self.credential.refresh(http)
+        self.credential = cred2
+        user.credential = self.credential.to_json()
+    
+        self.tokenObject.credential=self.credential.to_json()
+        self.tokenObject.save()
+    
+    
+    def getCredential():
+        return  self.credential;
     
     def validateCredential(self):
         
