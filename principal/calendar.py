@@ -35,8 +35,10 @@ import datetime
 def List(request):
     
     calendar = calendarAPI()
-    #calendar.getCredentialFromEmail(request.session["email"])
-    #calendar.listCalendarEvents()
+    #return HttpResponseRedirect(calendar.getUrlAuthorization())
+    #calendar.syncCalendar(request.session["email"])
+    calendar.getCredentialFromEmail(request.session["email"])
+    calendar.listCalendarEvents()
     
     
     lb       = Library()

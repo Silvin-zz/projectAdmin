@@ -4,12 +4,17 @@ from oauth2client.client import OAuth2WebServerFlow
 from oauth2client.file   import Storage
 from django.conf         import settings
 from principal.models    import User
+from principal.models    import DayByDay
+from principal.models    import DayByDayActivity
+
+import copy
 import requests
 import httplib2
 from datetime import datetime
 import time
 import oauth2client
 from datetime import timedelta
+from oauth2client import tools
 
 import json
 
@@ -23,14 +28,19 @@ SCOPES                  = [
 ]
 
 
-
+a
 class calendarAPI:
     
     
     def __init__(self):
         print(SCOPES)
+        self.getClientSecret()
+        self.pageToken = None
         
         
+    def getUrlAuthorization(self):
+        
+        return (self.flow.step1_get_authorize_url())
         
     
     
@@ -39,9 +49,8 @@ class calendarAPI:
             content = content_file.read()
         self.clientSecret       = content
         self.clientSecretArray  = json.loads(content)
-        print("--------------------------------------------------")
         self.createFlowAuthorization()
-        print(self.flow.step1_get_authorize_url())
+       
         
         
     def createFlowAuthorization(self):
@@ -59,15 +68,10 @@ class calendarAPI:
         
         
     def createService(self):
-        print("1")
         http         = httplib2.Http()
-        print("2")
         http         = self.credential.authorize(http)
-        print("3")
         self.service = build('calendar', 'v3', http=http)
-        print("4")
         print(self.service)
-        print("===================")
 
 
 
@@ -77,20 +81,84 @@ class calendarAPI:
     '''
         
     def listCalendarEvents(self):
-        page_token = None
-        print("saludosssssssssssssssssss")
+        print("Iniciamos el listado :::::::::::::::::::::::::::::::::::::::::::::::::::::::")
+        print  self.pageToken
+        activo =True
+        activities  = DayByDayActivity.objects(name="Soporte")
+        activity    = activities[0]
+        
+            
         while True:
-          events = self.service.events().list(calendarId='primary', pageToken=page_token).execute()
-          print("AAAAAAAAAAAa")
+          #events    = self.service.events().list(calendarId='primary', pageToken=page_token, maxResults=2500, timeMax='2014-11-11T10:20:00-06:00', timeMin='2014-11-01T00:00:00-06:00').execute()
+          events    = self.service.events().list(calendarId='primary', syncToken=self.pageToken, maxResults=2500).execute()
+          
+          
+          if len(events['items']) <= 0:
+              activo=False
+          print("================================================================")
           for event in events['items']:
-              print("================================================================")
-              print(event["start"])
-              print(event["end"])
-              print("================================================================")
-              return True
+              
+              print("=========================================================================")
+              print(event)
+              
+              if "confirmed"  in event["status"]:  ############# Si es un evento confirmado
+                
+                localevent             = DayByDay()
+                localevent.activity    = activity
+                if "summary" in event:
+                    localevent.title       = event["summary"].encode('utf8')
+                else:
+                    localevent.title       = " "
+                localevent.owner       = self.user
+                localevent.isCalendar  = True
+                localevent.reference   = event["id"]
+                
+                
+                if "description" in event:
+                    localevent.description = event["description"].encode('utf8')
+                    
+                if  "dateTime" in event["start"]:                                   # tiene Hora
+                    localevent.datestart   = datetime.strptime(event["start"]['dateTime'][:19]  , '%Y-%m-%dT%H:%M:%S')  
+                    localevent.dateend     = datetime.strptime(event["end"]['dateTime'][:19]    , '%Y-%m-%dT%H:%M:%S')
+                    localevent.calculateUsedTime()
+                    localevent.save()
+                    
+                    
+                    
+                else:                                                               # no tiene hora y es todo el dia
+                    
+                    date_format = "%Y-%m-%d"
+                    a           = datetime.strptime(event["start"]['date']  , date_format)
+                    b           = datetime.strptime(event["end"]['date']    , date_format)
+                    
+                    delta       = b - a
+                    print delta.days
+                    for x in range (0,delta.days):
+                        print(x)
+                        newdate             = a + timedelta(days=x)
+                        newevent            = copy.deepcopy(localevent)
+                        newevent.datestart  = datetime.strptime(newdate.strftime("%Y-%m-%d 09:00")  , '%Y-%m-%d %H:%M')
+                        newevent.dateend    = datetime.strptime(newdate.strftime("%Y-%m-%d 18:00")  , '%Y-%m-%d %H:%M')
+                        newevent.calculateUsedTime()
+                        newevent.save()
+                        
+                
+               
+                
+                
+                
+               # print(localevent.dateend)
+                
+              
+              
           page_token = events.get('nextPageToken')
+          if  "nextSyncToken" in events:
+              self.user.tokenSync = events["nextSyncToken"]
+              self.user.save()
+          print("================================================================")
           if not page_token:
             break
+       
         
         
     def getUserInfo(self):
@@ -108,30 +176,28 @@ class calendarAPI:
     
     def getCredentialFromEmail(self,email):
         users         = User.objects(email=email)
-        print("======================")
-        print(users)
+        
         if len(users) > 0:
-            print("Entramos::::::::::::::::")
+            self.user= users[0]
+            if self.user.tokenSync == "":
+                self.pageToken = None
+            else:
+                self.pageToken = self.user.tokenSync
+                
             self.credential = oauth2client.client.Credentials.new_from_json(users[0].credential)
-            if  self.credential.token_expiry < datetime.utcnow():
-                self.refreshCredential(users[0])
-                self.createService()
-                return True
+            if self.credential is None or self.credential.invalid == True:
+                self.refreshCredential()
+            self.createService()
+            return True
             
         return False
             
     
     
-    def refreshCredential(self, user):
+    def refreshCredential(self):
         
-        http = httplib2.Http()
-        #try:
-        cred2           = self.credential.refresh(http)
-        self.credential = cred2
-        user.credential = self.credential.to_json()
-    
-        self.tokenObject.credential=self.credential.to_json()
-        self.tokenObject.save()
+        authorize_url = self.getUrlAuthorization()
+        return HttpResponseRedirect(authorize_url)
     
     
     def getCredential():
@@ -158,7 +224,24 @@ class calendarAPI:
         print("Buscando los calendarios :D")
         
         
+    def syncCalendar(self, email):
         
-    
-
+        self.getCredentialFromEmail(email)
+        print("Iniciamos Sincronizacion :::::::::::::::::::::::::::::::::::::::::::::::::::::::")
+        
+        body = {
+          "id": uuid,
+          "type": "web_hook" ,
+          "token": "something_unique",
+          "address": "web hook url",
+          "params": {
+                     "ttl" : 864000
+                     }
+            }
+        calendar_service = get_calendar_service("silvio.bravo@enova.mx")
+        resource = calendar_service.events().watch(calendarId='primary', body=body).execute()
+        print(resource)
+        #page_token  = None
+        #events      = self.service.calendarList().watch(pageToken=page_token, maxResults=2500,body={"address":"silvio.bravo@enova.mx", "id": "primary", "type": "web_hook", "token":"za"}).execute()
+        #print(events)
         

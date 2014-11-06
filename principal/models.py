@@ -129,6 +129,7 @@ class User(Document):
     meta            = {'allow_inheritance': True}
     code            = StringField()
     credential      = StringField()
+    tokenSync       = StringField()
     
     
     def getUrlImage(self):
