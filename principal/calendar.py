@@ -34,9 +34,9 @@ import datetime
 
 def List(request):
     
+    
     calendar = calendarAPI()
     #return HttpResponseRedirect(calendar.getUrlAuthorization())
-    #calendar.syncCalendar(request.session["email"])
     calendar.getCredentialFromEmail(request.session["email"])
     calendar.listCalendarEvents()
     
@@ -95,15 +95,29 @@ def Save(request):
         event.datestart         = request.POST["datestart"]
         event.dateend           = request.POST["dateend"]
         event.save()
-       
+        
         mapping                 = ModelMapping()
         newevent                = DayByDay.objects(pk=event.id).get()
         newevent.calculateUsedTime()
+        newevent.save()
+        if hasattr(event, 'isCalendar'):
+            if(event.isCalendar == True):
+                calendar = calendarAPI()
+                calendar.getCredentialFromEmail(request.session["email"])
+                calendar.updateEvent("primary", newevent.reference, newevent.title, newevent.description, newevent.datestart, newevent.dateend)
+                
+                
         result                  = mapping.dayByDayMapping([newevent])
     
-    else:
+    else:      #Eliminamos el evento completamente :D
         
         event                   = DayByDay.objects(pk=request.POST["id"]).get()
+        if hasattr(event, 'isCalendar'):
+            if(event.isCalendar == True):
+                calendar = calendarAPI()
+                calendar.getCredentialFromEmail(request.session["email"])
+                calendar.deleteEvent("primary", event.reference)
+                
         event.delete()
         result                  = []
         

@@ -28,7 +28,7 @@ SCOPES                  = [
 ]
 
 
-a
+
 class calendarAPI:
     
     
@@ -159,7 +159,34 @@ class calendarAPI:
           if not page_token:
             break
        
+    
+    
+    '''
+        Delete a Event from calendar since single project :D
+    '''
+    
+    def deleteEvent(self,calendar, eventId):
+        print(calendar)
+        print(eventId)
+        self.service.events().delete(calendarId=calendar, eventId=eventId).execute()
+    
+    
+    
+    def updateEvent(self, calendar, eventId, title, description, datestart, dateend):
+        print(datestart.strftime('%Y-%m-%dT%H:%M:%S'))
+        print(dateend)
+        event                       = self.service.events().get(calendarId=calendar, eventId=eventId).execute()
+        event['summary']            = title
+        event['description']        = description
+        event['start']['dateTime']  = datestart.strftime('%Y-%m-%dT%H:%M:%S-06:00')
+        event['end']['dateTime']    = dateend.strftime('%Y-%m-%dT%H:%M:%S-06:00')
         
+        
+        updated_event = self.service.events().update(calendarId=calendar, eventId=eventId, body=event).execute()
+
+    
+    
+    
         
     def getUserInfo(self):
         r = requests.get("https://www.googleapis.com/oauth2/v1/userinfo?access_token=" + self.credential.access_token)
@@ -224,24 +251,4 @@ class calendarAPI:
         print("Buscando los calendarios :D")
         
         
-    def syncCalendar(self, email):
-        
-        self.getCredentialFromEmail(email)
-        print("Iniciamos Sincronizacion :::::::::::::::::::::::::::::::::::::::::::::::::::::::")
-        
-        body = {
-          "id": uuid,
-          "type": "web_hook" ,
-          "token": "something_unique",
-          "address": "web hook url",
-          "params": {
-                     "ttl" : 864000
-                     }
-            }
-        calendar_service = get_calendar_service("silvio.bravo@enova.mx")
-        resource = calendar_service.events().watch(calendarId='primary', body=body).execute()
-        print(resource)
-        #page_token  = None
-        #events      = self.service.calendarList().watch(pageToken=page_token, maxResults=2500,body={"address":"silvio.bravo@enova.mx", "id": "primary", "type": "web_hook", "token":"za"}).execute()
-        #print(events)
-        
+    
