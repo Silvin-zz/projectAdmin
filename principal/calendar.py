@@ -34,7 +34,6 @@ import datetime
 
 def List(request):
     
-    
     calendar = calendarAPI()
     #return HttpResponseRedirect(calendar.getUrlAuthorization())
     calendar.getCredentialFromEmail(request.session["email"])
@@ -100,11 +99,11 @@ def Save(request):
         newevent                = DayByDay.objects(pk=event.id).get()
         newevent.calculateUsedTime()
         newevent.save()
-        if hasattr(event, 'isCalendar'):
-            if(event.isCalendar == True):
-                calendar = calendarAPI()
-                calendar.getCredentialFromEmail(request.session["email"])
-                calendar.updateEvent("primary", newevent.reference, newevent.title, newevent.description, newevent.datestart, newevent.dateend)
+        #if hasattr(event, 'isCalendar'):
+            #if(event.isCalendar == True):
+                #calendar = calendarAPI()
+                #calendar.getCredentialFromEmail(request.session["email"])
+                #calendar.updateEvent("primary", newevent.reference, newevent.title, newevent.description, newevent.datestart, newevent.dateend)
                 
                 
         result                  = mapping.dayByDayMapping([newevent])
@@ -112,11 +111,11 @@ def Save(request):
     else:      #Eliminamos el evento completamente :D
         
         event                   = DayByDay.objects(pk=request.POST["id"]).get()
-        if hasattr(event, 'isCalendar'):
-            if(event.isCalendar == True):
-                calendar = calendarAPI()
-                calendar.getCredentialFromEmail(request.session["email"])
-                calendar.deleteEvent("primary", event.reference)
+        #if hasattr(event, 'isCalendar'):
+        #    if(event.isCalendar == True):
+        #        calendar = calendarAPI()
+        #        calendar.getCredentialFromEmail(request.session["email"])
+        #        calendar.deleteEvent("primary", event.reference)
                 
         event.delete()
         result                  = []

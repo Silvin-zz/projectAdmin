@@ -1,3 +1,5 @@
+
+
 <div class="form-group">
                 <label class="col-sm-3 control-label">Name</label>
                 <div class="row">
@@ -20,16 +22,16 @@
 
         
 <div class="form-group">
-                <label class="col-sm-3 control-label">Profile</label>
+                <label class="col-sm-3 control-label">Profileeeee  {{ profiles  }}</label>
                 <div class="row">
                     <div class="col-xs-7">
-                        <select name="userProfile">
-                        {% for profile in profiles %}
-                        <option value="{{ profile.id }}">{{ profile.name }}</option>
-                        {% endfor %}
+                        <select name="userProfile" ng-model="profile" ng-options="profile.name for profile in profiles">
+                            <option ng-repeat="profile in profiles">{{ profile.name }}</option>
+                            <option>Select profile ---</option>
                         </select>
                     </div>
                 </div>
 </div>  
 
 <input type="hidden" id="userId" name="userId" value="" />
+ 

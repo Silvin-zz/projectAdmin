@@ -11,7 +11,9 @@ import json
 from principal.models import User
 from principal.models import Profile
 from principal.models import Menu
+from principal.models import Area
 from business.Mail    import Mail
+from business.ModelMapping import ModelMapping
 import random
 from bson import json_util
 
@@ -25,34 +27,73 @@ from principal.models import Task
 
 
 def userList(request):
-    users= User.objects()
-    profiles= Profile.objects()
-    return render_to_response('user/list.html', {"users":users, "profiles":profiles}, context_instance=RequestContext(request))
+    
+    
+    users     = User.objects()
+    profiles  = Profile.objects()
+    return render_to_response('user/list.html', {}, context_instance=RequestContext(request))
 
-def userNew(request):
+
+def getList(request):
+    users     = User.objects()
+    mapping   = ModelMapping()
+    return HttpResponse(json.dumps((mapping.userMapping(users))), content_type="application/json")
+
+
+
+def getListProfile(request):
+    profiles     = Profile.objects()
+    mapping   = ModelMapping()
+    return HttpResponse(json.dumps((mapping.genericMapping(profiles))), content_type="application/json")
+
+
+def getListArea(request):
+    areas     = Area.objects()
+    mapping   = ModelMapping()
+    return HttpResponse(json.dumps((mapping.genericMapping(areas))), content_type="application/json")
+
+
+ 
+ 
+def removeUser(request):
+    return HttpResponse(json.dumps(users), content_type="application/json")
+
+
+def updateUser(request):
+    return HttpResponse(json.dumps(users), content_type="application/json")
+
+
+
+def userSave(request):
     result={"success":"false", "message":"", "data":""}
     
     
-    if( "new" in request.POST["userAction"]):
-        users           = User.objects(email=request.POST["userEmail"])
-        if(len(users)>0):
-            result["message"]="Ya existe un usuario con el correo electronico: " + str(request.POST["userEmail"])
-        else:
-            user            = User()
-            profile         = Profile.objects(pk=request.POST["userProfile"]).get()
-            user.name       = request.POST["userName"]
-            user.email      = request.POST["userEmail"]
-            user.username   = request.POST["userEmail"]
-            user.password   = str(random.randrange(10000,99999)) + "SP" + str(random.randrange(10000,99999))
-            user.profile    = profile
-            user.save()
-            mail            = Mail()
-            #mail.newUser(user)
-            result["message"]  = "El usuario se ha registrado correctamente"
-            result["success"]  = "true"
-            result["data"]     = {"id":str(user.id), "name":user.name, "profile": user.profile.name,  "username": user.username, "email":user.email, "image": user.getUrlImage()}
+    if( "id" not in request.POST):
+        user        = User()
+        users       = User.objects(email=request.POST["email"])
+    else:
+        user        = User.objects(pk=request.POST["id"]).get()
         
-        return HttpResponse(json.dumps(result), content_type="application/json") 
+    
+    
+            
+    profile         = Profile.objects(pk=request.POST["profile"]).get()
+    area            = Area.objects(pk=request.POST["area"]).get()
+    
+    user.name       = request.POST["name"]
+    user.email      = request.POST["username"]
+    user.username   = request.POST["username"]
+    user.password   = str(random.randrange(10000,99999)) + "SP" + str(random.randrange(10000,99999))
+    user.profile    = profile
+    user.area       = area
+    user.save()
+    mail            = Mail()
+    #mail.newUser(user)
+    result["message"]  = "El usuario se ha registrado correctamente " + area.name
+    result["success"]  = "true"
+    result["data"]     = {"id":str(user.id), "name":user.name, "profile": user.profile.name,  "username": user.username, "email":user.email, "image": user.getUrlImage()}
+        
+    return HttpResponse(json.dumps(result), content_type="application/json") 
 
 
     

@@ -121,8 +121,14 @@ urlpatterns = patterns('',
     ####################USER, PROFILES, MENUS  ADMIN  ###########################
     
     ######USER
-    url(r'^admin/user/new'          ,'principal.admin.userNew'), 
-    url(r'^admin/user'              ,'principal.admin.userList'),
+    url(r'^admin/area/list'          ,'principal.admin.getListArea'),
+    url(r'^admin/profile/list'       ,'principal.admin.getListProfile'),
+    url(r'^admin/user/list'          ,'principal.admin.getList'),
+    url(r'^admin/user/remove'        ,'principal.admin.removeUser'),
+    url(r'^admin/user/update'        ,'principal.admin.updateUser'),
+    url(r'^admin/user/save'          ,'principal.admin.userSave'), 
+    url(r'^admin/user'               ,'principal.admin.userList'),
+    
     
     
     

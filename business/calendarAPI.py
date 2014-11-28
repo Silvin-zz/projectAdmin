@@ -58,7 +58,9 @@ class calendarAPI:
              self.clientSecretArray["web"]["client_id"],
              self.clientSecretArray["web"]["client_secret"],
              ' '.join(SCOPES),
-             redirect_uri=self.clientSecretArray["web"]["redirect_uris"][0]
+             redirect_uri=self.clientSecretArray["web"]["redirect_uris"][0],
+             access_type='offline', # This is the default
+             approval_prompt='force'
         )
         
     def createCredential(self, code):
@@ -84,8 +86,9 @@ class calendarAPI:
         print("Iniciamos el listado :::::::::::::::::::::::::::::::::::::::::::::::::::::::")
         print  self.pageToken
         activo =True
-        activities  = DayByDayActivity.objects(name="Soporte")
+        activities  = DayByDayActivity.objects(name="Junta / Reunion")
         activity    = activities[0]
+        isUpdate    = False
         
             
         while True:
@@ -93,17 +96,46 @@ class calendarAPI:
           events    = self.service.events().list(calendarId='primary', syncToken=self.pageToken, maxResults=2500).execute()
           
           
+          #
+          
+          
           if len(events['items']) <= 0:
               activo=False
+              
           print("================================================================")
+          
+          
+          
+          ## Iniciamos recorrido de las actividades que nos envia google calendar
+          
           for event in events['items']:
               
-              print("=========================================================================")
-              print(event)
               
+              
+              isUpdate     = False
+              print(event["id"])
+              if "pebldnhf0m0b60st4dpbhv40q8" in event["id"]:
+                  print("ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo")
+              
+              ## Buscamos el evento en la base de datos para determinar si se requiere hacer update o insert
+              
+              tmpactivities = DayByDay.objects(reference=event["id"], isCalendar=True, owner = self.user)
+              if (len(tmpactivities)>0):
+                  print("################################################### entramos ===============================================")
+                  isUpdate   = True
+                  localevent = tmpactivities[0]
+              else:
+                  localevent             = DayByDay()
+                  
+              print(isUpdate)
+              
+              
+              
+              
+              print(isUpdate)
               if "confirmed"  in event["status"]:  ############# Si es un evento confirmado
                 
-                localevent             = DayByDay()
+                
                 localevent.activity    = activity
                 if "summary" in event:
                     localevent.title       = event["summary"].encode('utf8')
@@ -141,14 +173,19 @@ class calendarAPI:
                         newevent.dateend    = datetime.strptime(newdate.strftime("%Y-%m-%d 18:00")  , '%Y-%m-%d %H:%M')
                         newevent.calculateUsedTime()
                         newevent.save()
-                        
-                
-               
-                
-                
-                
+            
+              else:
+                  print(isUpdate)
+                  print("Esta cancelada")
+                  print("=================================================")
+                  print(isUpdate)
+                  
+                  if isUpdate == True:  ##Evaluamos si ya hay un evento en la db para eliminarlo 
+                      for localevent in tmpactivities:
+                          print("Eliminamos un evento que viene de calendar :::::::::::::::::::::::::::::::::::::::::::::")
+                          localevent.delete()
+              
                # print(localevent.dateend)
-                
               
               
           page_token = events.get('nextPageToken')

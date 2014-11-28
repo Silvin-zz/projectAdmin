@@ -2,43 +2,50 @@
 {% load staticfiles %}
 {% block title %} <h2>Users List</h2> {% endblock title %}
 {% block content %}
-    <button class="btn btn-primary btn-flat taskdetail" title="New User" action="new" id="newUser"  type="button"  data-toggle="modal" data-target="#userModal"><i class="glyphicon glyphicon-plus white"></i> New User</button>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th width="30%">Name</th>
-                <th>username</th>
-                <th>Profile</th>
-                <th>Options</th>
-            </tr>
-        </thead>
-        <tbody id="usersBody">
-            {% for user in users %}
-            
-            <tr>
-                <td>
-                    
-                    <img src="{% static "images/users/" %}{{ user.getUrlImage }}" width="40" class="img-circle" /><br />
+    
+    <div class="row" ng-controller="listController" ng-init="init()"> 
+        <form action="#" class="form-horizontal" role="form" id="form1" name="form1" >
+            <input type="hidden" id="ctoken" name="csrfmiddlewaretoken" value="{{ csrf_token }}" />
+        </form>
+        {% verbatim %}    
+        <button class="btn btn-primary btn-flat taskdetail" title="New User" ng-click="newUser()"  action="new" id="newUser"  type="button"  data-toggle="modal" data-target="#userModal"><i class="glyphicon glyphicon-plus white"></i> New User</button>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                
+                    <th width="30%">Name</th>
+                    <th>username</th>
+                    <th>Profile</th>
+                    <th>Options</th>
+                </tr>
+            </thead>
+            <tbody id="usersBody">
+                <tr ng-repeat="user in users">
+                    <td>
+                         <img src="/static/images/users/{{ user.image }}"  width="40" class="img-circle" /><br />
                         {{user.name}}
                         <div class="color-swatch brand-primary"></div>
-                    
-                </td>
+                        
+                    </td>
+                    <td>{{ user.username }}</td>
+                    <td> {{user.profile  }} </td>
+                    <td>
+                        <button class="btn btn-xs btn-primary btn-flat taskdetail" title="edit"  ng-click="editUser(user)"   action="edit"  lang="{{ user.id }}" data-toggle="modal" data-target="#userModal"><i class="glyphicon glyphicon-pencil white"></i></button>
+                    	
+                    </td>
+                </tr>
                 
-                <td>{{ user.username }}</td>
-                <td>{{user.profile.name}}</td>
-                <td>
-                    	<button class="btn btn-xs btn-primary btn-flat taskdetail" title="edit"     action="edit"  lang="{{ user.id }}" data-toggle="modal" data-target="#userModal"><i class="glyphicon glyphicon-pencil white"></i></button>
-                    	<button class="btn btn-xs btn-primary btn-flat taskdetail" title="remove"   action="edit"  lang="{{ user.id }}" data-toggle="modal" data-target="#userModal"><i class="glyphicon glyphicon-remove white"></i></button>
-                    
-                </td>
-                
-            </tr>
+            </tbody>
+
             
-            {% endfor %}
-        </tbody>
+        </table>
+        {% endverbatim %}
+       
+        
+    
+    
 
 
-    </table>
     
     
 <div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -50,22 +57,100 @@
       </div>
       <div class="modal-body">
       
-        <form  class="form-signin" role="form" id="frmUser" action="" method="post">
-        {% csrf_token %}
-            {% include "user/userForm.html" %}
+        <form  class="form-signin" role="form" id="frmUser" name="frmUser" action="" method="post">
+         <input type="hidden" id="token" name="csrfmiddlewaretoken" value="{{ csrf_token }}" />
+            
+                
+                 {% verbatim %}
+                            
+                <div class="form-group">
+                                <label class="col-sm-3 control-label">Name</label>
+                                <div class="row">
+                                    <div class="col-xs-8">
+                                        <input type="text" name="userName" id="userName" ng-model="userName" class="form-control" required />
+                                    </div>
+                                </div>
+                </div>
+                            
+                            
+                <div class="form-group">
+                                <label class="col-sm-3 control-label">Email</label>
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <input type="text" name="userEmail" id="userEmail"  ng-model="userEmail"  class="form-control" required />
+                                    </div>
+                                </div>
+                </div>
+                        
+                
+                        
+                <div class="form-group">
+                                <label class="col-sm-3 control-label">Profile</label>
+                                <div class="row">
+                                    <div class="col-xs-7">
+                                        <select name="userProfile" ng-model="profile" ng-options="profile.name for profile in profiles" required="true" >
+                                           
+                                            
+                                        </select>
+                                    </div>
+                                </div>
+                </div>
+                
+                
+                
+                <div class="form-group">
+                                <label class="col-sm-3 control-label">Area</label>
+                                <div class="row">
+                                    <div class="col-xs-7">
+                                        <select name="area" ng-model="area" ng-options="area.name for area in areas" required="true"  >
+                                            
+                                        </select>
+                                    </div>
+                                </div>
+                </div>
+                
+                <input type="hidden" id="userId" name="userId" value="" />            
+            
+                
+            
+            
+            
+            
+            
+            
             <input type="hidden" name="userAction" id="userAction" value="new" />
         </form>
         ...
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" id="userSave">Save changes</button>
+        <button type="button" class="btn btn-primary" id="userSave" ng-click="saveUser()" ng-disabled="frmUser.$invalid">Save changes</button>
       </div>
     </div>
   </div>
 </div>
+</div>
+
+
+
+
+
+
     
+
+
     
+     {% endverbatim %}
+     
+    <form  class="form-signin" role="form" id="frmSave" name="frmUser" action="" method="post">
+         <input type="hidden" id="token" name="csrfmiddlewaretoken" value="{{ csrf_token }}" />
+         
+         <input type="hidden" name="id"         value=""  id="tmpid"         />
+         <input type="hidden" name="username"   value=""  id="tmpusername"   />
+         <input type="hidden" name="profile"    value=""  id="tmpprofile"    />
+         <input type="hidden" name="area"       value=""  id="tmparea"       />
+         <input type="hidden" name="name"       value=""  id="tmpname"       />
+    </form>
     
     
 {% endblock content %}

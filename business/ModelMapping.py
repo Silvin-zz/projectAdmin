@@ -63,11 +63,28 @@ class ModelMapping:
         
         
     
+        
+        
+    
     def dayByDayMapping(self, data):
         result= []
-        projectId  = None;
+        projectId  = None
+        editable   = True
+        isUsed     = False
         
         for dayObject in data:
+            
+            editable   = True
+            isUsed     = False
+            
+            
+            editable   = not dayObject.isCalendar
+            if dayObject.isCalendar == True:
+                if datetime.datetime.now() > dayObject.dateend:
+                    isUsed   = True
+                    editable = True
+            
+            
             projectId  = None;
             if hasattr(dayObject, 'project'):
                 if hasattr(dayObject.project, "id"):
@@ -84,7 +101,54 @@ class ModelMapping:
                 "backgroundColor"   : "#" + str(dayObject.activity.color),
                 "activity"          : str(dayObject.activity.id),
                 "allDay"            : False,
-                "projectId"         : projectId
+                "projectId"         : projectId,
+                "editable"          : editable,
+                "isCalendar"        : dayObject.isCalendar,
+                "isUsed"            : isUsed,
                 })
         return result
+
+
+
+
+    def userMapping(self, data):
+        area = ""
+        areaid= None
+        result= []
+        for objectCatalog in data:
             
+            if objectCatalog.area == None:
+                area= None
+                areaid=None
+            else:
+                area   = objectCatalog.area.name
+                areaid = str(objectCatalog.area.id)
+            result.append({
+                "id"            : str(objectCatalog.id), 
+                "name"          : objectCatalog.name,
+                "profile"       : objectCatalog.profile.name,
+                "profileid"     : str(objectCatalog.profile.id),
+                "area"          : area,
+                "email"         : objectCatalog.email,
+                "username"      : objectCatalog.username,
+                "image"         : objectCatalog.getUrlImage(),
+                "areaid"        : areaid,
+                
+                })
+        return result
+    
+
+    def genericMapping(self, data):
+        area = ""
+        result= []
+        for objectCatalog in data:
+            
+            
+            result.append({
+                "id"            : str(objectCatalog.id), 
+                "name"          : objectCatalog.name,
+                
+                })
+        return result
+    
+

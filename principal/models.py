@@ -64,7 +64,6 @@ class Menu(Document):
     def getMyFather(self):
         
         if("" in str(self.subItem)):
-            
             return "None"
             
         else:
@@ -115,6 +114,11 @@ class Profile(Document):
         
 
 
+class Area(Document):
+    name            = StringField()
+    active          = BooleanField(default= True)
+
+
 class User(Document):
 
     name            = StringField(max_length=2000)
@@ -130,6 +134,8 @@ class User(Document):
     code            = StringField()
     credential      = StringField()
     tokenSync       = StringField()
+    area            = ReferenceField(Area, required=False)
+    
     
     
     def getUrlImage(self):

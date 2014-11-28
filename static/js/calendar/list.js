@@ -34,13 +34,12 @@ var academicYearStartDate = new Date($("#startdate").val());
                     header: {
                         left: 'prev,next today',
                         center: 'title',
-                        right: 'month,agendaWeek,agendaDay'
+                        right: 'agendaWeek,agendaDay'
                     },
                     buttonText: {//This is to add icons to the visible buttons
                         prev: "<span class='fa fa-caret-left'></span>",
                         next: "<span class='fa fa-caret-right'></span>",
                         today: 'today',
-                        month: 'month',
                         week: 'week',
                         day: 'day'
                     },
@@ -50,7 +49,9 @@ var academicYearStartDate = new Date($("#startdate").val());
                     minTime: "08:00:00",
                     selectable: true,
                     selectHelper: true,
-                    
+                    //disableResizing: true,
+                    //eventStartEditable: false,
+                    //editable: false,
                     
                     
                     
@@ -58,7 +59,7 @@ var academicYearStartDate = new Date($("#startdate").val());
                         //========= Hide Next/ Prev Buttons based on academic year date range
                         if (view.start <= academicYearStartDate) {
                             $("#calendar .fc-button-prev").hide();
-                            return false;
+                            
                         }
                         else {
                             $("#calendar .fc-button-prev").show();
@@ -71,7 +72,13 @@ var academicYearStartDate = new Date($("#startdate").val());
 					   var inicio   = start.getFullYear() + "-" + (start.getMonth() + 1) + "-" + start.getDate() + " " + start.getHours() + ":" + start.getMinutes() + ":00";
 					   var fin      = end.getFullYear() + "-" + (end.getMonth() + 1) + "-" + end.getDate() + " " + end.getHours() + ":" + end.getMinutes() + ":00";
 					   
-					    
+					   
+					    $("#remove").removeClass("disabled");
+					    $("#saveChanges").removeClass("disabled");
+					   
+					   $('#activity option[value="545c5cc9ecd02405532ad402"]').attr('disabled', "disabled");
+					   $('#activity option[value="54468267ecd024057614da6e"]').attr('selected', "selected");
+ 
 					   $("#datestart").val(inicio);
 					   $("#dateend").val(fin);
 					   $("#action").val("new");
@@ -90,6 +97,8 @@ var academicYearStartDate = new Date($("#startdate").val());
 					
 					eventResize:function(event, jsEvent, ui, view){
 					    
+					    
+					    
 					    var start    = event.start;
 					    var end      = event.end;
 					    var inicio   = start.getFullYear() + "-" + (start.getMonth() + 1) + "-" + start.getDate() + " " + start.getHours() + ":" + start.getMinutes() + ":00";
@@ -103,7 +112,7 @@ var academicYearStartDate = new Date($("#startdate").val());
                              type        : "POST",
                              data        : $("#form1").serialize(),
                              success : function(result){
-                			
+                			    SPNotification("success", "Event", "Your Event has been Resized");
                 
                              },
                              error:function(){
@@ -132,7 +141,7 @@ var academicYearStartDate = new Date($("#startdate").val());
                              type        : "POST",
                              data        : $("#form1").serialize(),
                              success : function(result){
-                			
+                			    SPNotification("success", "Event", "Your Event has been Moved");
                 
                              },
                              error:function(){
@@ -152,13 +161,32 @@ var academicYearStartDate = new Date($("#startdate").val());
 					    
 					    
 					    
+					    $("#remove").removeClass("disabled");
+					    $("#saveChanges").removeClass("disabled");
+					    
+					    if(event.editable==false){
+					        
+					        $("#remove").addClass("disabled");
+					        $("#saveChanges").addClass("disabled");
+					        
+					    }
+					    
+					    //if(event.activity == '545c5cc9ecd02405532ad402'){
+					    
+					     if(event.editable==false){
+					       
+                                $('#activity').attr("disabled", "disabled");
+					    }
+					    
+					   $('#activity option[value="545c5cc9ecd02405532ad402"]').attr('disabled', "disabled");
+					   $('#activity option[value="54468267ecd024057614da6e"]').attr('selected', "selected");
 					    
 					    $( "#activity option:selected" ).removeAttr("selected");
 					    var option= $( '#activity option[value="' + event.activity + '"]' );
 					    option.attr("selected", "selected");
 					    
 					    
-					    
+					    debugger;
 					    if(event.projectId !=null){  // ES un proyecto :D
 					    
 					        $( "#tmpproject option:selected" ).each(function(){
@@ -218,6 +246,10 @@ var academicYearStartDate = new Date($("#startdate").val());
                             $(this).remove();
                         }
 
+                    },
+                    eventRender: function(event, element){
+                       
+                        
                     }
                 });
 
@@ -247,8 +279,27 @@ var academicYearStartDate = new Date($("#startdate").val());
          });
      });
      
+     
+     
+     
+     $("#closeModal2").click(function(){
+        $('#activity option[value="545c5cc9ecd02405532ad402"]').removeAttr('disabled');
+        $('#activity').removeAttr("disabled");
+        $('#activity option[value="54468267ecd024057614da6e"]').attr('selected', "selected"); 
+         
+     });
+     
+     $("#btnClose").click(function(){
+          $('#activity option[value="545c5cc9ecd02405532ad402"]').removeAttr('disabled');
+          $('#activity').removeAttr("disabled");
+          $('#activity option[value="54468267ecd024057614da6e"]').attr('selected', "selected");
+         
+     });
+     
      $("#saveChanges").click(function(){
-        
+         
+         $('#activity option[value="545c5cc9ecd02405532ad402"]').removeAttr('disabled');
+         $('#activity').removeAttr("disabled");
         $("#myModal").modal("hide");
         eventId     = $("#eventId").val();
         eventtype   = $("#action").val();
