@@ -25,6 +25,7 @@ from principal.models               import Menu
 from principal.models               import Profile
 from bson                           import json_util
 from business.calendarAPI           import calendarAPI
+from django.conf                    import settings
 
 
 
@@ -50,10 +51,15 @@ def userList(request):
 
 
 def home (request):
+    CLIENTSECRETS_LOCATION  = settings.BASE_DIR + "/auth/client_secrets.json"
+    with open(CLIENTSECRETS_LOCATION, 'r') as content_file:
+	content    = content_file.read()
+    tmpcredential  = json.loads(content)    
+    sessiontype    = 0
     
-    
-    sessiontype = 0
-    
+       
+
+
     if("logout" in request.GET):
         sessiontype = 1
     
@@ -75,8 +81,8 @@ def home (request):
             request.session["menu"]         = ""
             request.session["session_type"] = "local"
             request.session["WNotify"]      = {"message":"", "type":"", "title":""}
-            return HttpResponseRedirect("/dashboard")
-    return render_to_response('login/login.html', {"sessiontype": sessiontype}, context_instance= RequestContext(request))
+            return HttpResponseRedirect("/calendar/list")
+    return render_to_response('login/login.html', {"sessiontype": sessiontype, "credential":tmpcredential}, context_instance= RequestContext(request))
 
 
 
@@ -141,10 +147,11 @@ def validateFromGoogle(request):
             user.name       = userInfo["name"]
             url             = "/calendar/list"
             user.saveImageFromUrl(userInfo["picture"])
+            user.initilizer = True
             user.save()
             setUserSession(request,user)
             
-    return HttpResponseRedirect('/dashboard')
+    return HttpResponseRedirect('/calendar/list')
             
 
 

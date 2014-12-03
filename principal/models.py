@@ -134,9 +134,8 @@ class User(Document):
     code            = StringField()
     credential      = StringField()
     tokenSync       = StringField()
-    area            = ReferenceField(Area, required=False)
-    
-    
+    area            = ReferenceField(Area, required=False)  
+    initilizer      = BooleanField(default = False)    
     
     def getUrlImage(self):
         

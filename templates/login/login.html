@@ -32,10 +32,11 @@
         <!-- page script
 
 
-
         <!-- Coloca este JavaScript asíncrono justo delante de la etiqueta </body> -->
           <script type="text/javascript">
           var activo={{ sessiontype }};
+          var credentialId = "{{ credential.web.client_email }}";
+
          
           var access_token="";
           (function() {
@@ -72,7 +73,7 @@
          function getUserData(e){
              
              
-          gapi.auth.authorize({client_id: '952570055288-shjj10k9dc35n3j6lrhqu50j2p8esslm.apps.googleusercontent.com', scope: 'https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email', immediate: true}, function(){
+          gapi.auth.authorize({client_id: credentialId, scope: 'https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email', immediate: true}, function(){
                 gapi.client.load('oauth2', 'v2', function() {
                       gapi.client.oauth2.userinfo.get().execute(function(resp) {
                           console.log(resp);
@@ -141,10 +142,12 @@
              
             gapi.signin.render('customBtn', {
               'callback': 'signinCallback',
-              'clientid': '952570055288-shjj10k9dc35n3j6lrhqu50j2p8esslm.apps.googleusercontent.com',
+              'clientid': credentialId,
               'cookiepolicy': 'single_host_origin',
               'requestvisibleactions': 'http://schemas.google.com/AddActivity',
               'scope': 'https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email',
+              'accesstype':'offline',
+              'approvalprompt': 'force',
               
             });
           }
@@ -221,6 +224,7 @@
     <body>
     
             
+	<input type="hidden" id="credentialId" value="{{credential.web.client_email}}" />
 
             <!-- Automatic element centering using js -->
         <div class="center">

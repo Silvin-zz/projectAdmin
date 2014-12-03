@@ -20,6 +20,10 @@ from django.conf            import settings
 from business.GApi          import *
 import time
 
+import sys    # sys.setdefaultencoding is cancelled by site.py
+reload(sys)    # to re-enable sys.setdefaultencoding()
+sys.setdefaultencoding('utf-8')
+
 ####Projects Controllers ::::::::::::::::::::::::::::::::::::::
 def projectList(request):
 
@@ -84,7 +88,7 @@ def projectSave(request):
         owner                           = User.objects(pk=request.POST["owner"]).get()
         client                          = Client.objects(pk=request.POST["clientid"]).get()
         projecttype                     = Projecttype.objects(pk=request.POST['projecttypeid']).get()
-        project.title                   = request.POST["title"]
+        project.title                   = str(request.POST["title"])
         project.description             = str(request.POST["description"])
         project.client                  = client
         project.owner                   = owner

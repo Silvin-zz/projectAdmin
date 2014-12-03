@@ -2,7 +2,7 @@
 
 angular.module('singleProjects', []);
 function listController($scope, $http){
-    
+    var nuevo=false;    
     
     $scope.users     = [];
     $scope.user      = {};
@@ -23,7 +23,7 @@ function listController($scope, $http){
     
     
     $scope.newUser = function(){
-        
+        nuevo=true;
         $scope.profile   = {};
         $scope.userName  = "";
         $scope.userEmail = "";
@@ -79,6 +79,7 @@ function listController($scope, $http){
     
     
     $scope.editUser = function(user){
+	nuevo            = false; 
         $scope.area      = {};
         $scope.user      = user;
         $scope.userName  = user.name;
@@ -101,7 +102,6 @@ function listController($scope, $http){
     
     
     $scope.saveUser = function(){
-        
         var data={};
         data.csrfmiddlewaretoken    = $("#token").attr("value");
         data.name                   = $scope.userName;
@@ -116,7 +116,7 @@ function listController($scope, $http){
         $("#tmparea").attr("value",data.area);
         
         
-        if($scope.user["id"] != undefined){ //Usuario Modificacion
+        if(nuevo==false){ //Usuario Modificacion
             data.id   = $scope.user.id;
             $("#tmpid").attr("value",data.id);
         }

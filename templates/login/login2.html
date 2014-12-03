@@ -72,7 +72,7 @@
          function getUserData(e){
          console.log(e);  
          debugger;
-          gapi.auth.authorize({client_id: '952570055288-shjj10k9dc35n3j6lrhqu50j2p8esslm.apps.googleusercontent.com', scope: 'https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email', immediate: true}, function(){
+          gapi.auth.authorize({client_id: '952570055288-ap8d6n3go66hal1khb3f7120ij4p6b1k.apps.googleusercontent.com', scope: 'https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email', immediate: true}, function(){
                 gapi.client.load('oauth2', 'v2', function() {
                       gapi.client.oauth2.userinfo.get().execute(function(resp) {
                           console.log(resp);
@@ -140,7 +140,7 @@
           function render() {
             gapi.signin.render('customBtn', {
               'callback': 'signinCallback',
-              'clientid': '952570055288-shjj10k9dc35n3j6lrhqu50j2p8esslm.apps.googleusercontent.com',
+              'clientid': '952570055288-ap8d6n3go66hal1khb3f7120ij4p6b1k.apps.googleusercontent.com',
               'cookiepolicy': 'single_host_origin',
               'requestvisibleactions': 'http://schemas.google.com/AddActivity',
               'scope': 'https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email',
@@ -224,7 +224,7 @@
             <!-- Automatic element centering using js -->
         <div class="center">
             <div class="form-box" id="login-box">
-                <div class="headline text-center" id="time"><h1>Single Projects</h1></div>
+                <div class="headline text-center" id="time"><h1>Single Projects ssssss</h1></div>
                 <div class="header bg-light-blue">Sign In</div>
                     <form class="form-signin" role="form" action="{% url "login.views.home" %}" method="post">
                         {% csrf_token %}

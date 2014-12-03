@@ -35,12 +35,18 @@ import datetime
 def List(request):
     
     calendar = calendarAPI()
-    #return HttpResponseRedirect(calendar.getUrlAuthorization())
+    tmpusers = User.objects(email = request.session["email"])
+    print("==================================================")
+    print(len(tmpusers)) 
+    tmpuser=tmpusers[0]
+    print(tmpuser.initilizer) 
+    if tmpuser.initilizer is None  or tmpuser.initilizer == False:
+       return HttpResponseRedirect(calendar.getUrlAuthorization())
     calendar.getCredentialFromEmail(request.session["email"])
     calendar.listCalendarEvents()
     
     
-    lb       = Library()
+    lb       = Library() 
     period = lb.getPeriodWeekToBack(2);
     
     activities = DayByDayActivity.objects()

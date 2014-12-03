@@ -66,11 +66,13 @@ def updateUser(request):
 
 def userSave(request):
     result={"success":"false", "message":"", "data":""}
+   
+    print(request.POST)
     
-    
-    if( "id" not in request.POST):
+    if( request.POST["id"] == ""):
+	print("====================================================")
         user        = User()
-        users       = User.objects(email=request.POST["email"])
+        users       = User.objects(email=request.POST["username"])
     else:
         user        = User.objects(pk=request.POST["id"]).get()
         
@@ -78,8 +80,9 @@ def userSave(request):
     
             
     profile         = Profile.objects(pk=request.POST["profile"]).get()
+    print(0)
     area            = Area.objects(pk=request.POST["area"]).get()
-    
+    print("1")
     user.name       = request.POST["name"]
     user.email      = request.POST["username"]
     user.username   = request.POST["username"]
