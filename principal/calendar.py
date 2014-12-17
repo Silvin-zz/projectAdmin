@@ -150,6 +150,18 @@ def getAll(request):
     return HttpResponse(json.dumps(mapping.dayByDayMapping(activities)), content_type="application/json")
     
     
+
+
+def getSpendingHours(request):
+    owner               = User.objects(pk=request.session["userid"]).get()
+    period              = {"start":0, "end":0}
+    period["start"]     = request.GET["start"]
+    period["end"]       = request.GET["end"]
+    hours               = DayByDay.objects(owner=owner, datestart__gte = period["start"], dateend__lte = period["end"]).sum("usedhours")
+    result              = [{"totalhours": hours}]
+    return HttpResponse(json.dumps(result), content_type="application/json")
+    
+    
     
     
     

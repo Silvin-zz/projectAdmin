@@ -119,10 +119,7 @@
                             {% endfor %}
                             
                             <li>
-                                <a href="#">
-                                    <i class="fa fa-folder"></i> <span>Administrator</span>
-                                    <i class="fa fa-angle-left pull-right"></i>
-                                </a>
+                                
                                 <ul class="sidebar-menu">
                                     
                                 
@@ -141,8 +138,13 @@
                             </li>
                         
                         {% endblock leftmenu %}
-
+                        
+                        {% block subcontentLeft %}
+                            
+                        {% endblock subcontentLeft %}
+                        
                     </ul>
+                    
                 </section>
                 <!-- /.sidebar -->
             </aside>

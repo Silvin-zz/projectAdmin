@@ -158,6 +158,7 @@ urlpatterns = patterns('',
     url(r'^calendar/list'           ,'principal.calendar.List'),
     url(r'^calendar/save'           ,'principal.calendar.Save'),
     url(r'^calendar/getAll'         ,'principal.calendar.getAll'),
+    url(r'^calendar/getTotalHours'  ,'principal.calendar.getSpendingHours'),
     
     
     

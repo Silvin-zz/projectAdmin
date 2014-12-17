@@ -1,6 +1,9 @@
+var periodoInicio="";
+var periodoFinal ="";
 $(document).ready(function(){
 
 evaluateActivity();
+$("#totalhours").knob({ readOnly:true });
 
 
 
@@ -113,7 +116,7 @@ var academicYearStartDate = new Date($("#startdate").val());
                              data        : $("#form1").serialize(),
                              success : function(result){
                 			    SPNotification("success", "Event", "Your Event has been Resized");
-                
+                                getTotalHours();
                              },
                              error:function(){
                                  
@@ -142,7 +145,7 @@ var academicYearStartDate = new Date($("#startdate").val());
                              data        : $("#form1").serialize(),
                              success : function(result){
                 			    SPNotification("success", "Event", "Your Event has been Moved");
-                
+                                getTotalHours();
                              },
                              error:function(){
                                  
@@ -215,6 +218,13 @@ var academicYearStartDate = new Date($("#startdate").val());
         				url: '/calendar/getAll',
         				error: function() {
         					$('#script-warning').show();
+        				},
+        				success:function(){
+        				    
+        				    periodoInicio   = new Date($('#calendar').fullCalendar('getView').start).toISOString().slice(0,10);
+        				    periodoFinal    = new Date($('#calendar').fullCalendar('getView').end).toISOString().slice(0,10);
+        				    
+        				    getTotalHours();
         				}
         			},
 
@@ -270,6 +280,7 @@ var academicYearStartDate = new Date($("#startdate").val());
                  
                 $("#calendar").fullCalendar( 'removeEvents', eventId );
                 SPNotification("success", "Event", "Your Event has been removed");
+                getTotalHours();
                 
              },
              error:function(){
@@ -309,10 +320,12 @@ var academicYearStartDate = new Date($("#startdate").val());
              type        : "POST",
              data        : $("#form1").serialize(),
              success : function(result){
+                 getTotalHours();
                 if(eventtype =="update"){
                     
                     $("#calendar").fullCalendar( 'removeEvents', eventId );
                     SPNotification("success", "Event", "Your Event was Modified");
+                    
                     
                 }
                 else{
@@ -330,6 +343,29 @@ var academicYearStartDate = new Date($("#startdate").val());
              }
          });
          
-    });           
+    });       
+    
+    function getTotalHours(){
+        
+        $.ajax({  
+             url         : "/calendar/getTotalHours",
+             type        : "GET",
+             data        :{"start": periodoInicio, "end": periodoFinal},
+             success : function(result){
+                 
+                 
+                 $('#totalhours')
+                    .val(result[0].totalhours)
+                    .trigger('change');
+
+             },
+             error:function(){
+                 
+                 
+             }
+         });
+        
+    }
+    
 
 });
