@@ -2,8 +2,17 @@
 {% load staticfiles %}
 {% block title %}Day To Day {% endblock title %} 
 {% block subtitle %}Calendar {% endblock subtitle %}
+
+{% block subcontentLeft %}
+    <div class="text-center" style="margin-top: 20px; ">
+        <input class="knob minute" data-min="0" data-max="60" id="totalhours" data-displayInput=true data-width="90" data-height="90" data-thickness=".3" data-step="0.1" value="0" data-fgColor="#5bc0de" data-linecap=round>
+        <br /><strong>Horas Registradas</strong>
+    </div>
+{% endblock subcontentLeft %}
 {% block content %}
 
+
+    
 
     <div class="row">
         <div class="col-md-12">
@@ -16,6 +25,7 @@
         </div><!-- /.col -->
     </div><!-- /.row -->  
 
+    
 
     
     <!-- Modal -->
@@ -121,6 +131,7 @@
 
 {% endblock %}
 {% block scripts %}
+  <script src="{% static "theme/js/plugins/jqueryKnob/jquery.knob.js" %}"></script>
   <script src="{% static "js/jquery-ui-1.10.3.min.js" %}"></script>
   <script src="{% static "plugins/fullcalendar/moment.min.js" %}"></script>
   <script src="{% static "plugins/fullcalendar/jquery-ui.custom.min.js" %}"></script>

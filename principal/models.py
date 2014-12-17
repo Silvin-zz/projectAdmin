@@ -178,7 +178,7 @@ class Projecttype(Document):
 class Project(Document):
 
     title           = StringField(max_length=2000)
-    description     = StringField()
+    description     = StringField(required=False)
     code            = StringField()
     active          = BooleanField(default= True)
     client          = ReferenceField(Client)
