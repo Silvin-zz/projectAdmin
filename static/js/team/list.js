@@ -14,13 +14,16 @@ function teamController($scope, $http){
             headers             : {'Content-Type': 'application/x-www-form-urlencoded'}
         }).success(function(data){
             $scope.team         = data;
+            $scope.actualizaKnob();
         }).error(function(){
                 SPNotification("danger", "Team Request", "You have an error in your request, please select your project first and try again.");
         });
         
     }
     
-    
+    $scope.actualizaKnob = function(){
+    }
+
     $scope.getData = function(type){
         $("#type").val(type);
         $scope.init();
@@ -41,4 +44,8 @@ $(document).ready(function(){
    });
     
     
+});
+
+$(document).ready(function(){
+    $(".knob").knob({ readOnly:true });
 });

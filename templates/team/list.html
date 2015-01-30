@@ -12,7 +12,7 @@
         <input type="hidden" id="taskFinished"  name="finished"  value="True"  />
         <input type="hidden" id="taskType"      name="type"     value="week"  />
     </form>
-
+    <h3 ><i class="fa fa-dashboard"></i> {{ area.name }}</h3>
     <div class="row text-left">
         <div class="col-xs-6">
             <div class="btn-group">
@@ -33,60 +33,59 @@
     	    <div class="box box-primary">
                 <div class="box-header"><h5 class="box-title">{{ user.owner.name }}</h5>
                     <div class="box-tools pull-right"><img src="{{ user.owner.img }}" width="40" class="img-circle"/></div>
+                   
                 </div>
                 <div class="box-body">
                     <div class="row">
-                        <div class="col-sm-7 text-center">
+                        <div class="col-sm-12 text-left">
+                            <small class="col-sm-4 label label-success" style="font-size: 14px;"><i class="fa fa-clock-o"></i> {{ user.total }} Hrs</small>
+                            </small>
+                        </div>
+                        <div class="col-sm-11 text-center">
                             <strong>Tasks Resume</strong>
                             <div class="pad">
                             <!-- Progress bars -->
-                            <div class="clearfix">
-                                <span class="pull-left">Finished</span>
-                                <small class="pull-right">{{ user.finished }}</small>
-                            </div>
-                            <div class="progress xs">
-                                <div class="progress-bar progress-bar-green" style="width: {{ user.finishedpercent }}%;"></div>
-                            </div>
-
-                            <div class="clearfix">
-                                <span class="pull-left">Delayed</span>
-                                <small class="pull-right">{{ user.delayed }}</small>
-                            </div>
-                            <div class="progress xs">
-                                <div class="progress-bar progress-bar-red" style="width: {{ user.delayedpercent }}%;"></div>
-                            </div>
-
-                            <div class="clearfix">
-                                <span class="pull-left">In Time</span>
-                                <small class="pull-right">{{ user.intime }}</small>
-                            </div>
-                            <div class="progress xs">
-                                <div class="progress-bar progress-bar-aqua" style="width: {{ user.intimepercent }}%;"></div>
-                            </div>
+                                <div  ng-repeat="event in user.events">
+                                    <div class="clearfix">
+                                        <span class="pull-left">{{ event.name }}</span>
+                                        <small class="pull-right">
+                                            <small class="col-sm-12 label label-primary" style="font-size: 11px;"><i class="fa fa-clock-o"></i> {{ event.value }} Hrs</small>
+                                            </small>
+                                    </div>
+                                    <div class="progress xs">
+                                        <div class="progress-bar progress-bar-green" style="width: {{ (100/user.total) * event.value  }}%;"></div>
+                                    </div>
+                                </div>
+                                
                             <!-- Buttons -->
                                                 
-                        </div><!-- /.pad -->
+                            </div><!-- /.pad -->
                     </div><!-- /.col -->
-                    <div class="col-sm-5 text-center">
-                            <br />
-                            <small class="col-sm-12  label label-info" style="font-size: 16px;"><i class="glyphicon glyphicon-flag"></i> {{ user.projects }}</small><br /><br />
-                            <small class="col-sm-12 label label-primary" style="font-size: 16px;"><i class="glyphicon glyphicon-bookmark"></i> {{ user.tasks }}</small><br /><br />
-                            <small class="col-sm-12 label label-success" style="font-size: 16px;"><i class="fa fa-clock-o"></i> {{ user.assignedtime }} Hrs</small><br />
-                            <small class="col-sm-12 label label-warning" style="font-size: 16px;"><i class="fa fa-clock-o"></i> {{ user.usedtime }} Hrs</small><br /><br />
-                            <small class="col-sm-12 label label-danger"    style="font-size: 16px;"><i class="fa fa-clock-o"></i> {{ user.daytoday }} Hrs</small>
-                    </div>
+                    
                     
                 </div><!-- /.box-body -->
                 
             </div><!-- /.box -->
             
 	    </div>
-	  {% endverbatim %}  
+
+
+	  
 	    
+
+ 
 	    
 	    <!-- FINALIZA IMPLEMENTACION DE ANGULAR. -->
 	    
 	</div>
+    <!--
+    <div class="text-center" style="margin-top: 20px; ">
+                                <input class="knob minute" data-min="0" data-max="60"  data-displayInput=true data-width="90" data-height="90" data-thickness=".3" data-step="0.1" value="10" data-fgColor="#5bc0de" data-linecap=round>
+                                <br /><strong>Horas Registradas</strong>
+                            </div>
+    -->
+   {% endverbatim %}  
+
 
 	<input type="hidden" id="extraparams" value="{{extra}}" />
 	<form action="#" method="POST" class="form-horizontal" role="form" id="frmTeam">
@@ -97,9 +96,7 @@
 {% endblock content %}
 
 {% block scripts %}
-<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
-<script src="{% static "js/plugins/morris/morris.min.js" %}"></script>
-<link href="{% static "js/plugins/morris/morris.css" %}" rel="stylesheet" type="text/css" />
-<script src="{% static "theme/js/plugins/jqueryKnob/jquery.knob.js" %}" type="text/javascript"></script>
+ <script src="{% static "theme/js/plugins/jqueryKnob/jquery.knob.js" %}"></script>
+  <script src="{% static "js/jquery-ui-1.10.3.min.js" %}"></script>
 <script src="{% static "js/team/list.js" %}"></script>
 {% endblock scripts %}

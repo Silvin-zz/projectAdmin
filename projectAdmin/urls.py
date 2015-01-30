@@ -95,12 +95,15 @@ urlpatterns = patterns('',
 
     url(r'^comment/addfortask'      ,'principal.comment.addForTask'),
     url(r'^comment/list'            ,'principal.comment.listByTaskId'),
-
-
+    url(r'^team/resumeonelist'      ,'principal.team.resumeOneList'),
+    url(r'^team/resumetwolist'      ,'principal.team.resumeTwoList'),
+    url(r'^team/resumeone'          ,'principal.team.resumeOne'),
+    url(r'^team/resumetwo'          ,'principal.team.resumeTwo'),
     url(r'^team/listowner'          ,'principal.team.ListOwner'),
     url(r'^team/list'               ,'principal.team.List'),
     url(r'^team/resume'             ,'principal.team.getResume'),
     url(r'^documents/list'          ,'principal.views.documentList'),
+
 
 
 
