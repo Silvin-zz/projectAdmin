@@ -119,7 +119,6 @@ def getResume(request):
 
             }
         )
-    print(result)
     
     return HttpResponse(json.dumps(result), content_type="application/json")
 
