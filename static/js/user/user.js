@@ -127,7 +127,6 @@ function listController($scope, $http){
                 data                : $("#frmSave").serialize(),
                 headers             : {'Content-Type': 'application/x-www-form-urlencoded'}
             }).success(function(data){
-                alert(data.message);
                 window.location.href="/admin/users/";
                 
         });
