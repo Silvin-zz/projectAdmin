@@ -207,7 +207,6 @@ def resumeTwoList(request):
 
             }
         )
-    print(result)
     
     return HttpResponse(json.dumps(result), content_type="application/json")
 
