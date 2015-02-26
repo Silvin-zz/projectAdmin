@@ -73,16 +73,21 @@ def projectSave(request):
             #gapi                        = GApi()
             totalprojects               = str(Project.objects().count())
             #projectFolder               = gapi.createFolder("PR_" + totalprojects  + "_" + request.POST["code"], "root")
-            message                     = "The " + request.POST["title"] + " Project has been successfully saved"
-            request.session["WNotify"]  = {"message": message, "type": "success", "title": "New Project Success"}  
+            
+            #message                     = "The " + request.POST["title"] + " Project has been successfully saved"
+            #request.session["WNotify"]  = {"message": message, "type": "success", "title": "New Project Success"}  
+            
+
             #project.folderreference     = projectFolder["id"]
             project.folderreference     = "--"
 
         else:
 
             project                     =Project.objects(pk=request.POST["id"]).get()
-            message                     = "The " + request.POST["title"] + " Project has been modify"
-            request.session["WNotify"]  = {"message": message, "type": "info", "title": "Update Data Project"}  
+            
+
+            #message                     = "The " + request.POST["title"] + " Project has been modify"
+            #request.session["WNotify"]  = {"message": message, "type": "info", "title": "Update Data Project"}  
 
 
         owner                           = User.objects(pk=request.POST["owner"]).get()
