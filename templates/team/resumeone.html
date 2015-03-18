@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load staticfiles %}
-{% block title %}Resume 1{% endblock title %}
+{% block title %}Listado{% endblock title %}{% block subtitle %} Actividades {% endblock subtitle %}
 {% block content %}
 
 <div ng-controller="resumeOneController" ng-init="init()">
@@ -39,6 +39,16 @@
         <div class="box">
             <div class="box-header">
                     <H3 class="box-title">Resume</H3>
+                    <button 
+                            ng-csv="getArray" 
+                            csv-header="getHeader()" 
+                            filename="actividades_por_colaborador.csv"
+                            field-separator="," 
+                            decimal-separator="."
+                             class="btn btn-default btn-sm btn-flat pull-right" 
+                             id="downloadcsv" 
+                             type="button" >Download CSV&nbsp;&nbsp;&nbsp;   <i class="glyphicon glyphicon-download"></i></button>
+
             </div>
             <div class="box-body table-responsive">
                 <table class="table table-striped   table-hover ">
@@ -89,6 +99,8 @@
 {% endblock content%}
 
 {% block scripts %}
+  <script src="{% static "plugins/angular-sanitize.min.js" %}"></script>
+  <script src="{% static "plugins/ng-csv.js" %}"></script>
   <script src="{% static "js/team/resumeone.js" %}"></script>
 {% endblock scripts %}
 

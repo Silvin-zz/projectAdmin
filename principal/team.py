@@ -212,6 +212,65 @@ def resumeTwoList(request):
 
 
 
+def resumeThree(request):
+    user                    = User.objects(pk=request.session["userid"]).get()
+    areas                   = Area.objects()
+    lb                      = Library()
+    period                  = lb.getPeriodWeek()
+    extra                   = ""
+    return render_to_response('team/resumethree.html', { "areas":areas,  "extra":"", "area": user.area, "start": period["start"], "end": period["end"]}, context_instance=RequestContext(request))
+
+
+
+
+def resumeThreeList(request):
+    lb                      = Library()
+    result                  = []
+    activityObject          = DayByDayActivity.objects(name="Proyecto").get();
+    typeActivities          = Project.objects()
+    area                    = "todos";
+    startdate               = request.POST["datestart"]
+    enddate                 = request.POST["dateend"]
+    resume                  = []
+    
+    if "todos" not in request.POST["area"]:
+        area                = Area.objects(pk=request.POST["area"]).get() 
+        users               = User.objects(area=area)
+    else:
+        users               = User.objects()
+
+    for user in users:
+
+        resumeObject        = {}
+        aux                 = []
+        usertotal           = 0
+
+        for typeActivity in typeActivities:
+            total       = DayByDay.objects(owner=user, datestart__gte= startdate, datestart__lte= enddate, activity=activityObject, project=typeActivity).sum("usedhours")
+            usertotal   = usertotal + total
+            if total >0:
+                aux.append({ "name": typeActivity.title, "value": total })
+
+        if usertotal >0:
+            
+            result.append(
+                {
+                    "events": aux,
+                    "owner" : {
+                                    "name"      : user.name,
+                                    "img"       : "/static/images/users/" + str(user.getUrlImage()),
+                                    "id"        : str(user.id),
+                                    "area"      : user.area.name,
+                                    "profile"   : user.profile.name
+                              },
+                    "total" :  usertotal
+
+                }
+            )
+        usertotal =0;
+    
+    return HttpResponse(json.dumps(result), content_type="application/json")
+
         
         
         

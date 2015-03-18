@@ -3,15 +3,19 @@ angular.module('singleProjects', ["ngSanitize", "ngCsv"]);
 
 function resumeTwoController($scope, $http){
 
-    $scope.getArray     = [];
-    $scope.fileName     = "tiempo_por_proyecto.csv";
-    $scope.getHeader    = function () {return ["Usuario", "Area", "Perfil", "Actividad", "Duración"]};
-
-
+    $scope.getArray = [];
+    $scope.fileName = "tiempo_por_proyecto.csv";
 
     $scope.init = function(){
         $scope.getData();
 
+    }
+    $scope.getHeader = function () {return ["Usuario", "Area", "Perfil", "Proyecto", "Duración"]};
+
+
+    $scope.getNombreArchivo = function(){
+
+        return "tiempo_por_proyecto_" + $('#datestart').attr("value") + "_al_" + $('#dateend').attr("value")  +  ".csv"
     }
 
     $scope.getData = function(){
@@ -19,7 +23,7 @@ function resumeTwoController($scope, $http){
 
         $http({
             method              : 'POST',
-            url                 : "/team/resumetwolist/",
+            url                 : "/team/resumethreelist/",
             data                : $("#frmResume").serialize(),
             headers             : {'Content-Type': 'application/x-www-form-urlencoded'}
         }).success(function(data){
@@ -29,8 +33,8 @@ function resumeTwoController($scope, $http){
                 SPNotification("danger", "Team Request", "You have an error in your request, please select your project first and try again.");
         });
 
-    }
 
+    }
 
 
     $scope.generaCSV = function(){
@@ -38,7 +42,7 @@ function resumeTwoController($scope, $http){
         var area    = "";
         var profile = "";
         var total   = 0;
-        debugger;
+
         for(var a = 0; a < $scope.resume.length; a++ ){
             owner   = $scope.resume[a].owner.name;
             area    = $scope.resume[a].owner.area;
@@ -52,6 +56,8 @@ function resumeTwoController($scope, $http){
         }
     }
 }
+
+
 
 
 
